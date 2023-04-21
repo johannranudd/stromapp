@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["./node_modules/@types", "./typings"],
+    "typeRoots": ["node_modules/@types"],
     "types": ["d3-color"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

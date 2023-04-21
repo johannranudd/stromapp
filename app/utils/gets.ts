@@ -5,19 +5,35 @@ export async function getElectricityPrice(
   region: number
 ) {
   if (process.env.APIKEY) {
-    const res = await fetch(
-      `https://api.strompriser.no/public/prices?startDate=${startDate}&endDate=${endDate}&region=${region}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "api-key": process.env.APIKEY,
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
+    try {
+      const res = await fetch(
+        `https://api.strompriser.no/public/prices?startDate=${startDate}&endDate=${endDate}&region=${region}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": process.env.APIKEY,
+          },
+        }
+      );
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error, "an error occured in getElectricityPrice()");
+    }
   }
 }
+
+export const getPrices = async () => {
+  const res = await fetch(
+    "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7"
+  );
+
+  const data = await res.json();
+
+  const prices = data.prices;
+
+  return prices;
+};
 
 //  try {
 //    const res = await fetch(`https://api.noroff.dev/api/v1/online-shop`, {
