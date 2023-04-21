@@ -112,7 +112,7 @@ export default function ClientChart({
           </Text>
           {data.map((item: any, index: number) => {
             return (
-              <>
+              <Group key={index}>
                 <Text
                   x={0}
                   y={index === 0 ? 40 : 10}
@@ -132,7 +132,7 @@ export default function ClientChart({
                 >
                   {`${item.value}%`}
                 </Text>
-              </>
+              </Group>
             );
           })}
         </Group>

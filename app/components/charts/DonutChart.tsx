@@ -52,6 +52,7 @@ export default function DonutChart() {
             // ];
             return (
               <ClientChart
+                key={index}
                 priceInOreAndHour={priceInOreAndHour}
                 yourExpensesFinal={yourExpensesFinal}
                 elSupportFinal={elSupportFinal}
