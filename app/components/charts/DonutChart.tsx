@@ -1,20 +1,10 @@
 // "use client";
 import { getElectricityPrice } from "@/app/utils/gets";
-import {
-  ResponsiveContainer,
-  AreaChart,
-  XAxis,
-  YAxis,
-  Area,
-  Tooltip,
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Sector,
-  Cell,
-  Legend,
-} from "recharts";
 import React, { use } from "react";
+// import { Group } from "@visx/group";
+// import { Pie } from "@visx/shape";
+// import { Text } from "@visx/text";
+import ClientChart from "./ClientChart";
 
 export default function DonutChart() {
   const currentDate = new Date().toISOString().slice(0, 10);
@@ -56,17 +46,15 @@ export default function DonutChart() {
           if (hour === osloTime) {
             const { yourExpensesFinal, elSupportFinal } =
               getElSupportPercentage(priceInOre, estimatedPowerSupportToDate);
-            const chartGroupsArray = [
-              { name: "yourExpensesFinal", value: yourExpensesFinal },
-              { name: "elSupportFinal", value: elSupportFinal },
-            ];
-            // console.log(chartGroupsArray[1].value);
+            // const chartGroupsArray = [
+            //   { name: "yourExpensesFinal", value: yourExpensesFinal },
+            //   { name: "elSupportFinal", value: elSupportFinal },
+            // ];
             return (
-              <div>
-                {/* <ResponsiveContainer width="100%" height={400}>
-                  <AreaChart data={chartGroupsArray}></AreaChart>
-                </ResponsiveContainer> */}
-              </div>
+              <ClientChart
+                yourExpensesFinal={yourExpensesFinal}
+                elSupportFinal={elSupportFinal}
+              />
             );
           }
         })}
@@ -82,8 +70,9 @@ function getElSupportPercentage(
   const total = estimatedPowerSupportToDate + priceInOre;
   const percentageElSupport = (estimatedPowerSupportToDate / total) * 100;
   const percentageYourExpenses = (priceInOre / total) * 100;
-  const yourExpensesFinal = percentageElSupport.toFixed(2);
-  const elSupportFinal = percentageYourExpenses.toFixed(2);
+  const yourExpensesFinal = percentageYourExpenses.toFixed(2);
+  const elSupportFinal = percentageElSupport.toFixed(2);
+
   return { yourExpensesFinal, elSupportFinal };
 }
 
