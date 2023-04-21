@@ -1,52 +1,53 @@
 "use client";
 import { Group } from "@visx/group";
-import { Circle, Pie } from "@visx/shape";
+import { Pie } from "@visx/shape";
 import { Text } from "@visx/text";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useGlobalContext } from "@/app/context/context";
+import { useTheme } from "next-themes";
 
 export default function ClientChart({
   yourExpensesFinal,
   elSupportFinal,
+  priceInOreAndHour,
 }: any) {
+  const { windowWidth } = useGlobalContext();
+  const { theme } = useTheme();
   const [active, setActive]: any = useState(null);
   const data = [
     {
       symbol: "yourExpensesFinal",
       name: "Dine Utgifter",
       value: yourExpensesFinal,
-      color: "#cf0000",
+      color: "#C9D34E",
     },
     {
       symbol: "elSupportFinal",
       name: "Strømstøtte",
       value: elSupportFinal,
-      color: "#a1a100",
+      color: "#DFAD62",
     },
   ];
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [width, setWidth] = useState(windowWidth / 1.3);
   const half = width / 2;
-  function handleResize() {
-    setWindowWidth(window.innerWidth);
+  useEffect(() => {
     if (windowWidth >= 500) {
       setWidth(400);
     } else {
       setWidth(windowWidth / 1.3);
     }
-  }
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, [windowWidth]);
 
+  const oneHourAhead = Number(priceInOreAndHour.hour) + 1;
+  const oneHourAheadToString = `${oneHourAhead < 10 ? "0" : ""}${oneHourAhead}`;
+  const timeFrameForCurrentPrice = `${priceInOreAndHour.hour} - ${oneHourAheadToString}`;
   //
   //
   //
   //
   return (
     <div>
-      <svg width={width} height={width}>
+      <svg className="ml-auto" width={width} height={width}>
         <Group top={half} left={half}>
           <Pie
             data={data}
@@ -77,30 +78,55 @@ export default function ClientChart({
               });
             }}
           </Pie>
+          <Group>
+            <Text
+              x={-width / 9}
+              y={-70}
+              fontSize={width / 10}
+              textAnchor="middle"
+              className="font-bold"
+              fill={theme === "light" ? "#242431" : "#fbf5f5"}
+            >
+              {priceInOreAndHour.priceInOre}
+            </Text>
+            <Text
+              x={width / 9}
+              y={-70}
+              fontSize={width / 10}
+              textAnchor="middle"
+              className="duration-300"
+              fill={theme === "light" ? "#242431" : "#fbf5f5"}
+            >
+              Øre
+            </Text>
+          </Group>
+          <Text
+            // x={width / 9}
+            y={-30}
+            fontSize={width / 15}
+            textAnchor="middle"
+            className="duration-300"
+            fill={theme === "light" ? "#242431" : "#fbf5f5"}
+          >
+            {timeFrameForCurrentPrice}
+          </Text>
           {data.map((item: any, index: number) => {
             return (
               <>
-                <Circle
-                  cx={index === 0 ? windowWidth / 18 : -windowWidth / 18}
-                  cy={-5}
-                  r={10}
-                  fill={item.color}
-                />
                 <Text
-                  x={index === 0 ? windowWidth / 10 : -windowWidth / 10}
-                  y={0}
+                  x={0}
+                  y={index === 0 ? 40 : 10}
                   fontSize={width / 18}
-                  textAnchor={index === 0 ? "start" : "end"}
+                  textAnchor="end"
                   fill={item.color}
                   className="duration-300"
                 >
                   {data && data[index].name}
                 </Text>
                 <Text
-                  x={index === 0 ? windowWidth / 10 : -windowWidth / 10}
-                  y={20}
+                  x={50}
+                  y={index === 0 ? 40 : 10}
                   fontSize={width / 18}
-                  textAnchor={index === 0 ? "start" : "end"}
                   fill={item.color}
                   className="duration-300 "
                 >
@@ -121,6 +147,16 @@ export default function ClientChart({
 //
 //
 //
+
+{
+  /* <Circle
+                  //   cx={index === 0 ? windowWidth / 18 : -windowWidth / 18}
+                  cx={50}
+                  cy={-5}
+                  r={10}
+                  fill={item.color}
+                /> */
+}
 //
 //
 //

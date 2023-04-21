@@ -7,6 +7,7 @@ import {
   SetStateAction,
   useState,
   useReducer,
+  useEffect,
 } from "react";
 import { reducer, initialState } from "./reducer/reducer";
 
@@ -15,6 +16,8 @@ interface ContextProps {
   dispatch: Dispatch<any>;
   menuIsOpen: boolean;
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
+  windowWidth: number;
+  setWindowWidth: Dispatch<SetStateAction<number>>;
 }
 
 export const GlobalContext = createContext<ContextProps>({
@@ -22,6 +25,8 @@ export const GlobalContext = createContext<ContextProps>({
   dispatch: (): [] => [],
   menuIsOpen: false,
   setMenuIsOpen: () => false,
+  windowWidth: 0,
+  setWindowWidth: () => 0,
 });
 
 export const GlobalContextProvider = ({
@@ -31,10 +36,25 @@ export const GlobalContextProvider = ({
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  function handleResize() {
+    setWindowWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [windowWidth]);
 
   return (
     <GlobalContext.Provider
-      value={{ menuIsOpen, setMenuIsOpen, state, dispatch }}
+      value={{
+        menuIsOpen,
+        setMenuIsOpen,
+        state,
+        dispatch,
+        windowWidth,
+        setWindowWidth,
+      }}
     >
       {children}
     </GlobalContext.Provider>

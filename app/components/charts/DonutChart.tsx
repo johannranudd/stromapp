@@ -52,6 +52,7 @@ export default function DonutChart() {
             // ];
             return (
               <ClientChart
+                priceInOreAndHour={priceInOreAndHour}
                 yourExpensesFinal={yourExpensesFinal}
                 elSupportFinal={elSupportFinal}
               />
