@@ -1,8 +1,14 @@
+// "use client";
 import { getElectricityPrice } from "@/app/utils/gets";
-import { Suspense, use } from "react";
+import React, { use } from "react";
+// import { Group } from "@visx/group";
+// import { Pie } from "@visx/shape";
+// import { Text } from "@visx/text";
+import ClientChart from "./ClientChart";
+
 export default function DonutChart() {
   const currentDate = new Date().toISOString().slice(0, 10);
-  const data = use(getElectricityPrice(currentDate, currentDate, 1));
+  const dataFromAPI = use(getElectricityPrice(currentDate, currentDate, 1));
 
   const now = new Date();
   const options: any = {
@@ -25,7 +31,7 @@ export default function DonutChart() {
     dailyPriceMin,
     averagePriceMonthlyToDate,
     estimatedPowerSupportToDate,
-  } = data[0];
+  } = dataFromAPI[0];
   //   console.log(estimatedPowerSupportToDate);
 
   return (
@@ -35,19 +41,21 @@ export default function DonutChart() {
           let hour = `${index}`;
           index < 10 ? (hour = `0${index}`) : `${index}`;
 
-          //   const priceInOreAndHour = { priceInOre, osloTime };
+          const priceInOreAndHour = { priceInOre, hour };
 
           if (hour === osloTime) {
-            const { yourExpensesFinal, electricitySupportFinal } =
-              getElectricitySupport(priceInOre, estimatedPowerSupportToDate);
-            // console.log(yourExpensesFinal);
-            // console.log(electricitySupportFinal);
+            const { yourExpensesFinal, elSupportFinal } =
+              getElSupportPercentage(priceInOre, estimatedPowerSupportToDate);
+            // const chartGroupsArray = [
+            //   { name: "yourExpensesFinal", value: yourExpensesFinal },
+            //   { name: "elSupportFinal", value: elSupportFinal },
+            // ];
             return (
-              <li key={id}>
-                <p>
-                  <strong>{priceInOre}</strong> øre - {osloTime}
-                </p>
-              </li>
+              <ClientChart
+                priceInOreAndHour={priceInOreAndHour}
+                yourExpensesFinal={yourExpensesFinal}
+                elSupportFinal={elSupportFinal}
+              />
             );
           }
         })}
@@ -56,30 +64,23 @@ export default function DonutChart() {
   );
 }
 
-function getElectricitySupport(
+function getElSupportPercentage(
   priceInOre: number,
   estimatedPowerSupportToDate: number
 ) {
-  //  const powerSupport = estimatedPowerSupportToDate;
-  //   const hourlyPrice = 111;
   const total = estimatedPowerSupportToDate + priceInOre;
-
   const percentageElSupport = (estimatedPowerSupportToDate / total) * 100;
-  //   console.log(
-  //     `The percentage of ${estimatedPowerSupportToDate} relative to the sum of ${estimatedPowerSupportToDate} and ${priceInOre} is ${percentageElSupport.toFixed(
-  //       2
-  //     )}%`
-  //   );
-
   const percentageYourExpenses = (priceInOre / total) * 100;
-  //   console.log(
-  //     `The percentage of ${priceInOre} relative to the sum of ${estimatedPowerSupportToDate} and ${priceInOre} is ${percentageYourExpenses.toFixed(
-  //       2
-  //     )}%`
-  //   );
+  const yourExpensesFinal = percentageYourExpenses.toFixed(2);
+  const elSupportFinal = percentageElSupport.toFixed(2);
 
-  const yourExpensesFinal = percentageElSupport.toFixed(2);
-  const electricitySupportFinal = percentageYourExpenses.toFixed(2);
-
-  return { yourExpensesFinal, electricitySupportFinal };
+  return { yourExpensesFinal, elSupportFinal };
 }
+
+//  return (
+//    <li key={id}>
+//      <p>
+//        <strong>{priceInOre}</strong> øre - {osloTime}
+//      </p>
+//    </li>
+//  );
