@@ -3,7 +3,7 @@ import * as Recharts from "recharts";
 
 export default function XYChart(dataFromAPI: any) {
   // TODO replace date with hour and value with priceInOre
-  const tempData: any = [];
+  const data: any = [];
   const {
     _id,
     region,
@@ -19,15 +19,12 @@ export default function XYChart(dataFromAPI: any) {
     let hour = `${index}`;
     index < 10 ? (hour = `0${index}`) : `${index}`;
     const priceInOreAndHour = { priceInOre, hour };
-    // console.log(priceInOreAndHour);
-    tempData.push(priceInOreAndHour);
+    data.push(priceInOreAndHour);
   });
-  // console.log(tempData);
-  // console.log(data);
 
   return (
     <Recharts.ResponsiveContainer width="100%" height={400}>
-      <Recharts.AreaChart data={tempData}>
+      <Recharts.AreaChart data={data}>
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#2451B7" stopOpacity={0.4} />
