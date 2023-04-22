@@ -8,9 +8,5 @@ export default function DonutRechartsServer() {
   const dataFromAPI = use(
     getElectricityPrice(todayStringDate, todayStringDate, 1)
   );
-  return (
-    // <div className="">
-    <DonutRechartsClient {...dataFromAPI} />
-    // </div>
-  );
+  return <DonutRechartsClient {...dataFromAPI} />;
 }
