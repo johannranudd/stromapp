@@ -4,31 +4,31 @@ export async function getElectricityPrice(
   endDate: string,
   region: number
 ) {
-  if (process.env.APIKEY) {
-    const res = await fetch(
-      `https://api.strompriser.no/public/prices?startDate=${startDate}&endDate=${endDate}&region=${region}`,
-      {
+  let url = `https://api.strompriser.no/public/prices?startDate=${startDate}&endDate=${endDate}&region=${region}`;
+  const currentDate = new Date();
+  const todayStringDate = currentDate.toISOString().slice(0, 10);
+  if (startDate === todayStringDate && endDate === todayStringDate) {
+    url = `https://api.strompriser.no/public/prices-today?region=${region}`;
+  }
+  try {
+    if (process.env.APIKEY) {
+      const res = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
           "api-key": process.env.APIKEY,
         },
+      });
+      if (res.ok) {
+        return await res.json();
+      } else {
+        console.error(
+          res.status,
+          "An error occured in gets.ts/getElectricityPrice()"
+        );
+        return await res.json();
       }
-    );
-    const data = await res.json();
-    return data;
+    }
+  } catch (error) {
+    console.log(error, "An error occured in gets.ts/getElectricityPrice()");
   }
 }
-
-//  try {
-//    const res = await fetch(`https://api.noroff.dev/api/v1/online-shop`, {
-//      next: { revalidate: 30 },
-//    });
-//    if (res.ok) {
-//      return await res.json();
-//    } else {
-//      console.error(res.status, "An error occured in getData()");
-//      return await res.json();
-//    }
-//  } catch (error) {
-//    console.error(error, "An error occured in getData()");
-//  }
