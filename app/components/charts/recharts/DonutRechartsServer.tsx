@@ -9,7 +9,7 @@ export default function DonutRechartsServer() {
     getElectricityPrice(todayStringDate, todayStringDate, 1)
   );
   return (
-    // <div className="ml-auto md:w-[70%] bg-red-500">
+    // <div className="">
     <DonutRechartsClient {...dataFromAPI} />
     // </div>
   );
