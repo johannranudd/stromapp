@@ -5,10 +5,18 @@ import React, { use } from "react";
 // import { Pie } from "@visx/shape";
 // import { Text } from "@visx/text";
 import ClientChart from "./ClientChart";
+import { getElSupportPercentage } from "@/app/utils/generics";
 
 export default function DonutChart() {
-  const currentDate = new Date().toISOString().slice(0, 10);
-  const dataFromAPI = use(getElectricityPrice(currentDate, currentDate, 1));
+  // TODO: sometimes current date doesnt work. find out why and correct. Currently using yesterday. probalby an exiration problem
+  // const currentDate = new Date().toISOString().slice(0, 10);
+  // const dataFromAPI = use(getElectricityPrice("2023-04-19", "2023-04-19", 1));
+  // const dataFromAPI = use(getElectricityPrice(currentDate, currentDate, 1));
+
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - 1);
+  const yesterdayDate = currentDate.toISOString().slice(0, 10);
+  const dataFromAPI = use(getElectricityPrice(yesterdayDate, yesterdayDate, 1));
 
   const now = new Date();
   const options: any = {
@@ -23,7 +31,7 @@ export default function DonutChart() {
     .slice(0, 2);
 
   const {
-    id,
+    _id,
     region,
     dailyPriceArray,
     dailyPriceAverage,
@@ -32,8 +40,6 @@ export default function DonutChart() {
     averagePriceMonthlyToDate,
     estimatedPowerSupportToDate,
   } = dataFromAPI[0];
-  //   console.log(estimatedPowerSupportToDate);
-
   return (
     <div>
       <ul>
@@ -46,12 +52,10 @@ export default function DonutChart() {
           if (hour === osloTime) {
             const { yourExpensesFinal, elSupportFinal } =
               getElSupportPercentage(priceInOre, estimatedPowerSupportToDate);
-            // const chartGroupsArray = [
-            //   { name: "yourExpensesFinal", value: yourExpensesFinal },
-            //   { name: "elSupportFinal", value: elSupportFinal },
-            // ];
+
             return (
               <ClientChart
+                key={_id}
                 priceInOreAndHour={priceInOreAndHour}
                 yourExpensesFinal={yourExpensesFinal}
                 elSupportFinal={elSupportFinal}
@@ -62,19 +66,6 @@ export default function DonutChart() {
       </ul>
     </div>
   );
-}
-
-function getElSupportPercentage(
-  priceInOre: number,
-  estimatedPowerSupportToDate: number
-) {
-  const total = estimatedPowerSupportToDate + priceInOre;
-  const percentageElSupport = (estimatedPowerSupportToDate / total) * 100;
-  const percentageYourExpenses = (priceInOre / total) * 100;
-  const yourExpensesFinal = percentageYourExpenses.toFixed(2);
-  const elSupportFinal = percentageElSupport.toFixed(2);
-
-  return { yourExpensesFinal, elSupportFinal };
 }
 
 //  return (

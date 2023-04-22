@@ -22,7 +22,7 @@ export default function RootLayout({
           <ColorThemeProvider>
             <Navbar />
             <div>{children}</div>
-            <Footer />
+            {/* <Footer /> */}
           </ColorThemeProvider>
         </GlobalContextProvider>
       </body>

@@ -26,7 +26,7 @@ export const GlobalContext = createContext<ContextProps>({
   menuIsOpen: false,
   setMenuIsOpen: () => false,
   windowWidth: 0,
-  setWindowWidth: () => 0,
+  setWindowWidth: () => {},
 });
 
 export const GlobalContextProvider = ({
@@ -36,7 +36,13 @@ export const GlobalContextProvider = ({
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth;
+    } else {
+      return 0;
+    }
+  });
   function handleResize() {
     setWindowWidth(window.innerWidth);
   }

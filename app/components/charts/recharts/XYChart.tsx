@@ -1,28 +1,33 @@
 "use client";
-// import {
-//   ResponsiveContainer,
-//   AreaChart,
-//   XAxis,
-//   YAxis,
-//   Area,
-//   Tooltip,
-//   CartesianGrid,
-// } from "recharts";
 import * as Recharts from "recharts";
-import { format, parseISO, subDays } from "date-fns";
 
-const data: any = [];
-for (let num = 30; num >= 0; num--) {
-  data.push({
-    date: subDays(new Date(), num).toISOString().slice(0, 10),
-    value: 1 + Math.random(),
+export default function XYChart(dataFromAPI: any) {
+  // TODO replace date with hour and value with priceInOre
+  const tempData: any = [];
+  const {
+    _id,
+    region,
+    dailyPriceArray,
+    dailyPriceAverage,
+    dailyPriceMax,
+    dailyPriceMin,
+    averagePriceMonthlyToDate,
+    estimatedPowerSupportToDate,
+  } = dataFromAPI[0];
+
+  dailyPriceArray.map((priceInOre: any, index: number) => {
+    let hour = `${index}`;
+    index < 10 ? (hour = `0${index}`) : `${index}`;
+    const priceInOreAndHour = { priceInOre, hour };
+    // console.log(priceInOreAndHour);
+    tempData.push(priceInOreAndHour);
   });
-}
+  // console.log(tempData);
+  // console.log(data);
 
-export default function XYChart() {
   return (
     <Recharts.ResponsiveContainer width="100%" height={400}>
-      <Recharts.AreaChart data={data}>
+      <Recharts.AreaChart data={tempData}>
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#2451B7" stopOpacity={0.4} />
@@ -30,27 +35,31 @@ export default function XYChart() {
           </linearGradient>
         </defs>
 
-        <Recharts.Area dataKey="value" stroke="#2451B7" fill="url(#color)" />
+        <Recharts.Area
+          dataKey="priceInOre"
+          stroke="#2451B7"
+          fill="url(#color)"
+        />
 
         <Recharts.XAxis
-          dataKey="date"
+          dataKey="hour"
           axisLine={false}
           tickLine={false}
           tickFormatter={(str: any) => {
-            const date = parseISO(str);
-            if (date.getDate() % 7 === 0) {
-              return format(date, "MMM, d");
+            const num = Number(str);
+            if (num % 5 === 0) {
+              return `${str}:00`;
             }
             return "";
           }}
         />
 
         <Recharts.YAxis
-          dataKey="value"
+          dataKey="priceInOre"
           axisLine={false}
           tickLine={false}
           tickCount={8}
-          tickFormatter={(number: any) => `$${number.toFixed(2)}`}
+          tickFormatter={(number: any) => `${number} Øre`}
         />
 
         <Recharts.Tooltip content={<CustomTooltip />} />
@@ -62,11 +71,13 @@ export default function XYChart() {
 }
 
 function CustomTooltip({ active, payload, label }: any) {
+  const modifiedLabel = `${label}:00`;
   if (active) {
     return (
-      <div className="tooltip">
-        <h4>{format(parseISO(label), "eeee, d MMM, yyyy")}</h4>
-        <p>${payload[0].value.toFixed(2)} CAD</p>
+      // todo style here
+      <div className="rounded-lg bg-[#26313c] text-white p-[1rem] shadow-2xl text-center">
+        <h4>{modifiedLabel}</h4>
+        <p>${payload[0].value} Øre</p>
       </div>
     );
   }
