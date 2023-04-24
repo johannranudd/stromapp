@@ -17,6 +17,7 @@ export default function DashboardClient(dataFromAPI: any) {
     <div>
       <h1>Dashboard</h1>
       {/* inputs */}
+      {/* send inputs to a state? */}
       {/* tabs */}
       {/* left Donut */}
       {/* KWH accumulator */}
