@@ -1,5 +1,5 @@
 "use client";
-
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import {
   createContext,
   useContext,
@@ -10,6 +10,8 @@ import {
   useEffect,
 } from "react";
 import { reducer, initialState } from "./reducer/reducer";
+import { getItem, setItem } from "../utils/storage/localstorage";
+import { redirectToLoginPage } from "../utils/generics";
 
 interface ContextProps {
   state: Object;
@@ -36,6 +38,8 @@ export const GlobalContextProvider = ({
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // resize
   const [windowWidth, setWindowWidth] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth;
@@ -50,6 +54,12 @@ export const GlobalContextProvider = ({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [windowWidth]);
+
+  // redirection
+  const pathname = usePathname();
+  useEffect(() => {
+    redirectToLoginPage(pathname);
+  }, [pathname]);
 
   return (
     <GlobalContext.Provider

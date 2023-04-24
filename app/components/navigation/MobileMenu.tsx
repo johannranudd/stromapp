@@ -33,16 +33,16 @@ export default function MobileMenu() {
         Home
       </Link>
       <Link
-        href={"/cart"}
+        href={"/dashboard"}
         className="inline-block p-4 hover:shadow-[inset_0_-0px_10px_rgba(0,0,0,0.6)] hover:pl-8 duration-300"
       >
-        Cart
+        Dashboard
       </Link>
       <Link
-        href={"/contact"}
+        href={"/login"}
         className="inline-block p-4 hover:shadow-[inset_0_-0px_10px_rgba(0,0,0,0.6)] hover:pl-8 duration-300"
       >
-        Contact
+        Login
       </Link>
     </div>
   );

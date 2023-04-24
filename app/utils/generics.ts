@@ -1,3 +1,5 @@
+import { getItem } from "./storage/localstorage";
+
 export function getElSupportPercentage(
   priceInOre: number,
   estimatedPowerSupportToDate: number
@@ -9,4 +11,19 @@ export function getElSupportPercentage(
   const elSupportFinal = percentageElSupport.toFixed(2);
 
   return { yourExpensesFinal, elSupportFinal };
+}
+
+export function redirectToLoginPage(pathname: string) {
+  if (pathname === "/") {
+    return;
+  } else if (pathname.includes("/login")) {
+    return;
+  } else if (pathname.includes("/register")) {
+    return;
+  } else {
+    const jwt: string | undefined = getItem("jwt");
+    if (typeof jwt !== "string") {
+      window.location.href = "/login";
+    }
+  }
 }

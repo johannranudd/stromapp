@@ -16,6 +16,7 @@
     "@visx/shape": "^3.0.0",
     "@visx/text": "^3.0.0",
     "autoprefixer": "10.4.14",
+    "dotenv": "^16.0.3",
     "next": "13.3.1",
     "next-themes": "^0.2.1",
     "postcss": "8.4.23",
