@@ -20,7 +20,7 @@ export default function LoginForm() {
     <div className="relative h-[calc(100vh-4rem)]">
       <form
         onSubmit={handleSubmit}
-        className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-100%] flex flex-col justify-center items-center w-[400px] border"
+        className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-100%] flex flex-col justify-center items-center w-[95%] max-w-[400px] border"
       >
         <label htmlFor="email">Email:</label>
         <input

@@ -1,10 +1,12 @@
+import { getURL } from "./environment/environment";
+import { setItem } from "./storage/localstorage";
+
 export async function login(formData: {
   identifier: string;
   password: string;
 }) {
-  let url = `http://localhost:1337/api/auth/local`;
-  console.log(formData);
-  console.log(JSON.stringify(formData));
+  const baseURL = getURL();
+  const url = `${baseURL}auth/local`;
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -15,15 +17,15 @@ export async function login(formData: {
     });
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
-      //   take the jwt and add to local or cookies
-      //   take the user and add to local or cookies
-      return await res.json();
+      setItem("jwt", data.jwt);
+      setItem("user", data.user);
+      window.location.replace("../dashboard/");
+      return await data;
     } else {
-      console.error(res.status, "An error occured in puts.ts/login()");
+      console.error(res.status, "An error occured in puts.ts/login() 1");
       return await res.json();
     }
   } catch (error) {
-    console.log(error, "An error occured in puts.ts/login()");
+    console.log(error, "An error occured in puts.ts/login()/catch block");
   }
 }

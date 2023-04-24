@@ -23,9 +23,12 @@ export default function XYChart(dataFromAPI: any) {
     data.push(priceInOreAndHour);
   });
 
+  const currentDate: Date = new Date();
+  const todayStringDate: string = currentDate.toISOString().slice(0, 10);
+
   return (
     <>
-      <h2>{date.slice(0, 10)}</h2>
+      <h2>{todayStringDate}</h2>
       <Recharts.ResponsiveContainer width="100%" height={400}>
         <Recharts.AreaChart data={data}>
           <defs>
