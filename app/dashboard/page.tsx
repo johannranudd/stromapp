@@ -6,5 +6,5 @@ export default function page() {
   const dataFromAPI = use(
     getElectricityPrice(todayStringDate, todayStringDate, 1)
   );
-  return <div>dashboard</div>;
+  return <div>dashboard branch first commit</div>;
 }
