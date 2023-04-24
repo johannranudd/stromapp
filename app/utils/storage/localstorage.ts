@@ -3,11 +3,7 @@ export function getItem(key: string) {
     const locStor = JSON.parse(localStorage.getItem(key) || "[]");
     if (locStor != null || locStor != undefined) {
       return locStor;
-    } else {
-      return [];
     }
-  } else {
-    return [];
   }
 }
 
@@ -18,3 +14,18 @@ export function setItem(key: string, value: any) {
     return getItem("cart");
   }
 }
+
+// export function getItem(key: string) {
+//   if (typeof window !== "undefined") {
+//     const locStor: string = JSON.parse(localStorage.getItem(key) || "[]");
+//     if (locStor != null || locStor != undefined) {
+//       return locStor;
+//     }
+//     // else {
+//     //   return [];
+//     // }
+//   }
+//   // else {
+//   //   return [];
+//   // }
+// }

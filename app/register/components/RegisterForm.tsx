@@ -1,20 +1,23 @@
 "use client";
-import { login } from "@/app/utils/posts";
+import { registerUser } from "@/app/utils/posts";
 import Link from "next/link";
 import { useState } from "react";
-
-export default function LoginForm() {
+export default function RegisterForm() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const formData = {
-      identifier: email,
+      username: name,
+      email: email,
       password: password,
+      address: address,
     };
-
-    formData && login(formData);
+    console.log(formData);
+    formData && registerUser(formData);
   };
 
   return (
@@ -23,6 +26,16 @@ export default function LoginForm() {
         onSubmit={handleSubmit}
         className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-100%] flex flex-col justify-center items-center w-[95%] max-w-[400px] border"
       >
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          required
+        />
+
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -43,9 +56,19 @@ export default function LoginForm() {
           required
         />
 
-        <button type="submit">Log in</button>
+        <label htmlFor="address">Address:</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          value={address}
+          onChange={(event) => setAddress(event.target.value)}
+          required
+        />
+
+        <button type="submit">Register</button>
         <p>
-          dont have a user? <Link href={"/register"}>Register&gt;&gt;</Link>
+          already have a user? <Link href={"/login"}>Login&gt;&gt;</Link>
         </p>
       </form>
     </div>
