@@ -21,8 +21,8 @@ export default function RootLayout({
         <GlobalContextProvider>
           <ColorThemeProvider>
             <Navbar />
-            <div className="w-[95%] max-w-screen-xl mx-auto">{children}</div>
-            <Footer />
+            <div>{children}</div>
+            {/* <Footer /> */}
           </ColorThemeProvider>
         </GlobalContextProvider>
       </body>
