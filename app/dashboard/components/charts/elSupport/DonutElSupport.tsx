@@ -138,7 +138,6 @@ function Donut({
             ))}
           </Pie>
           {data.map((entry: any, index: number) => {
-            console.log(entry);
             return (
               <text
                 key={index}
