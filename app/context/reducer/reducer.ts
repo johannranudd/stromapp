@@ -30,14 +30,12 @@ export const initialState: IState = {
   badges: [],
   categories: [],
   totalNumber: [{ value: 100 }],
-  // totalKWHArray: [
-  //   { name: "placeholder badge", value: 100 },
-  //   { name: "placeholder badge 2", value: 56 },
-  // ],
+  // totalNumber: [],
   totalKWHArray: [
     { name: "placeholder badge", value: 100 },
     { name: "placeholder badge 2", value: 56 },
   ],
+  // totalKWHArray: [],
 };
 
 export function reducer(state: any, action: { type: string; payload?: any }) {

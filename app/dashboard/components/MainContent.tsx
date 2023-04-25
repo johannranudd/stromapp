@@ -1,10 +1,26 @@
 "use client";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
+import { useGlobalContext } from "@/app/context/context";
+import { getElectricityPrice } from "@/app/utils/gets";
+// import AreaChartDashboard from "./charts/areachart/AreaChartDashboard";
+// import XYChart from "@/app/components/charts/recharts/XYChart";
+
+async function rrr() {
+  const currentDate: Date = new Date();
+  const todayStringDate: string = currentDate.toISOString().slice(0, 10);
+  const ttt = await getElectricityPrice(todayStringDate, todayStringDate, 1);
+  return ttt;
+}
 
 export default function MainContent(dataFromAPI: any) {
   const [activeTab, setActiveTab]: any = useState("tab1");
+
+  useEffect(() => {
+    const mmm = rrr();
+    console.log(mmm);
+  }, []);
 
   return (
     <div>
@@ -45,7 +61,7 @@ function Tabs({ activeTab, setActiveTab }: any) {
 function PiechartsDashboard({ dataFromAPI, activeTab }: any) {
   return (
     <div className="bg-secondary text-primary dark:bg-primary dark:text-secondary">
-      <div className="flex h-screen w-full max-w-screen-lg mx-auto">
+      <div className="flex w-full max-w-screen-lg mx-auto">
         <div className="w-1/2">
           <DonutConsumption
             dataFromAPI={dataFromAPI[0]}

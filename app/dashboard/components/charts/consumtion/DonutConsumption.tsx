@@ -49,11 +49,12 @@ function Donut({
   yourExpensesFinal,
   elSupportFinal,
 }: any) {
-  console.log(data.length);
+  let tempData: any = [];
   if (Array.isArray(data) && data.length === 0) {
-    console.log("The array is empty");
+    // TODO: tell user to input data and show time + kwh as 24 and 0
+    tempData = [{ value: 100 }];
   } else {
-    console.log("The array is not empty");
+    tempData = data;
   }
   return (
     <>
@@ -67,7 +68,7 @@ function Donut({
         <PieChart>
           <Pie
             dataKey="value"
-            data={data}
+            data={tempData}
             innerRadius={width / 2.5}
             outerRadius={width / 2.1}
             fill="#d500f9"
