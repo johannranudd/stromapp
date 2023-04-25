@@ -5,11 +5,11 @@ export async function getElectricityPrice(
   region: number
 ) {
   let url = `https://api.strompriser.no/public/prices?startDate=${startDate}&endDate=${endDate}&region=${region}`;
-  const currentDate = new Date();
-  const todayStringDate = currentDate.toISOString().slice(0, 10);
-  if (startDate === todayStringDate && endDate === todayStringDate) {
-    url = `https://api.strompriser.no/public/prices-today?region=${region}`;
-  }
+  // const currentDate = new Date();
+  // const todayStringDate = currentDate.toISOString().slice(0, 10);
+  // if (startDate === todayStringDate && endDate === todayStringDate) {
+  //   url = `https://api.strompriser.no/public/prices-today?region=${region}`;
+  // }
   try {
     if (process.env.APIKEY) {
       const res = await fetch(url, {

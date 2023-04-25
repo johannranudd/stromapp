@@ -25,6 +25,7 @@ export default function XYChart(dataFromAPI: any) {
 
   const currentDate: Date = new Date();
   const todayStringDate: string = currentDate.toISOString().slice(0, 10);
+  console.log(todayStringDate);
 
   return (
     <>

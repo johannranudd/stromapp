@@ -9,6 +9,16 @@ import { getElectricityPrice } from "@/app/utils/gets";
 // import XYChart from "@/app/components/charts/recharts/XYChart";
 export default function MainContent(dataFromAPI: any) {
   const [activeTab, setActiveTab]: any = useState("tab1");
+  // const [dataFromClient, setDataFromClient] = useState();
+  // useEffect(() => {
+  // async function fetcherClient() {
+  //   const res = await fetch("../../../api/prices");
+  //   const data = await res.json();
+  //   setDataFromClient(data.data);
+  //   return data;
+  // }
+  //  fetcherClient();
+  // }, []);
 
   return (
     <div>
