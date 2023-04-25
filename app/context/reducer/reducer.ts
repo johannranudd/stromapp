@@ -14,21 +14,30 @@ interface ICategories {
   };
 }
 
-interface IState {
+export interface IState {
   date: string;
   location: number;
-  kwh: number;
   badges: Array<IBadge>;
   categories: Array<ICategories>;
+  totalNumber: Array<{ value: number }>;
+  totalKWHArray: Array<{ name: string; value: number }>;
 }
 
 export const initialState: IState = {
   // TODO: get location from user by
   date: new Date().toISOString().slice(0, 10),
   location: 1,
-  kwh: 0,
   badges: [],
   categories: [],
+  totalNumber: [{ value: 100 }],
+  // totalKWHArray: [
+  //   { name: "placeholder badge", value: 100 },
+  //   { name: "placeholder badge 2", value: 56 },
+  // ],
+  totalKWHArray: [
+    { name: "placeholder badge", value: 100 },
+    { name: "placeholder badge 2", value: 56 },
+  ],
 };
 
 export function reducer(state: any, action: { type: string; payload?: any }) {
