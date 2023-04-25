@@ -23,7 +23,7 @@ interface IState {
 }
 
 export const initialState: IState = {
-  // TODO: get location from user by default
+  // TODO: get location from user by
   date: new Date().toISOString().slice(0, 10),
   location: 1,
   kwh: 0,
@@ -35,9 +35,7 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
   switch (action.type) {
     case "LOCATION_AND_DATE":
       const { location, date } = action.payload;
-      // console.log("ACTION.PAYLOAD:: ", action.payload);
-      // console.log(location);
-      // console.log(date);
+
       return {
         ...state,
         date,
