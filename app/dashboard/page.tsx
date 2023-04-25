@@ -1,6 +1,7 @@
 import { getElectricityPrice } from "../utils/gets";
-import DashboardClient from "./components/DashboardClient";
 import { use } from "react";
+import LocationAndDateForm from "./components/LocationAndDateForm";
+import MainContent from "./components/MainContent";
 export default function page() {
   const currentDate: Date = new Date();
   const todayStringDate: string = currentDate.toISOString().slice(0, 10);
@@ -11,7 +12,8 @@ export default function page() {
   return (
     <div>
       <h1 className="py-8 text-center text-2xl">Dashboard</h1>
-      <DashboardClient {...dataFromAPI} />
+      <LocationAndDateForm />
+      <MainContent {...dataFromAPI} />
     </div>
   );
 }

@@ -13,36 +13,34 @@ export default function LocationAndDateForm() {
   }, [date, location]);
 
   return (
-    <form className="w-[95%] mx-auto max-w-screen-md pb-16">
-      <div className="flex justify-between">
-        <div>
-          <label htmlFor="location">Location:</label>
-          <select
-            id="location"
-            name="location"
-            onChange={(e) => setLocation(e.target.value)}
-            value={location}
-          >
-            <option value="1" defaultValue={"1"}>
-              Oslo / Øst-Norge
-            </option>
-            <option value="2">Kristiansand / Sør-Norge</option>
-            <option value="3">Trondheim / Midt-Norge</option>
-            <option value="4">Tromsø / Nord-Norge</option>
-            <option value="5">Bergen / Vest-Norge</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="date">Date:</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className={`border ${warning ? "border-red-500" : "border-black"}`}
-          />
-        </div>
+    <form className="w-[95%] mx-auto max-w-screen-md pb-16 flex justify-center space-x-6">
+      <div className="flex flex-col">
+        <label htmlFor="location">Location:</label>
+        <select
+          id="location"
+          name="location"
+          onChange={(e) => setLocation(e.target.value)}
+          value={location}
+        >
+          <option value="1" defaultValue={"1"}>
+            Oslo / Øst-Norge
+          </option>
+          <option value="2">Kristiansand / Sør-Norge</option>
+          <option value="3">Trondheim / Midt-Norge</option>
+          <option value="4">Tromsø / Nord-Norge</option>
+          <option value="5">Bergen / Vest-Norge</option>
+        </select>
+      </div>
+      <div className="flex flex-col">
+        <label htmlFor="date">Date:</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className={`border ${warning ? "border-red-500" : "border-black"}`}
+        />
       </div>
       {/* <div className="text-center py-4">
         <button type="submit" className="border">
