@@ -61,6 +61,10 @@ export const GlobalContextProvider = ({
     redirectToLoginPage(pathname);
   }, [pathname]);
 
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
   return (
     <GlobalContext.Provider
       value={{
