@@ -4,23 +4,11 @@ import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
 import { getElectricityPrice } from "@/app/utils/gets";
+
 // import AreaChartDashboard from "./charts/areachart/AreaChartDashboard";
 // import XYChart from "@/app/components/charts/recharts/XYChart";
-
-async function rrr() {
-  const currentDate: Date = new Date();
-  const todayStringDate: string = currentDate.toISOString().slice(0, 10);
-  const ttt = await getElectricityPrice(todayStringDate, todayStringDate, 1);
-  return ttt;
-}
-
 export default function MainContent(dataFromAPI: any) {
   const [activeTab, setActiveTab]: any = useState("tab1");
-
-  useEffect(() => {
-    const mmm = rrr();
-    console.log(mmm);
-  }, []);
 
   return (
     <div>
