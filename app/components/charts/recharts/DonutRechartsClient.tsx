@@ -30,7 +30,7 @@ export default function DonutRechartsServer(dataFromAPI: any) {
     minute: "numeric",
     second: "numeric",
   };
-  const osloTime = new Intl.DateTimeFormat("en-UK", options)
+  const osloTime = new Intl.DateTimeFormat("en-NO", options)
     .format(now)
     .slice(0, 2);
 

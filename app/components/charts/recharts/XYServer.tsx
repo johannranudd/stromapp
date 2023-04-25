@@ -14,3 +14,22 @@ export default function XYServer() {
   );
   return <XYChart {...dataFromAPI} />;
 }
+
+// OLSO DATE
+//  const currentDate: Date = new Date();
+//  const options: Intl.DateTimeFormatOptions = {
+//    timeZone: "Europe/Oslo",
+//    year: "numeric",
+//    month: "2-digit",
+//    day: "2-digit",
+//  };
+//  const formatter: Intl.DateTimeFormat = new Intl.DateTimeFormat(
+//    "no-NO",
+//    options
+//  );
+//  const osloDateString: string = formatter.format(currentDate);
+//  const todayStringDate: string = osloDateString.slice(0, 10);
+//  const officialDateOslo = todayStringDate.split(".").reverse().join("-");
+//  const dataFromAPI = use(
+//    getElectricityPrice(officialDateOslo, officialDateOslo, 1)
+//  );
