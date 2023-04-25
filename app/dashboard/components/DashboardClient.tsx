@@ -1,5 +1,6 @@
 "use client";
 import LocationAndDateForm from "./LocationAndDateForm";
+import MainContent from "./MainContent";
 
 export default function DashboardClient(dataFromAPI: any) {
   const data: any = [];
@@ -16,11 +17,9 @@ export default function DashboardClient(dataFromAPI: any) {
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      {/* inputs */}
       <LocationAndDateForm />
-      {/* send inputs to a state? */}
       {/* tabs */}
+      <MainContent />
       {/* left Donut */}
       {/* KWH accumulator */}
       {/* right Donut */}

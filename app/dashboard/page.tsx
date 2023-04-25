@@ -10,6 +10,7 @@ export default function page() {
 
   return (
     <div>
+      <h1 className="py-8 text-center text-2xl">Dashboard</h1>
       <DashboardClient {...dataFromAPI} />
     </div>
   );
