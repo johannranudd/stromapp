@@ -22,8 +22,8 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["./node_modules/@types", "./typings"],
-    "types": ["d3-color"]
+    "typeRoots": ["./node_modules/@types", "./typings"]
+    // "types": ["d3-color"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

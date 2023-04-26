@@ -10,7 +10,8 @@ export async function GET(request: Request) {
       });
       if (res.ok) {
         const data = await res.json();
-        return new Response(JSON.stringify({ data: data[0] }));
+        // return new Response(JSON.stringify({ data: data[0] }));
+        return new Response(JSON.stringify({ data: data }));
       } else {
         console.error(
           res.status,
