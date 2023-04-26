@@ -19,7 +19,7 @@ interface ICategories {
 export interface IState {
   date: string;
   location: number;
-  hours: number;
+  hoursOfUse: number;
   badges: Array<IBadge>;
   categories: Array<ICategories>;
   // totalNumber: number;
@@ -33,7 +33,7 @@ export const initialState: IState = {
   // TODO: get location from user by
   date: new Date().toISOString().slice(0, 10),
   location: 1,
-  hours: 0,
+  hoursOfUse: 24,
   badges: [],
   categories: [],
   // totalNumber: [{ value: 100 }],
@@ -61,7 +61,7 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
       // console.log(action.payload);
       return {
         ...state,
-        totalNumber: action.payload,
+        totalNumber: [{ ...action.payload }],
       };
 
     default: {

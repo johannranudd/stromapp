@@ -8,22 +8,37 @@ import { getElectricityPrice } from "@/app/utils/gets";
 // import AreaChartDashboard from "./charts/areachart/AreaChartDashboard";
 // import XYChart from "@/app/components/charts/recharts/XYChart";
 export default function MainContent(dataFromAPI: any) {
+  const { state } = useGlobalContext();
   const [activeTab, setActiveTab]: any = useState("tab1");
-  // const [dataFromClient, setDataFromClient] = useState();
-  // useEffect(() => {
-  // async function fetcherClient() {
-  //   const res = await fetch("../../../api/prices");
-  //   const data = await res.json();
-  //   setDataFromClient(data.data);
-  //   return data;
-  // }
-  //  fetcherClient();
-  // }, []);
+  const [dataFromClient, setDataFromClient] = useState();
+  useEffect(() => {
+    async function fetcherClient() {
+      const res = await fetch("../../../api/prices");
+      const data = await res.json();
+      setDataFromClient(data.data);
+      // return data;
+    }
+    fetcherClient();
+  }, [state]);
+
+  // console.log(dataFromAPI);
+  // console.log({ ...dataFromAPI });
+  // console.log(dataFromAPI[0]);
+  // console.log([dataFromAPI[0]]);
+  // console.log(dataFromClient);
+  // return null;
+  // if (dataFromClient)
 
   return (
     <div>
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <PiechartsDashboard dataFromAPI={dataFromAPI} activeTab={activeTab} />
+      <PiechartsDashboard
+        dataFromAPI={[dataFromAPI[0]]}
+        dataFromClient={dataFromClient && dataFromClient}
+        activeTab={activeTab}
+      />
+      {/* <Tabs activeTab={activeTab} setActiveTab={setActiveTab} /> */}
+      {/* <PiechartsDashboard dataFromAPI={dataFromClient} activeTab={activeTab} /> */}
     </div>
   );
 }
@@ -56,7 +71,8 @@ function Tabs({ activeTab, setActiveTab }: any) {
   );
 }
 
-function PiechartsDashboard({ dataFromAPI, activeTab }: any) {
+function PiechartsDashboard({ dataFromAPI, activeTab, dataFromClient }: any) {
+  // console.log(dataFromClient);
   const { state, dispatch } = useGlobalContext();
   // const { totalNumber }: any = state;
   const [kWh, setkWh] = useState(0);
@@ -90,7 +106,7 @@ function PiechartsDashboard({ dataFromAPI, activeTab }: any) {
             <label htmlFor="kWh">kWh:</label>
           </form>
           <DonutConsumption
-            dataFromAPI={dataFromAPI[0]}
+            dataFromClient={dataFromClient}
             activeTab={activeTab}
           />
         </div>
