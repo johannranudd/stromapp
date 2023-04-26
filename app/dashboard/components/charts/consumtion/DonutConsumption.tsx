@@ -35,24 +35,13 @@ export default function DonutConsumption({ dataFromClient, activeTab }: any) {
       }}
       className="relative"
     >
-      {activeTab === "tab1" && (
-        <Donut
-          data={totalNumber}
-          dataFromClient={dataFromClient}
-          width={width}
-          state={state}
-          activeTab={activeTab}
-        />
-      )}
-      {activeTab === "tab2" && (
-        <Donut
-          data={totalKWHArray}
-          dataFromClient={dataFromClient}
-          width={width}
-          state={state}
-          activeTab={activeTab}
-        />
-      )}
+      <Donut
+        data={activeTab === "tab1" ? totalNumber : totalKWHArray}
+        dataFromClient={dataFromClient}
+        width={width}
+        state={state}
+        activeTab={activeTab}
+      />
     </div>
   );
 }

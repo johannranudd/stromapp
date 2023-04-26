@@ -14,9 +14,9 @@ export default function page() {
     <div>
       <h1 className="py-8 text-center text-2xl">Dashboard</h1>
       <LocationAndDateForm />
-      <MainContent {...dataFromAPI} />
+      <MainContent />
       <div className="w-full max-w-screen-lg mx-auto bg-secondary text-primary dark:bg-primary dark:text-secondary">
-        <XYServer />
+        {/* <XYServer /> */}
       </div>
     </div>
   );

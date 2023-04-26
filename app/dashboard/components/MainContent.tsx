@@ -1,44 +1,41 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
-import { getElectricityPrice } from "@/app/utils/gets";
-
-// import AreaChartDashboard from "./charts/areachart/AreaChartDashboard";
-// import XYChart from "@/app/components/charts/recharts/XYChart";
-export default function MainContent(dataFromAPI: any) {
+export default function MainContent() {
   const { state } = useGlobalContext();
   const [activeTab, setActiveTab]: any = useState("tab1");
   const [dataFromClient, setDataFromClient] = useState();
   useEffect(() => {
     async function fetcherClient() {
-      const res = await fetch("../../../api/prices");
+      const { date, location }: any = state;
+      const res = await fetch("../../../api/prices", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          startDate: date,
+          endDate: date,
+          region: location,
+        }),
+      });
       const data = await res.json();
+
       setDataFromClient(data.data);
-      // return data;
     }
     fetcherClient();
   }, [state]);
 
-  // console.log(dataFromAPI);
-  // console.log({ ...dataFromAPI });
-  // console.log(dataFromAPI[0]);
-  // console.log([dataFromAPI[0]]);
-  // console.log(dataFromClient);
-  // return null;
-  // if (dataFromClient)
-
+  if (!dataFromClient) return <div>Loading</div>;
   return (
     <div>
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <PiechartsDashboard
-        dataFromAPI={[dataFromAPI[0]]}
-        dataFromClient={dataFromClient && dataFromClient}
+        dataFromClient={dataFromClient}
         activeTab={activeTab}
       />
-      {/* <Tabs activeTab={activeTab} setActiveTab={setActiveTab} /> */}
-      {/* <PiechartsDashboard dataFromAPI={dataFromClient} activeTab={activeTab} /> */}
     </div>
   );
 }
@@ -71,29 +68,23 @@ function Tabs({ activeTab, setActiveTab }: any) {
   );
 }
 
-function PiechartsDashboard({ dataFromAPI, activeTab, dataFromClient }: any) {
-  // console.log(dataFromClient);
+function PiechartsDashboard({ activeTab, dataFromClient }: any) {
   const { state, dispatch } = useGlobalContext();
-  // const { totalNumber }: any = state;
   const [kWh, setkWh] = useState(0);
 
   function handleTotalValue(e: any) {
     setkWh(Number(e.target.value));
-    // dispatch({ type: "CHANGE_KWH", payload: Number(e.target.value) });
     dispatch({
       type: "CHANGE_KWH",
       payload: { value: Number(e.target.value) },
     });
   }
-
-  // useEffect(() => {
-  //   console.log(totalNumber);
-  // }, [totalNumber]);
-
+  // activeTab === "tab1" ?
+  // console.log(activeTab);
   return (
     <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
       <div className="flex w-full max-w-screen-lg mx-auto pt-12">
-        <div className="w-1/2">
+        {activeTab === "tab1" && (
           <form className="absolute top-0 left-[50%] translate-x-[-50%]">
             <input
               type="number"
@@ -105,13 +96,15 @@ function PiechartsDashboard({ dataFromAPI, activeTab, dataFromClient }: any) {
             />
             <label htmlFor="kWh">kWh:</label>
           </form>
+        )}
+        <div className="w-1/2">
           <DonutConsumption
             dataFromClient={dataFromClient}
             activeTab={activeTab}
           />
         </div>
         <div className="w-1/2">
-          <DonutElSupport {...dataFromAPI} />
+          <DonutElSupport dataFromClient={dataFromClient} />
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@ export default function DonutRechartsServer(dataFromAPI: any) {
     minute: "numeric",
     second: "numeric",
   };
-  const osloTime = new Intl.DateTimeFormat("en-NO", options)
+  let osloTime = new Intl.DateTimeFormat("en-NO", options)
     .format(now)
     .slice(0, 2);
 
@@ -67,6 +67,9 @@ export default function DonutRechartsServer(dataFromAPI: any) {
       {dailyPriceArray?.map((priceInOre: any, index: number) => {
         let hour = `${index}`;
         index < 10 ? (hour = `0${index}`) : `${index}`;
+        if (osloTime === "24") {
+          osloTime = "00";
+        }
 
         const priceInOreAndHour: any = { priceInOre, hour };
 
@@ -113,6 +116,7 @@ function Donut({
   timeFrameForCurrentPrice,
   width,
 }: any) {
+  console.log("here");
   return (
     <>
       <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">

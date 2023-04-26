@@ -13,7 +13,11 @@ const COLORS = [
   // "#d500f9",
 ];
 
-export default function DonutElSupport(dataFromAPI: any) {
+export default function DonutElSupport(
+  // dataFromAPI: any
+  { dataFromClient }: any
+) {
+  // console.log(dataFromClient);
   const { windowWidth } = useGlobalContext();
   const now = new Date();
   const options: any = {
@@ -36,7 +40,8 @@ export default function DonutElSupport(dataFromAPI: any) {
     dailyPriceMin,
     averagePriceMonthlyToDate,
     estimatedPowerSupportToDate,
-  } = dataFromAPI[0];
+  } = dataFromClient[0];
+  // console.log(dataFromClient[0]);
 
   const [width, setWidth] = useState(windowWidth / 1.3);
   useEffect(() => {
@@ -89,6 +94,7 @@ export default function DonutElSupport(dataFromAPI: any) {
           return (
             <Donut
               key={_id}
+              // dataFromClient={dataFromClient[0]}
               yourExpensesFinal={yourExpensesFinal}
               elSupportFinal={elSupportFinal}
               priceInOreAndHour={priceInOreAndHour}
@@ -111,6 +117,7 @@ function Donut({
   yourExpensesFinal,
   elSupportFinal,
 }: any) {
+  // console.log(data);
   return (
     <>
       <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
