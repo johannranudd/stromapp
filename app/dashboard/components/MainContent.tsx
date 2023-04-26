@@ -57,10 +57,38 @@ function Tabs({ activeTab, setActiveTab }: any) {
 }
 
 function PiechartsDashboard({ dataFromAPI, activeTab }: any) {
+  const { state, dispatch } = useGlobalContext();
+  // const { totalNumber }: any = state;
+  const [kWh, setkWh] = useState(0);
+
+  function handleTotalValue(e: any) {
+    setkWh(Number(e.target.value));
+    // dispatch({ type: "CHANGE_KWH", payload: Number(e.target.value) });
+    dispatch({
+      type: "CHANGE_KWH",
+      payload: { value: Number(e.target.value) },
+    });
+  }
+
+  // useEffect(() => {
+  //   console.log(totalNumber);
+  // }, [totalNumber]);
+
   return (
-    <div className="bg-secondary text-primary dark:bg-primary dark:text-secondary">
-      <div className="flex w-full max-w-screen-lg mx-auto">
+    <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
+      <div className="flex w-full max-w-screen-lg mx-auto pt-12">
         <div className="w-1/2">
+          <form className="absolute top-0 left-[50%] translate-x-[-50%]">
+            <input
+              type="number"
+              id="kWh"
+              name="kWh"
+              value={kWh}
+              onChange={(e) => handleTotalValue(e)}
+              className="text-red-500 w-[50px]"
+            />
+            <label htmlFor="kWh">kWh:</label>
+          </form>
           <DonutConsumption
             dataFromAPI={dataFromAPI[0]}
             activeTab={activeTab}
