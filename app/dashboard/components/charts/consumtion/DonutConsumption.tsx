@@ -154,10 +154,14 @@ function ChartComponentHTML({
 function getTotalPrice(selectedHours: any, kwh: number, dataFromClient: any) {
   const { dailyPriceArray } = dataFromClient[0];
   let newArray = [];
-  for (let i = selectedHours[0]; i <= selectedHours[1]; i++) {
-    newArray.push(i);
+  if (selectedHours[1] === 24) {
+    newArray = dailyPriceArray;
+  } else {
+    for (let i = selectedHours[0]; i < selectedHours[1]; i++) {
+      newArray.push(dailyPriceArray[i]);
+    }
   }
-  // console.log(newArray);
+  console.log(newArray);
 }
 
 function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
