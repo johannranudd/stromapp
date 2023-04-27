@@ -76,6 +76,7 @@ function vaidateDashboardForm(
         location: Number(location),
         date: date,
       };
+      dispatch({ type: "START_FETCH", payload: true });
       dispatch({ type: "LOCATION_AND_DATE", payload: formData });
     }
   }

@@ -1,8 +1,10 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
+import { useGlobalContext } from "@/app/context/context";
 import * as Recharts from "recharts";
 
 export default function AreaChartDashboard({ dataFromClient }: any) {
+  const { dispatch } = useGlobalContext();
   // TODO replace date with hour and value with priceInOre
   const data: any = [];
   const {
@@ -30,23 +32,44 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
   const [refAreaRight, setRefAreaRight] = useState("");
 
   const handleMouseDown = (e: any) => {
-    setIsMoving(true);
-    setRefAreaLeft(e.activeLabel);
+    if (e === null) {
+      return;
+    } else {
+      setIsMoving(true);
+      setRefAreaLeft(e.activeLabel);
+      dispatch({ type: "START_FETCH", payload: false });
+    }
   };
   const handleMouseMove = (e: any) => {
-    if (isMoving) {
+    if (e === null) {
+      return;
+    } else if (isMoving) {
       setRefAreaRight(e.activeLabel);
+      const start = Number(refAreaLeft);
+      const end = Number(refAreaRight);
+      dispatch({ type: "SET_SELECTED_HOURS", payload: [start, end] });
+      dispatch({ type: "START_FETCH", payload: false });
     }
   };
   const handleMouseUp = (e: any) => {
     setIsMoving(false);
-    console.log(refAreaLeft);
-    console.log(refAreaRight);
+    dispatch({ type: "START_FETCH", payload: true });
   };
+
+  function handleReset() {
+    setIsMoving(false);
+    setRefAreaLeft("");
+    setRefAreaRight("");
+    dispatch({ type: "SET_SELECTED_HOURS", payload: [0, 24] });
+    dispatch({ type: "START_FETCH", payload: true });
+  }
 
   return (
     <>
-      <h2>{todayStringDate}</h2>
+      <div className="flex justify-evenly">
+        <button onClick={handleReset}>Reset Time</button>
+        <h2>{todayStringDate}</h2>
+      </div>
       <Recharts.ResponsiveContainer width="100%" height={400}>
         <Recharts.AreaChart
           data={data}
@@ -105,14 +128,6 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
               strokeOpacity={0.1}
             />
           ) : null}
-
-          {/* <Recharts.ReferenceArea
-            yAxisId="0"
-            fill="#b00b69"
-            x1="05"
-            x2="07"
-            strokeOpacity={0.1}
-          /> */}
 
           <Recharts.CartesianGrid opacity={0.1} vertical={false} />
         </Recharts.AreaChart>

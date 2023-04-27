@@ -78,14 +78,14 @@ function Donut({
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
           <ChartComponent
             data={tempData}
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
         </>
       );
@@ -103,14 +103,14 @@ function Donut({
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
           <ChartComponent
             data={tempData}
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
         </>
       );
@@ -125,39 +125,61 @@ function ChartComponentHTML({
   dataFromClient,
   width,
   isEmpty,
-  hoursOfUse,
+  selectedHours,
 }: any) {
   // console.log(data);
+  const start = selectedHours[0];
+  const end = selectedHours[1];
+  let hoursOfUse = 24;
+  if (start < end) {
+    hoursOfUse = end - start;
+  } else {
+    hoursOfUse = start - end;
+  }
+
   let kwh = data[0].value;
   if (isEmpty) kwh = 0;
 
-  // getTotalPrice(kwh, hoursOfUse, dataFromClient);
+  const priceInNOK = getTotalPrice(selectedHours, kwh, dataFromClient);
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
-      <p className="text-center" style={{ fontSize: width / 10 }}>
-        {`${kwh} kwh / ${hoursOfUse}`}
+      <p className="text-center mb-6" style={{ fontSize: width / 15 }}>
+        {`${kwh} kwh / ${hoursOfUse} hours`}
       </p>
-      <p className="text-center">price</p>
+      <p className="text-center">
+        <strong className="text-xl" style={{ fontSize: width / 10 }}>
+          {priceInNOK}
+        </strong>{" "}
+        NOK
+      </p>
     </div>
   );
 }
 
-// function getTotalPrice(kwh: number, hoursOfUse: any, dataFromClient: any) {
-//   console.log(kwh);
-//   console.log(hoursOfUse);
-//   console.log(dataFromClient[0]);
-//   const { dailyPriceArray } = dataFromClient[0];
-//   // console.log(dailyPriceAverage);
-//   // get average price over hours
+function getTotalPrice(selectedHours: any, kwh: number, dataFromClient: any) {
+  const { dailyPriceArray } = dataFromClient[0];
+  if (selectedHours[0] > selectedHours[1]) {
+    selectedHours.reverse();
+  }
+  let newArray = [];
+  if (selectedHours[1] === 24) {
+    newArray = dailyPriceArray;
+  } else {
+    for (let i = selectedHours[0]; i < selectedHours[1]; i++) {
+      newArray.push(dailyPriceArray[i]);
+    }
+  }
 
-//   const arrayToCalculate = [
-//     110, 106, 106, 107, 106, 110, 123, 130, 136, 120, 106, 93, 85, 81, 79, 80,
-//     94, 106, 113, 118, 120, 120, 118, 111,
-//   ];
-//   const sum = arrayToCalculate.reduce((a, b) => a + b, 0);
-//   const averagePrice = sum / arrayToCalculate.length;
-//   // console.log(avg);
-// }
+  const sum = newArray.reduce((a: number, b: number) => a + b, 0);
+  let average = sum / newArray.length;
+  if (isNaN(average)) {
+    average = 0;
+  }
+  const pricepPerHour = kwh * average;
+  const priceInOre = pricepPerHour * newArray.length;
+  const priceInNOK = priceInOre / 100;
+  return priceInNOK.toFixed(0);
+}
 
 function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
   return (
@@ -203,7 +225,7 @@ function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
 // <p className="text-center" style={{ fontSize: width / 10 }}>
 // {/* {isEmpty ? "00": } */}
 //</p>
-//<p className="text-center">hoursOfUse</p>
+//<p className="text-center">selectedHours</p>
 //</div>;
 
 // !chart
@@ -219,9 +241,9 @@ function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
         return (
           <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
             <p className="text-center" style={{ fontSize: width / 15 }}>
-              {`${kwh} kwh / ${overHours} hoursOfUse`}
+              {`${kwh} kwh / ${overHours} selectedHours`}
             </p>
-            <p className="text-center">24 hoursOfUse</p>
+            <p className="text-center">24 selectedHours</p>
           </div>
         );
       })} */

@@ -1,32 +1,61 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LocationAndDateForm from "./components/LocationAndDateForm";
 import MainContent from "./components/MainContent";
 import AreaChartDashboard from "./components/charts/areachart/AreaChartDashboard";
 import { useGlobalContext } from "../context/context";
 export default function page() {
   const { state } = useGlobalContext();
-  const [dataFromClient, setDataFromClient] = useState();
-  useEffect(() => {
-    async function fetcherClient() {
-      const { date, location }: any = state;
-      const res = await fetch("../../../api/prices", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          startDate: date,
-          endDate: date,
-          region: location,
-        }),
-      });
-      const data = await res.json();
 
-      setDataFromClient(data.data);
-    }
-    fetcherClient();
+  const [dataFromClient, setDataFromClient] = useState();
+  async function fetcherClient() {
+    console.log("FETCHING !!!!!!!!!!!!!!!!!!!!!!!!!!");
+    const { date, location }: any = state;
+    const res = await fetch("../../../api/prices", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        startDate: date,
+        endDate: date,
+        region: location,
+      }),
+      // body: JSON.stringify({
+      //   startDate: "2023-04-21",
+      //   endDate: "2023-04-21",
+      //   region: 1,
+      // }),
+    });
+    const data = await res.json();
+
+    setDataFromClient(data.data);
+  }
+  useEffect(() => {
+    const { startFetch }: any = state;
+    if (startFetch) fetcherClient();
   }, [state]);
+  useEffect(() => {
+    fetcherClient();
+  }, []);
+  // console.log(dataFromClient);
+  // const [isMoving, setIsMoving] = useState(false);
+  // const componentRef: any = useRef();
+
+  // useEffect(() => {
+  //   document.addEventListener("click", handleClick);
+  //   return () => document.removeEventListener("click", handleClick);
+  //   function handleClick(e: any) {
+  //     if (componentRef && componentRef.current) {
+  //       const ref: any = componentRef.current;
+  //       if (!ref.contains(e.target)) {
+  //         setIsMoving(false);
+  //       } else {
+  //         setIsMoving(true);
+  //       }
+  //     }
+  //   }
+  // }, []);
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (

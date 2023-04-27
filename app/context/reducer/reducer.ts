@@ -19,7 +19,8 @@ interface ICategories {
 export interface IState {
   date: string;
   location: number;
-  hoursOfUse: number;
+  selectedHours: Array<number>;
+  startFetch: boolean;
   badges: Array<IBadge>;
   categories: Array<ICategories>;
   // totalNumber: number;
@@ -33,7 +34,8 @@ export const initialState: IState = {
   // TODO: get location from user by
   date: new Date().toISOString().slice(0, 10),
   location: 1,
-  hoursOfUse: 24,
+  selectedHours: [0, 24],
+  startFetch: false,
   badges: [],
   categories: [],
   // totalNumber: [{ value: 100 }],
@@ -58,10 +60,19 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
         location,
       };
     case "CHANGE_KWH":
-      // console.log(action.payload);
       return {
         ...state,
         totalNumber: [{ ...action.payload }],
+      };
+    case "SET_SELECTED_HOURS":
+      return {
+        ...state,
+        selectedHours: action.payload,
+      };
+    case "START_FETCH":
+      return {
+        ...state,
+        startFetch: action.payload,
       };
 
     default: {
