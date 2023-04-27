@@ -43,11 +43,11 @@ export const initialState: IState = {
   // setTotalNumber: () => 0,
   totalNumber: [],
   // setTotalNumber: () => {},
-  // totalKWHArray: [
-  //   { name: "placeholder badge", value: 100 },
-  //   { name: "placeholder badge 2", value: 56 },
-  // ],
   totalKWHArray: [],
+  // totalKWHArray: [
+  //   { name: "placeholder badge", value: 3.3 },
+  //   { name: "placeholder badge 2", value: 1.2 },
+  // ],
 };
 
 export function reducer(state: any, action: { type: string; payload?: any }) {

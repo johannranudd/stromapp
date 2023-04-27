@@ -62,7 +62,18 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
   // console.log(activeTab);
   return (
     <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
-      <div className="flex w-full max-w-screen-lg mx-auto pt-12">
+      {activeTab === "tab2" && (
+        <div className="w-[95%] mx-auto max-w-screen-lg">
+          <ul className="flex flex-wrap mb-2">
+            {/* <button className="bg-blue-500 rounded-md m-1">
+              badge1 <span>X</span>&nbsp;
+            </button> */}
+          </ul>
+          <button className="bg-green-500 rounded-md">Add categories +</button>
+        </div>
+      )}
+
+      <div className="flex w-full max-w-screen-lg mx-auto pt-6">
         {activeTab === "tab1" && (
           <form className="absolute top-0 left-[50%] translate-x-[-50%]">
             <input

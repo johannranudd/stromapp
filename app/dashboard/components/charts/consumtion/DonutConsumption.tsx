@@ -57,20 +57,45 @@ function Donut({
   state,
   activeTab,
 }: any) {
+  // console.log("HERE");
   // console.log(data);
   let tempData: any = [];
   let isEmpty = true;
+  let useCategories = false;
   // console.log(activeTab);
 
-  if (activeTab === "tab1") {
-    if ((Array.isArray(data) && data.length === 0) || data[0].value <= 0) {
-      // console.log("HERE");
-      // TODO: tell user to input data and show time + kwh as 24 and 0
-      // starting point / empty pie chart
-      isEmpty = true;
-      tempData = [{ value: 100 }];
+  if ((Array.isArray(data) && data.length === 0) || data[0].value <= 0) {
+    // console.log("EMPTY BOTH TABS");
+    isEmpty = true;
+    useCategories = false;
+    tempData = [{ value: 100 }];
+    // console.log(data);
+    return (
+      <>
+        <ChartComponentHTML
+          data={tempData}
+          dataFromClient={dataFromClient}
+          width={width}
+          isEmpty={isEmpty}
+          selectedHours={state.selectedHours}
+          useCategories={useCategories}
+        />
+        <ChartComponent
+          data={tempData}
+          dataFromClient={dataFromClient}
+          width={width}
+          isEmpty={isEmpty}
+          selectedHours={state.selectedHours}
+          useCategories={useCategories}
+        />
+      </>
+    );
+  } else {
+    if (activeTab === "tab1") {
+      // console.log("HERE TAB 1");
+      isEmpty = false;
       // console.log(data);
-      // console.log(tempData);
+      tempData = [...data];
       return (
         <>
           <ChartComponentHTML
@@ -79,6 +104,7 @@ function Donut({
             width={width}
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
+            useCategories={useCategories}
           />
           <ChartComponent
             data={tempData}
@@ -86,16 +112,18 @@ function Donut({
             width={width}
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
+            useCategories={useCategories}
           />
         </>
       );
     } else {
-      // console.log("HERE");
-      // calculate with NUMBER
-      isEmpty = false;
+      // console.log("HERE TAB 2");
       // console.log(data);
+      isEmpty = false;
+      useCategories = true;
       tempData = [...data];
-      // console.log(tempData);
+
+      // return <div>categories</div>;
       return (
         <>
           <ChartComponentHTML
@@ -104,6 +132,7 @@ function Donut({
             width={width}
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
+            useCategories={useCategories}
           />
           <ChartComponent
             data={tempData}
@@ -111,12 +140,11 @@ function Donut({
             width={width}
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
+            useCategories={useCategories}
           />
         </>
       );
     }
-  } else {
-    return <div>categories</div>;
   }
 }
 
@@ -126,6 +154,7 @@ function ChartComponentHTML({
   width,
   isEmpty,
   selectedHours,
+  useCategories,
 }: any) {
   // console.log(data);
   const start = selectedHours[0];
@@ -136,8 +165,14 @@ function ChartComponentHTML({
   } else {
     hoursOfUse = start - end;
   }
-
-  let kwh = data[0].value;
+  let kwh = 0;
+  if (!useCategories) {
+    kwh = data[0].value;
+  } else {
+    data.forEach((item: any) => {
+      kwh += item.value;
+    });
+  }
   if (isEmpty) kwh = 0;
 
   const priceInNOK = getTotalPrice(selectedHours, kwh, dataFromClient);
