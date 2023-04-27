@@ -65,7 +65,7 @@ function vaidateDashboardForm(
   const selectedDate = new Date(date).getTime();
   const oneDay = 24 * 60 * 60 * 1000;
 
-  if (selectedDate - currentDate >= oneDay * 2) {
+  if (selectedDate - currentDate >= oneDay * 1) {
     setWarning(true);
     alert("Please select a date that is not more than one day ahead.");
     return;
