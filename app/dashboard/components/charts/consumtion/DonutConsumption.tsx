@@ -140,19 +140,27 @@ function ChartComponentHTML({
   let kwh = data[0].value;
   if (isEmpty) kwh = 0;
 
-  getTotalPrice(selectedHours, kwh, dataFromClient);
+  const priceInNOK = getTotalPrice(selectedHours, kwh, dataFromClient);
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
-      <p className="text-center" style={{ fontSize: width / 10 }}>
-        {`${kwh} kwh / ${hoursOfUse}`}
+      <p className="text-center mb-6" style={{ fontSize: width / 15 }}>
+        {`${kwh} kwh / ${hoursOfUse} hours`}
       </p>
-      <p className="text-center">price</p>
+      <p className="text-center">
+        <strong className="text-xl" style={{ fontSize: width / 10 }}>
+          {priceInNOK}
+        </strong>{" "}
+        NOK
+      </p>
     </div>
   );
 }
 
 function getTotalPrice(selectedHours: any, kwh: number, dataFromClient: any) {
   const { dailyPriceArray } = dataFromClient[0];
+  if (selectedHours[0] > selectedHours[1]) {
+    selectedHours.reverse();
+  }
   let newArray = [];
   if (selectedHours[1] === 24) {
     newArray = dailyPriceArray;
@@ -161,7 +169,16 @@ function getTotalPrice(selectedHours: any, kwh: number, dataFromClient: any) {
       newArray.push(dailyPriceArray[i]);
     }
   }
-  console.log(newArray);
+
+  const sum = newArray.reduce((a: number, b: number) => a + b, 0);
+  let average = sum / newArray.length;
+  if (isNaN(average)) {
+    average = 0;
+  }
+  const pricepPerHour = kwh * average;
+  const priceInOre = pricepPerHour * newArray.length;
+  const priceInNOK = priceInOre / 100;
+  return priceInNOK.toFixed(0);
 }
 
 function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
