@@ -140,7 +140,7 @@ function ChartComponentHTML({
   let kwh = data[0].value;
   if (isEmpty) kwh = 0;
 
-  // getTotalPrice(kwh, selectedHours, dataFromClient);
+  getTotalPrice(selectedHours, kwh, dataFromClient);
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
       <p className="text-center" style={{ fontSize: width / 10 }}>
@@ -151,21 +151,13 @@ function ChartComponentHTML({
   );
 }
 
-function getTotalPrice(kwh: number, selectedHours: any, dataFromClient: any) {
-  // console.log(kwh);
-  // console.log(selectedHours);
-  // console.log(dataFromClient[0]);
-  // const { dailyPriceArray } = dataFromClient[0];
-  // console.log(dailyPriceAverage);
-  // get average price over hours
-
-  const arrayToCalculate = [
-    110, 106, 106, 107, 106, 110, 123, 130, 136, 120, 106, 93, 85, 81, 79, 80,
-    94, 106, 113, 118, 120, 120, 118, 111,
-  ];
-  const sum = arrayToCalculate.reduce((a, b) => a + b, 0);
-  const averagePrice = sum / arrayToCalculate.length;
-  // console.log(avg);
+function getTotalPrice(selectedHours: any, kwh: number, dataFromClient: any) {
+  const { dailyPriceArray } = dataFromClient[0];
+  let newArray = [];
+  for (let i = selectedHours[0]; i <= selectedHours[1]; i++) {
+    newArray.push(i);
+  }
+  // console.log(newArray);
 }
 
 function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {

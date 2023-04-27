@@ -37,6 +37,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
     } else {
       setIsMoving(true);
       setRefAreaLeft(e.activeLabel);
+      dispatch({ type: "START_FETCH", payload: false });
     }
   };
   const handleMouseMove = (e: any) => {
@@ -47,10 +48,12 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
       const start = Number(refAreaLeft);
       const end = Number(refAreaRight);
       dispatch({ type: "SET_SELECTED_HOURS", payload: [start, end] });
+      dispatch({ type: "START_FETCH", payload: false });
     }
   };
   const handleMouseUp = (e: any) => {
     setIsMoving(false);
+    dispatch({ type: "START_FETCH", payload: true });
   };
 
   function handleReset() {
@@ -58,6 +61,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
     setRefAreaLeft("");
     setRefAreaRight("");
     dispatch({ type: "SET_SELECTED_HOURS", payload: [0, 24] });
+    dispatch({ type: "START_FETCH", payload: true });
   }
 
   return (

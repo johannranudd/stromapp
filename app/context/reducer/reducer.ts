@@ -20,6 +20,7 @@ export interface IState {
   date: string;
   location: number;
   selectedHours: Array<number>;
+  startFetch: boolean;
   badges: Array<IBadge>;
   categories: Array<ICategories>;
   // totalNumber: number;
@@ -34,6 +35,7 @@ export const initialState: IState = {
   date: new Date().toISOString().slice(0, 10),
   location: 1,
   selectedHours: [0, 24],
+  startFetch: false,
   badges: [],
   categories: [],
   // totalNumber: [{ value: 100 }],
@@ -66,6 +68,11 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
       return {
         ...state,
         selectedHours: action.payload,
+      };
+    case "START_FETCH":
+      return {
+        ...state,
+        startFetch: action.payload,
       };
 
     default: {
