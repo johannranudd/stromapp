@@ -78,14 +78,14 @@ function Donut({
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
           <ChartComponent
             data={tempData}
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
         </>
       );
@@ -103,14 +103,14 @@ function Donut({
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
           <ChartComponent
             data={tempData}
             dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
-            hoursOfUse={state.hoursOfUse}
+            selectedHours={state.selectedHours}
           />
         </>
       );
@@ -125,13 +125,22 @@ function ChartComponentHTML({
   dataFromClient,
   width,
   isEmpty,
-  hoursOfUse,
+  selectedHours,
 }: any) {
   // console.log(data);
+  const start = selectedHours[0];
+  const end = selectedHours[1];
+  let hoursOfUse = 24;
+  if (start < end) {
+    hoursOfUse = end - start;
+  } else {
+    hoursOfUse = start - end;
+  }
+
   let kwh = data[0].value;
   if (isEmpty) kwh = 0;
 
-  // getTotalPrice(kwh, hoursOfUse, dataFromClient);
+  // getTotalPrice(kwh, selectedHours, dataFromClient);
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
       <p className="text-center" style={{ fontSize: width / 10 }}>
@@ -142,22 +151,22 @@ function ChartComponentHTML({
   );
 }
 
-// function getTotalPrice(kwh: number, hoursOfUse: any, dataFromClient: any) {
-//   console.log(kwh);
-//   console.log(hoursOfUse);
-//   console.log(dataFromClient[0]);
-//   const { dailyPriceArray } = dataFromClient[0];
-//   // console.log(dailyPriceAverage);
-//   // get average price over hours
+function getTotalPrice(kwh: number, selectedHours: any, dataFromClient: any) {
+  // console.log(kwh);
+  // console.log(selectedHours);
+  // console.log(dataFromClient[0]);
+  // const { dailyPriceArray } = dataFromClient[0];
+  // console.log(dailyPriceAverage);
+  // get average price over hours
 
-//   const arrayToCalculate = [
-//     110, 106, 106, 107, 106, 110, 123, 130, 136, 120, 106, 93, 85, 81, 79, 80,
-//     94, 106, 113, 118, 120, 120, 118, 111,
-//   ];
-//   const sum = arrayToCalculate.reduce((a, b) => a + b, 0);
-//   const averagePrice = sum / arrayToCalculate.length;
-//   // console.log(avg);
-// }
+  const arrayToCalculate = [
+    110, 106, 106, 107, 106, 110, 123, 130, 136, 120, 106, 93, 85, 81, 79, 80,
+    94, 106, 113, 118, 120, 120, 118, 111,
+  ];
+  const sum = arrayToCalculate.reduce((a, b) => a + b, 0);
+  const averagePrice = sum / arrayToCalculate.length;
+  // console.log(avg);
+}
 
 function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
   return (
@@ -203,7 +212,7 @@ function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
 // <p className="text-center" style={{ fontSize: width / 10 }}>
 // {/* {isEmpty ? "00": } */}
 //</p>
-//<p className="text-center">hoursOfUse</p>
+//<p className="text-center">selectedHours</p>
 //</div>;
 
 // !chart
@@ -219,9 +228,9 @@ function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
         return (
           <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
             <p className="text-center" style={{ fontSize: width / 15 }}>
-              {`${kwh} kwh / ${overHours} hoursOfUse`}
+              {`${kwh} kwh / ${overHours} selectedHours`}
             </p>
-            <p className="text-center">24 hoursOfUse</p>
+            <p className="text-center">24 selectedHours</p>
           </div>
         );
       })} */

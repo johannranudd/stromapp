@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LocationAndDateForm from "./components/LocationAndDateForm";
 import MainContent from "./components/MainContent";
 import AreaChartDashboard from "./components/charts/areachart/AreaChartDashboard";
@@ -27,6 +27,23 @@ export default function page() {
     }
     fetcherClient();
   }, [state]);
+  // const [isMoving, setIsMoving] = useState(false);
+  // const componentRef: any = useRef();
+
+  // useEffect(() => {
+  //   document.addEventListener("click", handleClick);
+  //   return () => document.removeEventListener("click", handleClick);
+  //   function handleClick(e: any) {
+  //     if (componentRef && componentRef.current) {
+  //       const ref: any = componentRef.current;
+  //       if (!ref.contains(e.target)) {
+  //         setIsMoving(false);
+  //       } else {
+  //         setIsMoving(true);
+  //       }
+  //     }
+  //   }
+  // }, []);
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (
