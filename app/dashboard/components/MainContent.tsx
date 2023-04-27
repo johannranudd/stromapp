@@ -3,30 +3,9 @@ import { useEffect, useState } from "react";
 import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
-export default function MainContent() {
-  const { state } = useGlobalContext();
+export default function MainContent({ dataFromClient }: any) {
+  // const { state } = useGlobalContext();
   const [activeTab, setActiveTab]: any = useState("tab1");
-  const [dataFromClient, setDataFromClient] = useState();
-  useEffect(() => {
-    async function fetcherClient() {
-      const { date, location }: any = state;
-      const res = await fetch("../../../api/prices", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          startDate: date,
-          endDate: date,
-          region: location,
-        }),
-      });
-      const data = await res.json();
-
-      setDataFromClient(data.data);
-    }
-    fetcherClient();
-  }, [state]);
 
   if (!dataFromClient) return <div>Loading</div>;
   return (
