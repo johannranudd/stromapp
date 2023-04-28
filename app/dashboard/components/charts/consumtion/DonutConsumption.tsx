@@ -182,7 +182,7 @@ function ChartComponentHTML({
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
       <p className="text-center mb-6" style={{ fontSize: width / 15 }}>
-        {`${kwh} kwh / ${hoursOfUse} hours`}
+        {`${kwh.toFixed(1)} kwh / ${hoursOfUse} hours`}
       </p>
       <p className="text-center">
         <strong className="text-xl" style={{ fontSize: width / 10 }}>
