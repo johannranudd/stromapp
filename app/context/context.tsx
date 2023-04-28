@@ -20,6 +20,10 @@ interface ContextProps {
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  badgeModalIsOpen: boolean;
+  setBadgeModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  groupModalIsOpen: boolean;
+  setGroupModalIsOpen: Dispatch<SetStateAction<boolean>>;
   windowWidth: number;
   setWindowWidth: Dispatch<SetStateAction<number>>;
 }
@@ -31,6 +35,10 @@ export const GlobalContext = createContext<ContextProps>({
   setMenuIsOpen: () => false,
   modalIsOpen: false,
   setModalIsOpen: () => false,
+  badgeModalIsOpen: false,
+  setBadgeModalIsOpen: () => false,
+  groupModalIsOpen: false,
+  setGroupModalIsOpen: () => false,
   windowWidth: 0,
   setWindowWidth: () => {},
 });
@@ -42,6 +50,8 @@ export const GlobalContextProvider = ({
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [badgeModalIsOpen, setBadgeModalIsOpen] = useState(false);
+  const [groupModalIsOpen, setGroupModalIsOpen] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // resize
@@ -77,6 +87,10 @@ export const GlobalContextProvider = ({
         setMenuIsOpen,
         modalIsOpen,
         setModalIsOpen,
+        badgeModalIsOpen,
+        setBadgeModalIsOpen,
+        groupModalIsOpen,
+        setGroupModalIsOpen,
         state,
         dispatch,
         windowWidth,

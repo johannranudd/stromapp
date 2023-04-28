@@ -9,7 +9,13 @@ import {
   AiOutlinePlusCircle,
 } from "react-icons/ai";
 export default function CategoriesModal() {
-  const { modalIsOpen, setModalIsOpen, dispatch } = useGlobalContext();
+  const {
+    modalIsOpen,
+    setModalIsOpen,
+    setBadgeModalIsOpen,
+    setGroupModalIsOpen,
+    dispatch,
+  } = useGlobalContext();
   const [user, setUser] = useState();
   async function fetchUser() {
     const baseURL = getURL();
@@ -64,13 +70,13 @@ export default function CategoriesModal() {
         </div>
         <div className="p-3 flex rounded-full justify-between bg-secondary text-primary">
           <button
-            onClick={() => setModalIsOpen(false)}
+            onClick={() => setBadgeModalIsOpen(true)}
             className="bg-green-500 p-2 mx-2"
           >
             Create Badge +
           </button>
           <button
-            onClick={() => setModalIsOpen(false)}
+            onClick={() => setGroupModalIsOpen(true)}
             className="bg-green-500 p-2 mx-2"
           >
             Create Group +

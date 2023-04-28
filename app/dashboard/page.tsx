@@ -5,6 +5,8 @@ import MainContent from "./components/MainContent";
 import AreaChartDashboard from "./components/charts/areachart/AreaChartDashboard";
 import { useGlobalContext } from "../context/context";
 import CategoriesModal from "../components/modal/CategoriesModal";
+import CreateBadgeModal from "../components/modal/CreateBadgeModal";
+import CreateGroupModal from "../components/modal/CreateGroupModal";
 export default function page() {
   const { state } = useGlobalContext();
 
@@ -39,29 +41,13 @@ export default function page() {
   useEffect(() => {
     fetcherClient();
   }, []);
-  // console.log(dataFromClient);
-  // const [isMoving, setIsMoving] = useState(false);
-  // const componentRef: any = useRef();
-
-  // useEffect(() => {
-  //   document.addEventListener("click", handleClick);
-  //   return () => document.removeEventListener("click", handleClick);
-  //   function handleClick(e: any) {
-  //     if (componentRef && componentRef.current) {
-  //       const ref: any = componentRef.current;
-  //       if (!ref.contains(e.target)) {
-  //         setIsMoving(false);
-  //       } else {
-  //         setIsMoving(true);
-  //       }
-  //     }
-  //   }
-  // }, []);
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (
     <>
       <CategoriesModal />
+      <CreateBadgeModal />
+      <CreateGroupModal />
       <div>
         <h1 className="py-8 text-center text-2xl">Dashboard</h1>
         <LocationAndDateForm />
