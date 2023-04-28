@@ -238,21 +238,20 @@ function ChartComponent({
           cy="35%"
           labelLine={false}
         >
-          {activeTab === "tab1" &&
+          {!isEmpty ? (
             data.map((entry: any, index: number) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={
+                  activeTab === "tab1"
+                    ? COLORS[index % COLORS.length]
+                    : entry.color
+                }
               />
-            ))}
-          {activeTab === "tab2" &&
-            (data.length === 0 ? (
-              <Cell key={`cell-empty`} fill="#ca4c4cf" />
-            ) : (
-              data.map((entry: any, index: number) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))
-            ))}
+            ))
+          ) : (
+            <Cell key={`empty-cell`} fill="#d500f9" />
+          )}
         </Pie>
         <Tooltip />
       </PieChart>
