@@ -49,6 +49,7 @@ function Tabs({ activeTab, setActiveTab }: any) {
 
 function PiechartsDashboard({ activeTab, dataFromClient }: any) {
   const { state, dispatch, modalIsOpen, setModalIsOpen } = useGlobalContext();
+  const { totalKWHArray }: any = state;
   const [kWh, setkWh] = useState(0);
 
   function handleTotalValue(e: any) {
@@ -62,7 +63,7 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
   // function openCategoriesModal() {
   //   console.log("MODAL IS OPEN");
   // }
-  const { totalKWHArray }: any = state;
+
   return (
     <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
       {activeTab === "tab2" && (
