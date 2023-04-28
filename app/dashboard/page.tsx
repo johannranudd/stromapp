@@ -8,7 +8,15 @@ import CategoriesModal from "../components/modal/CategoriesModal";
 import CreateBadgeModal from "../components/modal/CreateBadgeModal";
 import CreateGroupModal from "../components/modal/CreateGroupModal";
 export default function page() {
-  const { state } = useGlobalContext();
+  const {
+    state,
+    modalIsOpen,
+    setModalIsOpen,
+    badgeModalIsOpen,
+    setBadgeModalIsOpen,
+    groupModalIsOpen,
+    setGroupModalIsOpen,
+  } = useGlobalContext();
 
   const [dataFromClient, setDataFromClient] = useState();
   async function fetcherClient() {
@@ -45,9 +53,10 @@ export default function page() {
   if (!dataFromClient) return <div>Loading...</div>;
   return (
     <>
-      <CategoriesModal />
-      <CreateBadgeModal />
-      <CreateGroupModal />
+      {modalIsOpen && <CategoriesModal />}
+      {badgeModalIsOpen && <CreateBadgeModal />}
+      {groupModalIsOpen && <CreateGroupModal />}
+
       <div>
         <h1 className="py-8 text-center text-2xl">Dashboard</h1>
         <LocationAndDateForm />

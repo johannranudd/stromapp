@@ -1,6 +1,7 @@
 "use client";
 import { useGlobalContext } from "@/app/context/context";
 import { getURL } from "@/app/utils/environment/environment";
+import { fetchUser } from "@/app/utils/gets";
 import { getItem } from "@/app/utils/storage/localstorage";
 import { useState, useEffect } from "react";
 import {
@@ -17,33 +18,9 @@ export default function CategoriesModal() {
     dispatch,
   } = useGlobalContext();
   const [user, setUser] = useState();
-  async function fetchUser() {
-    const baseURL = getURL();
-    const { id } = getItem("user");
-    try {
-      const res = await fetch(
-        // `${baseURL}/users/${id}?populate=groups&populate=badges`
-        `${baseURL}/users/${id}?populate=groups&populate=badges`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data);
-      } else {
-        console.log(
-          res.status,
-          "an error occured in CategoriesModal - fetchUser() res not ok"
-        );
-      }
-    } catch (error) {
-      console.log(
-        error,
-        "an error occured in CategoriesModal - fetchUser() catch block"
-      );
-    }
-  }
 
   useEffect(() => {
-    if (modalIsOpen) fetchUser();
+    if (modalIsOpen) fetchUser(setUser);
   }, [modalIsOpen]);
 
   // let isEmpty = true;
