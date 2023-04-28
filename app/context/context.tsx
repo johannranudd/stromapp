@@ -18,6 +18,8 @@ interface ContextProps {
   dispatch: Dispatch<any>;
   menuIsOpen: boolean;
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
+  modalIsOpen: boolean;
+  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   windowWidth: number;
   setWindowWidth: Dispatch<SetStateAction<number>>;
 }
@@ -27,6 +29,8 @@ export const GlobalContext = createContext<ContextProps>({
   dispatch: (): [] => [],
   menuIsOpen: false,
   setMenuIsOpen: () => false,
+  modalIsOpen: false,
+  setModalIsOpen: () => false,
   windowWidth: 0,
   setWindowWidth: () => {},
 });
@@ -37,6 +41,7 @@ export const GlobalContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // resize
@@ -70,6 +75,8 @@ export const GlobalContextProvider = ({
       value={{
         menuIsOpen,
         setMenuIsOpen,
+        modalIsOpen,
+        setModalIsOpen,
         state,
         dispatch,
         windowWidth,

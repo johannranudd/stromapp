@@ -43,11 +43,11 @@ export const initialState: IState = {
   // setTotalNumber: () => 0,
   totalNumber: [],
   // setTotalNumber: () => {},
-  // totalKWHArray: [
-  //   { name: "placeholder badge", value: 100 },
-  //   { name: "placeholder badge 2", value: 56 },
-  // ],
   totalKWHArray: [],
+  // totalKWHArray: [
+  //   { name: "placeholder badge", value: 3.3 },
+  //   { name: "placeholder badge 2", value: 1.2 },
+  // ],
 };
 
 export function reducer(state: any, action: { type: string; payload?: any }) {
@@ -73,6 +73,27 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
       return {
         ...state,
         startFetch: action.payload,
+      };
+    case "ADD_TO_ARRAY":
+      // check if already has
+      const hasDuplicate = state.totalKWHArray.some(
+        (item: any) => item.name === action.payload.name
+      );
+      if (!hasDuplicate) {
+        return {
+          ...state,
+          totalKWHArray: [...state.totalKWHArray, action.payload],
+        };
+      } else {
+        return { ...state };
+      }
+    case "REMOVE_FROM_ARRAY":
+      const filter = state.totalKWHArray.filter((item: any) => {
+        return item.name !== action.payload.name;
+      });
+      return {
+        ...state,
+        totalKWHArray: filter,
       };
 
     default: {

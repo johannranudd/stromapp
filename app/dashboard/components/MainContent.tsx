@@ -48,7 +48,7 @@ function Tabs({ activeTab, setActiveTab }: any) {
 }
 
 function PiechartsDashboard({ activeTab, dataFromClient }: any) {
-  const { state, dispatch } = useGlobalContext();
+  const { state, dispatch, modalIsOpen, setModalIsOpen } = useGlobalContext();
   const [kWh, setkWh] = useState(0);
 
   function handleTotalValue(e: any) {
@@ -58,11 +58,42 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
       payload: { value: Number(e.target.value) },
     });
   }
-  // activeTab === "tab1" ?
-  // console.log(activeTab);
+
+  // function openCategoriesModal() {
+  //   console.log("MODAL IS OPEN");
+  // }
+  const { totalKWHArray }: any = state;
   return (
     <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
-      <div className="flex w-full max-w-screen-lg mx-auto pt-12">
+      {activeTab === "tab2" && (
+        <div className="w-[95%] mx-auto max-w-screen-lg">
+          <ul className="flex flex-wrap mb-2">
+            {totalKWHArray.length >= 1 &&
+              totalKWHArray.map((item: any) => {
+                return (
+                  <button
+                    onClick={() =>
+                      dispatch({ type: "REMOVE_FROM_ARRAY", payload: item })
+                    }
+                    style={{ backgroundColor: item.color }}
+                    className={`rounded-md m-1`}
+                  >
+                    {item.name} <span>X</span>&nbsp;
+                  </button>
+                );
+              })}
+          </ul>
+          <button
+            // onClick={openCategoriesModal}
+            onClick={() => setModalIsOpen(true)}
+            className="bg-green-500 rounded-md"
+          >
+            Add categories +
+          </button>
+        </div>
+      )}
+
+      <div className="flex w-full max-w-screen-lg mx-auto pt-6">
         {activeTab === "tab1" && (
           <form className="absolute top-0 left-[50%] translate-x-[-50%]">
             <input

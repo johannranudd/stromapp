@@ -34,6 +34,11 @@ export async function POST(request: Request) {
   // console.log("Start date:", startDate, "End date:", endDate);
 
   let url = `https://api.strompriser.no/public/prices?startDate=${startDate}&endDate=${endDate}&region=${region}`;
+  const currentDate = new Date();
+  const todayStringDate = currentDate.toISOString().slice(0, 10);
+  if (startDate === todayStringDate && endDate === todayStringDate) {
+    url = `https://api.strompriser.no/public/prices-today?region=${region}`;
+  }
   if (process.env.APIKEY) {
     try {
       const res = await fetch(url, {
