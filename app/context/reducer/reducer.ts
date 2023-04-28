@@ -74,6 +74,27 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
         ...state,
         startFetch: action.payload,
       };
+    case "ADD_TO_ARRAY":
+      // check if already has
+      const hasDuplicate = state.totalKWHArray.some(
+        (item: any) => item.name === action.payload.name
+      );
+      if (!hasDuplicate) {
+        return {
+          ...state,
+          totalKWHArray: [...state.totalKWHArray, action.payload],
+        };
+      } else {
+        return { ...state };
+      }
+    case "REMOVE_FROM_ARRAY":
+      const filter = state.totalKWHArray.filter((item: any) => {
+        return item.name !== action.payload.name;
+      });
+      return {
+        ...state,
+        totalKWHArray: filter,
+      };
 
     default: {
       return state;

@@ -4,6 +4,7 @@ import LocationAndDateForm from "./components/LocationAndDateForm";
 import MainContent from "./components/MainContent";
 import AreaChartDashboard from "./components/charts/areachart/AreaChartDashboard";
 import { useGlobalContext } from "../context/context";
+import CategoriesModal from "../components/modal/CategoriesModal";
 export default function page() {
   const { state } = useGlobalContext();
 
@@ -59,14 +60,17 @@ export default function page() {
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (
-    <div>
-      <h1 className="py-8 text-center text-2xl">Dashboard</h1>
-      <LocationAndDateForm />
-      <MainContent dataFromClient={dataFromClient} />
-      <div className="w-full max-w-screen-lg mx-auto bg-secondary text-primary dark:bg-primary dark:text-secondary">
-        <AreaChartDashboard dataFromClient={dataFromClient} />
+    <>
+      <CategoriesModal />
+      <div>
+        <h1 className="py-8 text-center text-2xl">Dashboard</h1>
+        <LocationAndDateForm />
+        <MainContent dataFromClient={dataFromClient} />
+        <div className="w-full max-w-screen-lg mx-auto bg-secondary text-primary dark:bg-primary dark:text-secondary">
+          <AreaChartDashboard dataFromClient={dataFromClient} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

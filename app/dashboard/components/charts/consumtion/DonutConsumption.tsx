@@ -87,6 +87,7 @@ function Donut({
           isEmpty={isEmpty}
           selectedHours={state.selectedHours}
           useCategories={useCategories}
+          activeTab={activeTab}
         />
       </>
     );
@@ -113,6 +114,7 @@ function Donut({
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
             useCategories={useCategories}
+            activeTab={activeTab}
           />
         </>
       );
@@ -141,6 +143,7 @@ function Donut({
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
             useCategories={useCategories}
+            activeTab={activeTab}
           />
         </>
       );
@@ -216,7 +219,13 @@ function getTotalPrice(selectedHours: any, kwh: number, dataFromClient: any) {
   return priceInNOK.toFixed(0);
 }
 
-function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
+function ChartComponent({
+  data,
+  dataFromClient,
+  width,
+  isEmpty,
+  activeTab,
+}: any) {
   return (
     <ResponsiveContainer>
       <PieChart>
@@ -229,27 +238,22 @@ function ChartComponent({ data, dataFromClient, width, isEmpty }: any) {
           cy="35%"
           labelLine={false}
         >
-          {data.map((entry: any, index: number) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
+          {activeTab === "tab1" &&
+            data.map((entry: any, index: number) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          {activeTab === "tab2" &&
+            (data.length === 0 ? (
+              <Cell key={`cell-empty`} fill="#ca4c4cf" />
+            ) : (
+              data.map((entry: any, index: number) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))
+            ))}
         </Pie>
-        {data.map((entry: any, index: number) => {
-          return (
-            <text
-              key={index}
-              x={index === 0 ? "50%" : "50%"}
-              y={index === 0 ? "77%" : "87%"}
-              style={{
-                fontSize: width / 13,
-                fontWeight: "bold",
-              }}
-              fill={COLORS[index % COLORS.length]}
-              textAnchor="middle"
-            >
-              {entry.name}
-            </text>
-          );
-        })}
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
