@@ -32,11 +32,6 @@ export default function page() {
         endDate: date,
         region: location,
       }),
-      // body: JSON.stringify({
-      //   startDate: "2023-04-21",
-      //   endDate: "2023-04-21",
-      //   region: 1,
-      // }),
     });
     const data = await res.json();
 

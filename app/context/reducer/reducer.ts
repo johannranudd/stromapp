@@ -77,7 +77,7 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
     case "ADD_TO_ARRAY":
       // check if already has
       const hasDuplicate = state.totalKWHArray.some(
-        (item: any) => item.name === action.payload.name
+        (item: any) => item.id === action.payload.id
       );
       if (!hasDuplicate) {
         return {

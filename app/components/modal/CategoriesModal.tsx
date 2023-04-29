@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import {
   AiOutlineDelete,
   AiOutlineEdit,
+  AiOutlineMinusCircle,
   AiOutlinePlusCircle,
 } from "react-icons/ai";
 export default function CategoriesModal() {
@@ -16,19 +17,13 @@ export default function CategoriesModal() {
     setBadgeModalIsOpen,
     setGroupModalIsOpen,
     dispatch,
+    state,
   } = useGlobalContext();
   const [user, setUser] = useState();
-
   useEffect(() => {
     if (modalIsOpen) fetchUser(setUser);
   }, [modalIsOpen]);
 
-  // let isEmpty = true;
-  // if (badges.length === 0 && groups.length === 0) {
-  //   isEmpty = true;
-  // } else {
-  //   isEmpty = false;
-  // }
   if (!modalIsOpen) return null;
 
   return (
@@ -40,7 +35,11 @@ export default function CategoriesModal() {
         </div>
         <div className="h-full p-4 bg-[#def]">
           {user ? (
-            <ListOfGroupsAndBadges user={user} dispatch={dispatch} />
+            <ListOfGroupsAndBadges
+              user={user}
+              dispatch={dispatch}
+              state={state}
+            />
           ) : (
             <div>Loading...</div>
           )}
@@ -64,29 +63,38 @@ export default function CategoriesModal() {
   );
 }
 
-function ListOfGroupsAndBadges({ user, dispatch }: any) {
+function ListOfGroupsAndBadges({ user, dispatch, state }: any) {
   const { groups, badges } = user;
 
   if (badges.length === 0 && groups.length === 0)
     return (
       <div>You have 0 badges, create badges and organize them into groups</div>
     );
-  // if (!categories) return <div>Loading...</div>;
   return (
     <div>
-      <Badges badges={badges} dispatch={dispatch} />
+      <Badges badges={badges} dispatch={dispatch} state={state} />
       <Groups groups={groups} />
     </div>
   );
 }
 
-function Badges({ badges, dispatch }: any) {
+function Badges({ badges, dispatch, state }: any) {
+  // console.log(state);
+
   return (
     <ul className="grid grid-cols-2 gap-2">
       {badges.map((badge: any) => {
+        // console.log(state.totalKWHArray);
         const { id, name, kwh, categories, color, category } = badge;
+        const hasBadgeId = state.totalKWHArray.some(
+          (item: any) => item.id === id
+        );
         return (
-          <li key={id} style={{ backgroundColor: `${color}` }} className="p-2">
+          <li
+            key={id}
+            style={{ backgroundColor: `${color}` }}
+            className={`p-2 ${hasBadgeId && "border-8 border-green-500"}`}
+          >
             <div>
               <p>{name}</p>
               <p>{kwh} kwh</p>
@@ -96,12 +104,18 @@ function Badges({ badges, dispatch }: any) {
               <button
                 onClick={() =>
                   dispatch({
-                    type: "ADD_TO_ARRAY",
-                    payload: { name, value: kwh, color, category },
+                    type: `${
+                      !hasBadgeId ? "ADD_TO_ARRAY" : "REMOVE_FROM_ARRAY"
+                    }`,
+                    payload: { name, value: kwh, color, category, id },
                   })
                 }
               >
-                <AiOutlinePlusCircle />
+                {hasBadgeId ? (
+                  <AiOutlineMinusCircle />
+                ) : (
+                  <AiOutlinePlusCircle />
+                )}
               </button>
               <button>
                 <AiOutlineEdit />
