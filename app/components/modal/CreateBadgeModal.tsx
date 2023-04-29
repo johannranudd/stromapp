@@ -27,12 +27,8 @@ export default function CreateBadgeModal() {
   }, [badgeModalIsOpen]);
 
   useEffect(() => {
-    // const { startFetch }: any = state;
-    // if (startFetch)
     fetchUser(setUser);
   }, [state]);
-
-  //   console.log(user);
 
   if (!badgeModalIsOpen) return null;
   return (

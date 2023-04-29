@@ -1,12 +1,12 @@
 import { getURL } from "./environment/environment";
-import { ttt } from "./generics";
+
 import { getItem } from "./storage/localstorage";
 
-export async function deleteBadge(badgeId: any) {
+export async function deleteItem(itemName: string, itemId: any) {
   console.log("DELETING !!!!!!!!");
   const jwt = getItem("jwt");
   const baseURL = getURL();
-  let url = `${baseURL}/badges/${badgeId}`;
+  let url = `${baseURL}/${itemName}/${itemId}`;
 
   try {
     const res = await fetch(url, {

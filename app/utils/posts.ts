@@ -1,6 +1,49 @@
 import { getURL } from "./environment/environment";
 import { getItem, setItem } from "./storage/localstorage";
 
+export async function createGroup(formData: any) {
+  const jwt = getItem("jwt");
+  const { id } = getItem("user");
+  const baseURL = getURL();
+  let url = `${baseURL}/groups/`;
+  const { groupName, color, kwh, selectedBadges } = formData;
+
+  const formatedFormData = {
+    data: {
+      name: groupName,
+      user: id,
+      badges: selectedBadges.map((item: any) => item.id),
+      color: color,
+      kwh: kwh,
+    },
+  };
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(formatedFormData),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+      return data;
+    } else {
+      console.error(
+        res.status,
+        "An error occured in posts.ts/createGroup() res not OK"
+      );
+      return await res.json();
+    }
+  } catch (error) {
+    console.log(
+      error,
+      "An error occured in posts.ts/createGroup()/ catch block"
+    );
+  }
+}
 export async function createBadge(formData: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
@@ -28,18 +71,18 @@ export async function createBadge(formData: any) {
     });
     if (res.ok) {
       const data = await res.json();
-      return await data;
+      return data;
     } else {
       console.error(
         res.status,
-        "An error occured in puts.ts/login() res not OK"
+        "An error occured in posts.ts/createBadge() res not OK"
       );
       return await res.json();
     }
   } catch (error) {
     console.log(
       error,
-      "An error occured in puts.ts/createBadge()/ catch block"
+      "An error occured in posts.ts/createBadge()/ catch block"
     );
   }
 }
@@ -61,10 +104,10 @@ export async function login(formData: {
     if (res.ok) {
       const data = await res.json();
       const { id, username, email } = data.user;
-      setItem("jwt", data.jwt);
-      setItem("user", { id, username, email });
+      await setItem("jwt", data.jwt);
+      await setItem("user", { id, username, email });
       window.location.href = "../dashboard/";
-      return await data;
+      return data;
     } else {
       console.error(
         res.status,
@@ -96,10 +139,10 @@ export async function registerUser(formData: {
     if (res.ok) {
       const data = await res.json();
       const { id, username, email } = data.user;
-      setItem("jwt", data.jwt);
-      setItem("user", { id, username, email });
+      await setItem("jwt", data.jwt);
+      await setItem("user", { id, username, email });
       window.location.href = "../dashboard/";
-      return await data;
+      return data;
     } else {
       console.error(
         res.status,
