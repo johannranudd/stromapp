@@ -1,11 +1,12 @@
 import { getURL } from "./environment/environment";
 import { getItem } from "./storage/localstorage";
 
-export async function editBadge(formData: any, badgeId: number) {
+export async function editBadge(formData: any, badgeItem: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
   const baseURL = getURL();
-  let url = `${baseURL}/badges/${badgeId}`;
+  console.log(badgeItem);
+  let url = `${baseURL}/badges/${badgeItem.id}`;
   const { badgeName, category, color, kwh } = formData;
   const formatedFormData = {
     data: {

@@ -17,7 +17,7 @@ export default function CreateBadgeModal() {
     state,
     editFlag,
     setEditFlag,
-    editId,
+    editItem,
   } = useGlobalContext();
   const [user, setUser]: any = useState();
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function CreateBadgeModal() {
           dispatch={dispatch}
           editFlag={editFlag}
           setEditFlag={setEditFlag}
-          editId={editId}
+          editItem={editItem}
         />
       </div>
     </div>
@@ -61,13 +61,13 @@ function CreateBadgeForm({
   setBadgeModalIsOpen,
   dispatch,
   editFlag,
-  editId,
+  editItem,
   setEditFlag,
 }: any) {
   const [badgeName, setBadgeName] = useState("");
   const [category, setCategory] = useState("");
   const [color, setColor] = useState("");
-  const [kwh, setKwh] = useState(0);
+  const [kwh, setKwh] = useState<number>();
   const [uniqueArrayOfBadges, setUniqueArrayOfBadges]: any = useState([]);
 
   const handleSubmit = async (e: any) => {
@@ -85,20 +85,16 @@ function CreateBadgeForm({
       await setBadgeModalIsOpen(false);
       await dispatch({ type: "START_FETCH", payload: true });
     } else if (isValid && editFlag) {
-      //   console.log(editId);
-      await editBadge(formData, editId);
+      await editBadge(formData, editItem);
       await dispatch({ type: "START_FETCH", payload: true });
       await setEditFlag(false);
       await setBadgeModalIsOpen(false);
-      //   setBadgeModalIsOpen(false);
-      //   console.log("EDITING");
     }
-    // dispatch({ type: "START_FETCH", payload: true });
   };
 
-  const handleColorChange = (color: any) => {
-    setColor(color.hex);
-  };
+  // const handleColorChange = (color: any) => {
+  //   setColor(color.hex);
+  // };
 
   useEffect(() => {
     if (!badges || badges.length === 0) {
@@ -131,6 +127,7 @@ function CreateBadgeForm({
           value={badgeName}
           onChange={(e: any) => setBadgeName(e.target.value)}
           onBlur={(e: any) => setBadgeName(e.target.value)}
+          placeholder={editFlag && editItem.name}
           className="text-secondary"
         />
       </div>
@@ -144,6 +141,7 @@ function CreateBadgeForm({
           id="category"
           value={category}
           onChange={(e: any) => setCategory(e.target.value)}
+          placeholder={editFlag && editItem.category}
           className="text-secondary"
         />
         <datalist id="categories">
@@ -174,7 +172,7 @@ function CreateBadgeForm({
         <CirclePicker
           className="colorpicker"
           color={color}
-          onChange={handleColorChange}
+          onChange={(color) => setColor(color.hex)}
         />
       </div>
 
@@ -193,6 +191,7 @@ function CreateBadgeForm({
             }
           }}
           step="0.1"
+          placeholder={editFlag && editItem.kwh}
           className="text-secondary"
         />
       </div>
