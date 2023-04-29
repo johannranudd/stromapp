@@ -121,7 +121,12 @@ function Badges({
   setBadgeModalIsOpen,
   setEditItem,
 }: any) {
-  async function deletAndUpdate(id: number) {
+  async function deleteAndUpdate(badge: any) {
+    const { id, name, kwh, category, color } = badge;
+    await dispatch({
+      type: "REMOVE_FROM_ARRAY",
+      payload: { name, value: kwh, color, category, id },
+    });
     await deleteBadge(id);
     await dispatch({ type: "START_FETCH", payload: true });
   }
@@ -179,7 +184,7 @@ function Badges({
               >
                 <AiOutlineEdit />
               </button>
-              <button onClick={() => deletAndUpdate(id)}>
+              <button onClick={() => deleteAndUpdate(badge)}>
                 <AiOutlineDelete />
               </button>
             </div>

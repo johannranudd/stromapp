@@ -85,6 +85,11 @@ function CreateBadgeForm({
       await setBadgeModalIsOpen(false);
       await dispatch({ type: "START_FETCH", payload: true });
     } else if (isValid && editFlag) {
+      const { name, kwh, category, color } = editItem;
+      await dispatch({
+        type: "REMOVE_FROM_ARRAY",
+        payload: { name, value: kwh, color, category, id: editItem.id },
+      });
       await editBadge(formData, editItem);
       await dispatch({ type: "START_FETCH", payload: true });
       await setEditFlag(false);

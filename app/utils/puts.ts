@@ -5,7 +5,7 @@ export async function editBadge(formData: any, badgeItem: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
   const baseURL = getURL();
-  console.log(badgeItem);
+  // console.log(badgeItem);
   let url = `${baseURL}/badges/${badgeItem.id}`;
   const { badgeName, category, color, kwh } = formData;
   const formatedFormData = {
