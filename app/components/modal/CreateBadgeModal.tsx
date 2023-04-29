@@ -27,12 +27,8 @@ export default function CreateBadgeModal() {
   }, [badgeModalIsOpen]);
 
   useEffect(() => {
-    // const { startFetch }: any = state;
-    // if (startFetch)
     fetchUser(setUser);
   }, [state]);
-
-  //   console.log(user);
 
   if (!badgeModalIsOpen) return null;
   return (
@@ -85,6 +81,11 @@ function CreateBadgeForm({
       await setBadgeModalIsOpen(false);
       await dispatch({ type: "START_FETCH", payload: true });
     } else if (isValid && editFlag) {
+      const { name, kwh, category, color } = editItem;
+      await dispatch({
+        type: "REMOVE_FROM_ARRAY",
+        payload: { name, value: kwh, color, category, id: editItem.id },
+      });
       await editBadge(formData, editItem);
       await dispatch({ type: "START_FETCH", payload: true });
       await setEditFlag(false);

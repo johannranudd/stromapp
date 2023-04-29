@@ -36,6 +36,28 @@ export async function getElectricityPrice(
   }
 }
 
+export async function fetchGroups(setGroups: any) {
+  console.log("FETCHING group !!!!!!!!!!!!!!!!!!!!!!!!!!");
+  const baseURL = getURL();
+  // const { id } = getItem("user");
+  try {
+    const res = await fetch(
+      // `${baseURL}/users/${id}?populate=groups&populate=badges`
+      `${baseURL}/groups?populate=badges`
+    );
+    if (res.ok) {
+      const data = await res.json();
+      setGroups(data);
+    } else {
+      console.log(
+        res.status,
+        "an error occured in gets.ts - fetchUser() res not ok"
+      );
+    }
+  } catch (error) {
+    console.log(error, "an error occured in gets.ts - fetchUser() catch block");
+  }
+}
 export async function fetchUser(setUser: any) {
   console.log("FETCHING USER !!!!!!!!!!!!!!!!!!!!!!!!!!");
   const baseURL = getURL();
@@ -51,14 +73,11 @@ export async function fetchUser(setUser: any) {
     } else {
       console.log(
         res.status,
-        "an error occured in CategoriesModal - fetchUser() res not ok"
+        "an error occured in gets.ts - fetchUser() res not ok"
       );
     }
   } catch (error) {
-    console.log(
-      error,
-      "an error occured in CategoriesModal - fetchUser() catch block"
-    );
+    console.log(error, "an error occured in gets.ts - fetchUser() catch block");
   }
 }
 
