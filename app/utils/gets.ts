@@ -60,3 +60,22 @@ export async function fetchUser(setUser: any) {
     );
   }
 }
+
+export async function fetcherClient(state: any, setDataFromClient: any) {
+  console.log("FETCHING !!!!!!!!!!!!!!!!!!!!!!!!!!");
+  const { date, location }: any = state;
+  const res = await fetch("../../../api/prices", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      startDate: date,
+      endDate: date,
+      region: location,
+    }),
+  });
+  const data = await res.json();
+
+  setDataFromClient(data.data);
+}

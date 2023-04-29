@@ -9,13 +9,19 @@ import { CirclePicker } from "react-color";
 //
 //
 export default function CreateBadgeModal() {
-  const { badgeModalIsOpen, setBadgeModalIsOpen } = useGlobalContext();
+  const { badgeModalIsOpen, setBadgeModalIsOpen, dispatch, state } =
+    useGlobalContext();
   const [user, setUser]: any = useState();
   useEffect(() => {
     if (badgeModalIsOpen) {
       fetchUser(setUser);
     }
   }, [badgeModalIsOpen]);
+
+  useEffect(() => {
+    if (badgeModalIsOpen) fetchUser(setUser);
+  }, [state]);
+
   //   console.log(user);
 
   if (!badgeModalIsOpen) return null;
@@ -26,13 +32,17 @@ export default function CreateBadgeModal() {
           <h2>Create Badge</h2>
           <button onClick={() => setBadgeModalIsOpen(false)}>X</button>
         </div>
-        <CreateBadgeForm {...user} />
+        <CreateBadgeForm
+          {...user}
+          setBadgeModalIsOpen={setBadgeModalIsOpen}
+          dispatch={dispatch}
+        />
       </div>
     </div>
   );
 }
 
-function CreateBadgeForm({ id, badges }: any) {
+function CreateBadgeForm({ id, badges, setBadgeModalIsOpen, dispatch }: any) {
   const [badgeName, setBadgeName] = useState("");
   const [category, setCategory] = useState("");
   const [color, setColor] = useState("");
@@ -51,6 +61,8 @@ function CreateBadgeForm({ id, badges }: any) {
     const isValid = validateBadgeForm(formData);
     if (isValid) {
       createBadge(formData);
+      setBadgeModalIsOpen(false);
+      dispatch({ type: "START_FETCH", payload: true });
     }
   };
 

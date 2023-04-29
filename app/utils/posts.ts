@@ -28,7 +28,6 @@ export async function createBadge(formData: any) {
     });
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
       return await data;
     } else {
       console.error(

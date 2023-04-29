@@ -1,7 +1,8 @@
 "use client";
 import { useGlobalContext } from "@/app/context/context";
+import { deleteBadge } from "@/app/utils/delets";
 import { getURL } from "@/app/utils/environment/environment";
-import { fetchUser } from "@/app/utils/gets";
+import { fetchUser, fetcherClient } from "@/app/utils/gets";
 import { getItem } from "@/app/utils/storage/localstorage";
 import { useState, useEffect } from "react";
 import {
@@ -10,7 +11,7 @@ import {
   AiOutlineMinusCircle,
   AiOutlinePlusCircle,
 } from "react-icons/ai";
-export default function CategoriesModal() {
+export default function CategoriesModal({ setDataFromClient }: any) {
   const {
     modalIsOpen,
     setModalIsOpen,
@@ -23,6 +24,10 @@ export default function CategoriesModal() {
   useEffect(() => {
     if (modalIsOpen) fetchUser(setUser);
   }, [modalIsOpen]);
+
+  useEffect(() => {
+    if (modalIsOpen) fetchUser(setUser);
+  }, [state]);
 
   if (!modalIsOpen) return null;
 
@@ -39,6 +44,8 @@ export default function CategoriesModal() {
               user={user}
               dispatch={dispatch}
               state={state}
+              setDataFromClient={setDataFromClient}
+              setUser={setUser}
             />
           ) : (
             <div>Loading...</div>
@@ -63,7 +70,13 @@ export default function CategoriesModal() {
   );
 }
 
-function ListOfGroupsAndBadges({ user, dispatch, state }: any) {
+function ListOfGroupsAndBadges({
+  user,
+  dispatch,
+  state,
+  setDataFromClient,
+  setUser,
+}: any) {
   const { groups, badges } = user;
 
   if (badges.length === 0 && groups.length === 0)
@@ -72,19 +85,31 @@ function ListOfGroupsAndBadges({ user, dispatch, state }: any) {
     );
   return (
     <div>
-      <Badges badges={badges} dispatch={dispatch} state={state} />
+      <Badges
+        badges={badges}
+        dispatch={dispatch}
+        state={state}
+        setDataFromClient={setDataFromClient}
+        setUser={setUser}
+      />
       <Groups groups={groups} />
     </div>
   );
 }
 
-function Badges({ badges, dispatch, state }: any) {
-  // console.log(state);
+function Badges({ badges, dispatch, state, setDataFromClient, setUser }: any) {
+  function deletAndUpdate(id: number) {
+    deleteBadge(id);
+    dispatch({ type: "START_FETCH", payload: true });
+  }
+
+  // useEffect(() => {
+  //   console.log("change in badge");
+  // }, [badges]);
 
   return (
     <ul className="grid grid-cols-2 gap-2">
       {badges.map((badge: any) => {
-        // console.log(state.totalKWHArray);
         const { id, name, kwh, categories, color, category } = badge;
         const hasBadgeId = state.totalKWHArray.some(
           (item: any) => item.id === id
@@ -120,7 +145,7 @@ function Badges({ badges, dispatch, state }: any) {
               <button>
                 <AiOutlineEdit />
               </button>
-              <button>
+              <button onClick={() => deletAndUpdate(id)}>
                 <AiOutlineDelete />
               </button>
             </div>
