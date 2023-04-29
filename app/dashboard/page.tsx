@@ -11,6 +11,7 @@ import { fetcherClient } from "../utils/gets";
 export default function page() {
   const {
     state,
+    dispatch,
     modalIsOpen,
     setModalIsOpen,
     badgeModalIsOpen,
@@ -22,17 +23,18 @@ export default function page() {
   const [dataFromClient, setDataFromClient] = useState();
 
   useEffect(() => {
+    fetcherClient(state, setDataFromClient);
+  }, []);
+
+  useEffect(() => {
     const { startFetch }: any = state;
     if (startFetch) fetcherClient(state, setDataFromClient);
   }, [state]);
-  useEffect(() => {
-    fetcherClient(state, setDataFromClient);
-  }, []);
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (
     <>
-      {modalIsOpen && <CategoriesModal setDataFromClient={setDataFromClient} />}
+      {modalIsOpen && <CategoriesModal />}
       {badgeModalIsOpen && <CreateBadgeModal />}
       {groupModalIsOpen && <CreateGroupModal />}
 

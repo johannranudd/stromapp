@@ -22,7 +22,7 @@ export default function CategoriesModal() {
     state,
     editFlag,
     setEditFlag,
-    setEditId,
+    setEditItem,
   } = useGlobalContext();
   const [user, setUser] = useState();
   useEffect(() => {
@@ -30,10 +30,17 @@ export default function CategoriesModal() {
   }, [modalIsOpen]);
 
   useEffect(() => {
-    if (modalIsOpen) fetchUser(setUser);
+    fetchUser(setUser);
   }, [state]);
 
   function handleCreateBadge() {
+    setEditItem({
+      id: 0,
+      name: "",
+      category: "",
+      color: "",
+      kwh: 0,
+    });
     setEditFlag(false);
     setBadgeModalIsOpen(true);
   }
@@ -55,7 +62,7 @@ export default function CategoriesModal() {
               state={state}
               setEditFlag={setEditFlag}
               setBadgeModalIsOpen={setBadgeModalIsOpen}
-              setEditId={setEditId}
+              setEditItem={setEditItem}
             />
           ) : (
             <div>Loading...</div>
@@ -83,7 +90,7 @@ function ListOfGroupsAndBadges({
   state,
   setEditFlag,
   setBadgeModalIsOpen,
-  setEditId,
+  setEditItem,
 }: any) {
   const { groups, badges } = user;
 
@@ -99,7 +106,7 @@ function ListOfGroupsAndBadges({
         state={state}
         setEditFlag={setEditFlag}
         setBadgeModalIsOpen={setBadgeModalIsOpen}
-        setEditId={setEditId}
+        setEditItem={setEditItem}
       />
       <Groups groups={groups} />
     </div>
@@ -112,18 +119,16 @@ function Badges({
   state,
   setEditFlag,
   setBadgeModalIsOpen,
-  setEditId,
+  setEditItem,
 }: any) {
-  function deletAndUpdate(id: number) {
-    deleteBadge(id);
-    dispatch({ type: "START_FETCH", payload: true });
+  async function deletAndUpdate(id: number) {
+    await deleteBadge(id);
+    await dispatch({ type: "START_FETCH", payload: true });
   }
-  function allowEditing(id: number) {
-    setEditId(id);
-    setEditFlag(true);
-    setBadgeModalIsOpen(true);
-    // editBadge(id, );
-    // dispatch({ type: "START_FETCH", payload: true });
+  async function allowEditing(badge: any) {
+    await setEditItem(badge);
+    await setEditFlag(true);
+    await setBadgeModalIsOpen(true);
   }
 
   return (
@@ -161,7 +166,17 @@ function Badges({
                   <AiOutlinePlusCircle />
                 )}
               </button>
-              <button onClick={() => allowEditing(id)}>
+              <button
+                onClick={() =>
+                  allowEditing({
+                    id,
+                    name,
+                    category,
+                    color,
+                    kwh,
+                  })
+                }
+              >
                 <AiOutlineEdit />
               </button>
               <button onClick={() => deletAndUpdate(id)}>

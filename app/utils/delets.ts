@@ -1,7 +1,9 @@
 import { getURL } from "./environment/environment";
+import { ttt } from "./generics";
 import { getItem } from "./storage/localstorage";
 
 export async function deleteBadge(badgeId: any) {
+  console.log("DELETING !!!!!!!!");
   const jwt = getItem("jwt");
   const baseURL = getURL();
   let url = `${baseURL}/badges/${badgeId}`;
@@ -15,8 +17,9 @@ export async function deleteBadge(badgeId: any) {
       },
     });
     if (res.ok) {
-      const data = await res.json();
-      return await data;
+      return res;
+      // const data = await res.json();
+      // return data;
     } else {
       console.error(
         res.status,

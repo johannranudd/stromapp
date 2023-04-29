@@ -26,8 +26,22 @@ interface ContextProps {
   setGroupModalIsOpen: Dispatch<SetStateAction<boolean>>;
   editFlag: boolean;
   setEditFlag: Dispatch<SetStateAction<boolean>>;
-  editId: boolean;
-  setEditId: Dispatch<SetStateAction<boolean>>;
+  editItem: {
+    id: number;
+    name: string;
+    category: string;
+    color: string;
+    kwh: number;
+  };
+  setEditItem: Dispatch<
+    SetStateAction<{
+      id: number;
+      name: string;
+      category: string;
+      color: string;
+      kwh: number;
+    }>
+  >;
 
   windowWidth: number;
   setWindowWidth: Dispatch<SetStateAction<number>>;
@@ -46,8 +60,14 @@ export const GlobalContext = createContext<ContextProps>({
   setGroupModalIsOpen: () => false,
   editFlag: false,
   setEditFlag: () => false,
-  editId: false,
-  setEditId: () => false,
+  editItem: {
+    id: 0,
+    name: "",
+    category: "",
+    color: "",
+    kwh: 0,
+  },
+  setEditItem: () => {},
   windowWidth: 0,
   setWindowWidth: () => {},
 });
@@ -62,7 +82,13 @@ export const GlobalContextProvider = ({
   const [badgeModalIsOpen, setBadgeModalIsOpen] = useState(false);
   const [groupModalIsOpen, setGroupModalIsOpen] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
-  const [editId, setEditId] = useState(false);
+  const [editItem, setEditItem] = useState({
+    id: 0,
+    name: "",
+    category: "",
+    color: "",
+    kwh: 0,
+  });
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // resize
@@ -87,9 +113,9 @@ export const GlobalContextProvider = ({
     redirectToLoginPage(pathname);
   }, [pathname]);
 
-  // useEffect(() => {
-  //   console.log("STATE FROM CONTEXT:: ", state);
-  // }, [state]);
+  useEffect(() => {
+    console.log("STATE FROM CONTEXT:: ", state);
+  }, [state]);
 
   return (
     <GlobalContext.Provider
@@ -104,8 +130,8 @@ export const GlobalContextProvider = ({
         setGroupModalIsOpen,
         editFlag,
         setEditFlag,
-        editId,
-        setEditId,
+        editItem,
+        setEditItem,
         state,
         dispatch,
         windowWidth,

@@ -38,3 +38,18 @@ export function validateBadgeForm(formData: any) {
   }
   return allValid;
 }
+
+export function getUniqueBadgeArray(badges: any) {
+  const uniqueArray = badges.reduce((total: any, current: any) => {
+    if (
+      total.findIndex(
+        (obj: any) =>
+          obj.category === current.category && obj.color === current.color
+      ) === -1
+    ) {
+      total.push(current);
+    }
+    return total;
+  }, []);
+  return uniqueArray;
+}
