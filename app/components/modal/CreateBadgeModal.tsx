@@ -1,6 +1,8 @@
 "use client";
 import { useGlobalContext } from "@/app/context/context";
+import { validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
+import { createBadge } from "@/app/utils/posts";
 import { useState, useEffect } from "react";
 import { CirclePicker } from "react-color";
 //
@@ -9,7 +11,6 @@ import { CirclePicker } from "react-color";
 export default function CreateBadgeModal() {
   const { badgeModalIsOpen, setBadgeModalIsOpen } = useGlobalContext();
   const [user, setUser]: any = useState();
-
   useEffect(() => {
     if (badgeModalIsOpen) {
       fetchUser(setUser);
@@ -31,23 +32,26 @@ export default function CreateBadgeModal() {
   );
 }
 
-function CreateBadgeForm({ badges }: any) {
-  //   console.log(badges);
+function CreateBadgeForm({ id, badges }: any) {
   const [badgeName, setBadgeName] = useState("");
   const [category, setCategory] = useState("");
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState("");
   const [kwh, setKwh] = useState(0);
-  const [uniqueArrayOfBadges, setUniqueArrayOfBadges]: any = useState();
+  const [uniqueArrayOfBadges, setUniqueArrayOfBadges]: any = useState([]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const formData = {
+    const formData: any = {
       badgeName,
       category,
       color,
       kwh,
+      user: id,
     };
-    console.log("Form data:", formData);
+    const isValid = validateBadgeForm(formData);
+    if (isValid) {
+      createBadge(formData);
+    }
   };
 
   const handleColorChange = (color: any) => {
@@ -68,7 +72,6 @@ function CreateBadgeForm({ badges }: any) {
         }
         return total;
       }, []);
-      //   setUniqueArrayOfBadges([]);
       setUniqueArrayOfBadges(uniqueArray);
     }
   }, [badges]);
@@ -151,7 +154,13 @@ function CreateBadgeForm({ badges }: any) {
           type="number"
           id="kwh"
           value={kwh}
-          onChange={(e: any) => setKwh(parseInt(e.target.value, 10))}
+          onChange={(e: any) => {
+            const value = parseFloat(e.target.value);
+            if (!isNaN(value)) {
+              setKwh(value);
+            }
+          }}
+          step="0.1"
           className="text-secondary"
         />
       </div>
