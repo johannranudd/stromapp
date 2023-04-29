@@ -7,47 +7,35 @@ import { useGlobalContext } from "../context/context";
 import CategoriesModal from "../components/modal/CategoriesModal";
 import CreateBadgeModal from "../components/modal/CreateBadgeModal";
 import CreateGroupModal from "../components/modal/CreateGroupModal";
+import { fetcherClient } from "../utils/gets";
 export default function page() {
-  const { state } = useGlobalContext();
+  const {
+    state,
+    modalIsOpen,
+    setModalIsOpen,
+    badgeModalIsOpen,
+    setBadgeModalIsOpen,
+    groupModalIsOpen,
+    setGroupModalIsOpen,
+  } = useGlobalContext();
 
   const [dataFromClient, setDataFromClient] = useState();
-  async function fetcherClient() {
-    console.log("FETCHING !!!!!!!!!!!!!!!!!!!!!!!!!!");
-    const { date, location }: any = state;
-    const res = await fetch("../../../api/prices", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        startDate: date,
-        endDate: date,
-        region: location,
-      }),
-      // body: JSON.stringify({
-      //   startDate: "2023-04-21",
-      //   endDate: "2023-04-21",
-      //   region: 1,
-      // }),
-    });
-    const data = await res.json();
 
-    setDataFromClient(data.data);
-  }
   useEffect(() => {
     const { startFetch }: any = state;
-    if (startFetch) fetcherClient();
+    if (startFetch) fetcherClient(state, setDataFromClient);
   }, [state]);
   useEffect(() => {
-    fetcherClient();
+    fetcherClient(state, setDataFromClient);
   }, []);
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (
     <>
-      <CategoriesModal />
-      <CreateBadgeModal />
-      <CreateGroupModal />
+      {modalIsOpen && <CategoriesModal setDataFromClient={setDataFromClient} />}
+      {badgeModalIsOpen && <CreateBadgeModal />}
+      {groupModalIsOpen && <CreateGroupModal />}
+
       <div>
         <h1 className="py-8 text-center text-2xl">Dashboard</h1>
         <LocationAndDateForm />

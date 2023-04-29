@@ -1,5 +1,48 @@
 import { getURL } from "./environment/environment";
-import { setItem } from "./storage/localstorage";
+import { getItem, setItem } from "./storage/localstorage";
+
+export async function createBadge(formData: any) {
+  const jwt = getItem("jwt");
+  const { id } = getItem("user");
+  const baseURL = getURL();
+  let url = `${baseURL}/badges/`;
+  const { badgeName, category, color, kwh } = formData;
+
+  const formatedFormData = {
+    data: {
+      name: badgeName,
+      category: category,
+      color: color,
+      kwh: kwh,
+      user: id,
+    },
+  };
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(formatedFormData),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return await data;
+    } else {
+      console.error(
+        res.status,
+        "An error occured in puts.ts/login() res not OK"
+      );
+      return await res.json();
+    }
+  } catch (error) {
+    console.log(
+      error,
+      "An error occured in puts.ts/createBadge()/ catch block"
+    );
+  }
+}
 
 export async function login(formData: {
   identifier: string;

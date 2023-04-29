@@ -27,3 +27,14 @@ export function redirectToLoginPage(pathname: string) {
     }
   }
 }
+
+export function validateBadgeForm(formData: any) {
+  let allValid = true;
+  for (const key of Object.keys(formData)) {
+    if (!formData[key]) {
+      allValid = false;
+      console.log("FALSE PROPERY::: ", key);
+    }
+  }
+  return allValid;
+}

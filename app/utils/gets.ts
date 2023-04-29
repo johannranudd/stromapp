@@ -1,3 +1,6 @@
+import { getURL } from "./environment/environment";
+import { getItem } from "./storage/localstorage";
+
 // `https://api.strompriser.no/public/prices?startDate=2023-04-21&endDate=2023-04-21&region=1`;
 export async function getElectricityPrice(
   startDate: string,
@@ -31,4 +34,48 @@ export async function getElectricityPrice(
   } catch (error) {
     console.log(error, "An error occured in gets.ts/getElectricityPrice()");
   }
+}
+
+export async function fetchUser(setUser: any) {
+  const baseURL = getURL();
+  const { id } = getItem("user");
+  try {
+    const res = await fetch(
+      // `${baseURL}/users/${id}?populate=groups&populate=badges`
+      `${baseURL}/users/${id}?populate=groups&populate=badges`
+    );
+    if (res.ok) {
+      const data = await res.json();
+      setUser(data);
+    } else {
+      console.log(
+        res.status,
+        "an error occured in CategoriesModal - fetchUser() res not ok"
+      );
+    }
+  } catch (error) {
+    console.log(
+      error,
+      "an error occured in CategoriesModal - fetchUser() catch block"
+    );
+  }
+}
+
+export async function fetcherClient(state: any, setDataFromClient: any) {
+  console.log("FETCHING !!!!!!!!!!!!!!!!!!!!!!!!!!");
+  const { date, location }: any = state;
+  const res = await fetch("../../../api/prices", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      startDate: date,
+      endDate: date,
+      region: location,
+    }),
+  });
+  const data = await res.json();
+
+  setDataFromClient(data.data);
 }

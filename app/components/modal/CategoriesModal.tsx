@@ -1,11 +1,15 @@
 "use client";
 import { useGlobalContext } from "@/app/context/context";
+import { deleteBadge } from "@/app/utils/delets";
 import { getURL } from "@/app/utils/environment/environment";
+import { fetchUser, fetcherClient } from "@/app/utils/gets";
+import { editBadge } from "@/app/utils/puts";
 import { getItem } from "@/app/utils/storage/localstorage";
 import { useState, useEffect } from "react";
 import {
   AiOutlineDelete,
   AiOutlineEdit,
+  AiOutlineMinusCircle,
   AiOutlinePlusCircle,
 } from "react-icons/ai";
 export default function CategoriesModal() {
@@ -15,43 +19,25 @@ export default function CategoriesModal() {
     setBadgeModalIsOpen,
     setGroupModalIsOpen,
     dispatch,
+    state,
+    editFlag,
+    setEditFlag,
+    setEditId,
   } = useGlobalContext();
   const [user, setUser] = useState();
-  async function fetchUser() {
-    const baseURL = getURL();
-    const { id } = getItem("user");
-    try {
-      const res = await fetch(
-        // `${baseURL}/users/${id}?populate=groups&populate=badges`
-        `${baseURL}/users/${id}?populate=groups&populate=badges`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data);
-      } else {
-        console.log(
-          res.status,
-          "an error occured in CategoriesModal - fetchUser() res not ok"
-        );
-      }
-    } catch (error) {
-      console.log(
-        error,
-        "an error occured in CategoriesModal - fetchUser() catch block"
-      );
-    }
-  }
-
   useEffect(() => {
-    if (modalIsOpen) fetchUser();
+    if (modalIsOpen) fetchUser(setUser);
   }, [modalIsOpen]);
 
-  // let isEmpty = true;
-  // if (badges.length === 0 && groups.length === 0) {
-  //   isEmpty = true;
-  // } else {
-  //   isEmpty = false;
-  // }
+  useEffect(() => {
+    if (modalIsOpen) fetchUser(setUser);
+  }, [state]);
+
+  function handleCreateBadge() {
+    setEditFlag(false);
+    setBadgeModalIsOpen(true);
+  }
+
   if (!modalIsOpen) return null;
 
   return (
@@ -63,16 +49,20 @@ export default function CategoriesModal() {
         </div>
         <div className="h-full p-4 bg-[#def]">
           {user ? (
-            <ListOfGroupsAndBadges user={user} dispatch={dispatch} />
+            <ListOfGroupsAndBadges
+              user={user}
+              dispatch={dispatch}
+              state={state}
+              setEditFlag={setEditFlag}
+              setBadgeModalIsOpen={setBadgeModalIsOpen}
+              setEditId={setEditId}
+            />
           ) : (
             <div>Loading...</div>
           )}
         </div>
         <div className="p-3 flex rounded-full justify-between bg-secondary text-primary">
-          <button
-            onClick={() => setBadgeModalIsOpen(true)}
-            className="bg-green-500 p-2 mx-2"
-          >
+          <button onClick={handleCreateBadge} className="bg-green-500 p-2 mx-2">
             Create Badge +
           </button>
           <button
@@ -87,29 +77,68 @@ export default function CategoriesModal() {
   );
 }
 
-function ListOfGroupsAndBadges({ user, dispatch }: any) {
+function ListOfGroupsAndBadges({
+  user,
+  dispatch,
+  state,
+  setEditFlag,
+  setBadgeModalIsOpen,
+  setEditId,
+}: any) {
   const { groups, badges } = user;
 
   if (badges.length === 0 && groups.length === 0)
     return (
       <div>You have 0 badges, create badges and organize them into groups</div>
     );
-  // if (!categories) return <div>Loading...</div>;
   return (
     <div>
-      <Badges badges={badges} dispatch={dispatch} />
+      <Badges
+        badges={badges}
+        dispatch={dispatch}
+        state={state}
+        setEditFlag={setEditFlag}
+        setBadgeModalIsOpen={setBadgeModalIsOpen}
+        setEditId={setEditId}
+      />
       <Groups groups={groups} />
     </div>
   );
 }
 
-function Badges({ badges, dispatch }: any) {
+function Badges({
+  badges,
+  dispatch,
+  state,
+  setEditFlag,
+  setBadgeModalIsOpen,
+  setEditId,
+}: any) {
+  function deletAndUpdate(id: number) {
+    deleteBadge(id);
+    dispatch({ type: "START_FETCH", payload: true });
+  }
+  function allowEditing(id: number) {
+    setEditId(id);
+    setEditFlag(true);
+    setBadgeModalIsOpen(true);
+    // editBadge(id, );
+    // dispatch({ type: "START_FETCH", payload: true });
+  }
+
   return (
     <ul className="grid grid-cols-2 gap-2">
       {badges.map((badge: any) => {
         const { id, name, kwh, categories, color, category } = badge;
+        const hasBadgeId = state.totalKWHArray.some(
+          (item: any) => item.id === id
+        );
         return (
-          <li key={id} style={{ backgroundColor: `${color}` }} className="p-2">
+          <li
+            key={id}
+            style={{ backgroundColor: `${color}` }}
+            className={`p-2 ${hasBadgeId && "border-8 border-green-500"}`}
+          >
             <div>
               <p>{name}</p>
               <p>{kwh} kwh</p>
@@ -119,17 +148,23 @@ function Badges({ badges, dispatch }: any) {
               <button
                 onClick={() =>
                   dispatch({
-                    type: "ADD_TO_ARRAY",
-                    payload: { name, value: kwh, color, category },
+                    type: `${
+                      !hasBadgeId ? "ADD_TO_ARRAY" : "REMOVE_FROM_ARRAY"
+                    }`,
+                    payload: { name, value: kwh, color, category, id },
                   })
                 }
               >
-                <AiOutlinePlusCircle />
+                {hasBadgeId ? (
+                  <AiOutlineMinusCircle />
+                ) : (
+                  <AiOutlinePlusCircle />
+                )}
               </button>
-              <button>
+              <button onClick={() => allowEditing(id)}>
                 <AiOutlineEdit />
               </button>
-              <button>
+              <button onClick={() => deletAndUpdate(id)}>
                 <AiOutlineDelete />
               </button>
             </div>
