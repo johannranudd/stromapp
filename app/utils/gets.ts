@@ -37,6 +37,7 @@ export async function getElectricityPrice(
 }
 
 export async function fetchUser(setUser: any) {
+  console.log("FETCHING USER !!!!!!!!!!!!!!!!!!!!!!!!!!");
   const baseURL = getURL();
   const { id } = getItem("user");
   try {
@@ -62,7 +63,7 @@ export async function fetchUser(setUser: any) {
 }
 
 export async function fetcherClient(state: any, setDataFromClient: any) {
-  console.log("FETCHING !!!!!!!!!!!!!!!!!!!!!!!!!!");
+  console.log("FETCHING CLIENT PRICES API !!!!!!!!!!!!!!!!!!!!!!!!!!");
   const { date, location }: any = state;
   const res = await fetch("../../../api/prices", {
     method: "POST",

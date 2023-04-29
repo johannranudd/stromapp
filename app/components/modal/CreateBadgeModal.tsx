@@ -1,6 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/app/context/context";
-import { validateBadgeForm } from "@/app/utils/generics";
+import { getUniqueBadgeArray, validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
 import { createBadge } from "@/app/utils/posts";
 import { editBadge } from "@/app/utils/puts";
@@ -27,7 +27,9 @@ export default function CreateBadgeModal() {
   }, [badgeModalIsOpen]);
 
   useEffect(() => {
-    if (badgeModalIsOpen) fetchUser(setUser);
+    // const { startFetch }: any = state;
+    // if (startFetch)
+    fetchUser(setUser);
   }, [state]);
 
   //   console.log(user);
@@ -68,7 +70,7 @@ function CreateBadgeForm({
   const [kwh, setKwh] = useState(0);
   const [uniqueArrayOfBadges, setUniqueArrayOfBadges]: any = useState([]);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const formData: any = {
       badgeName,
@@ -79,18 +81,19 @@ function CreateBadgeForm({
     };
     const isValid = validateBadgeForm(formData);
     if (isValid && !editFlag) {
-      createBadge(formData);
-      setBadgeModalIsOpen(false);
-      dispatch({ type: "START_FETCH", payload: true });
+      await createBadge(formData);
+      await setBadgeModalIsOpen(false);
+      await dispatch({ type: "START_FETCH", payload: true });
     } else if (isValid && editFlag) {
       //   console.log(editId);
-      editBadge(formData, editId);
-      dispatch({ type: "START_FETCH", payload: true });
-      setEditFlag(false);
-      setBadgeModalIsOpen(false);
+      await editBadge(formData, editId);
+      await dispatch({ type: "START_FETCH", payload: true });
+      await setEditFlag(false);
+      await setBadgeModalIsOpen(false);
       //   setBadgeModalIsOpen(false);
       //   console.log("EDITING");
     }
+    // dispatch({ type: "START_FETCH", payload: true });
   };
 
   const handleColorChange = (color: any) => {
@@ -100,17 +103,7 @@ function CreateBadgeForm({
   useEffect(() => {
     if (!badges || badges.length === 0) {
     } else {
-      const uniqueArray = badges.reduce((total: any, current: any) => {
-        if (
-          total.findIndex(
-            (obj: any) =>
-              obj.category === current.category && obj.color === current.color
-          ) === -1
-        ) {
-          total.push(current);
-        }
-        return total;
-      }, []);
+      const uniqueArray = getUniqueBadgeArray(badges);
       setUniqueArrayOfBadges(uniqueArray);
     }
   }, [badges]);

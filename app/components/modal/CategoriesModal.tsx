@@ -30,7 +30,7 @@ export default function CategoriesModal() {
   }, [modalIsOpen]);
 
   useEffect(() => {
-    if (modalIsOpen) fetchUser(setUser);
+    fetchUser(setUser);
   }, [state]);
 
   function handleCreateBadge() {
@@ -114,20 +114,21 @@ function Badges({
   setBadgeModalIsOpen,
   setEditId,
 }: any) {
-  function deletAndUpdate(id: number) {
-    deleteBadge(id);
-    dispatch({ type: "START_FETCH", payload: true });
+  async function deletAndUpdate(id: number) {
+    await deleteBadge(id);
+    await dispatch({ type: "START_FETCH", payload: true });
   }
-  function allowEditing(id: number) {
-    setEditId(id);
-    setEditFlag(true);
-    setBadgeModalIsOpen(true);
+  async function allowEditing(id: number) {
+    await setEditId(id);
+    await setEditFlag(true);
+    await setBadgeModalIsOpen(true);
     // editBadge(id, );
     // dispatch({ type: "START_FETCH", payload: true });
   }
 
   return (
     <ul className="grid grid-cols-2 gap-2">
+      {/* <button onClick={() => handleTest()}>TEST</button> */}
       {badges.map((badge: any) => {
         const { id, name, kwh, categories, color, category } = badge;
         const hasBadgeId = state.totalKWHArray.some(
