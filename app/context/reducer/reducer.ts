@@ -95,6 +95,11 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
         ...state,
         totalKWHArray: filter,
       };
+    case "ALLOW_EDITING":
+      console.log(action.payload);
+      return {
+        ...state,
+      };
 
     default: {
       return state;

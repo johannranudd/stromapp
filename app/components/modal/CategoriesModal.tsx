@@ -3,6 +3,7 @@ import { useGlobalContext } from "@/app/context/context";
 import { deleteBadge } from "@/app/utils/delets";
 import { getURL } from "@/app/utils/environment/environment";
 import { fetchUser, fetcherClient } from "@/app/utils/gets";
+import { editBadge } from "@/app/utils/puts";
 import { getItem } from "@/app/utils/storage/localstorage";
 import { useState, useEffect } from "react";
 import {
@@ -11,7 +12,7 @@ import {
   AiOutlineMinusCircle,
   AiOutlinePlusCircle,
 } from "react-icons/ai";
-export default function CategoriesModal({ setDataFromClient }: any) {
+export default function CategoriesModal() {
   const {
     modalIsOpen,
     setModalIsOpen,
@@ -19,6 +20,9 @@ export default function CategoriesModal({ setDataFromClient }: any) {
     setGroupModalIsOpen,
     dispatch,
     state,
+    editFlag,
+    setEditFlag,
+    setEditId,
   } = useGlobalContext();
   const [user, setUser] = useState();
   useEffect(() => {
@@ -28,6 +32,11 @@ export default function CategoriesModal({ setDataFromClient }: any) {
   useEffect(() => {
     if (modalIsOpen) fetchUser(setUser);
   }, [state]);
+
+  function handleCreateBadge() {
+    setEditFlag(false);
+    setBadgeModalIsOpen(true);
+  }
 
   if (!modalIsOpen) return null;
 
@@ -44,18 +53,16 @@ export default function CategoriesModal({ setDataFromClient }: any) {
               user={user}
               dispatch={dispatch}
               state={state}
-              setDataFromClient={setDataFromClient}
-              setUser={setUser}
+              setEditFlag={setEditFlag}
+              setBadgeModalIsOpen={setBadgeModalIsOpen}
+              setEditId={setEditId}
             />
           ) : (
             <div>Loading...</div>
           )}
         </div>
         <div className="p-3 flex rounded-full justify-between bg-secondary text-primary">
-          <button
-            onClick={() => setBadgeModalIsOpen(true)}
-            className="bg-green-500 p-2 mx-2"
-          >
+          <button onClick={handleCreateBadge} className="bg-green-500 p-2 mx-2">
             Create Badge +
           </button>
           <button
@@ -74,8 +81,9 @@ function ListOfGroupsAndBadges({
   user,
   dispatch,
   state,
-  setDataFromClient,
-  setUser,
+  setEditFlag,
+  setBadgeModalIsOpen,
+  setEditId,
 }: any) {
   const { groups, badges } = user;
 
@@ -89,23 +97,34 @@ function ListOfGroupsAndBadges({
         badges={badges}
         dispatch={dispatch}
         state={state}
-        setDataFromClient={setDataFromClient}
-        setUser={setUser}
+        setEditFlag={setEditFlag}
+        setBadgeModalIsOpen={setBadgeModalIsOpen}
+        setEditId={setEditId}
       />
       <Groups groups={groups} />
     </div>
   );
 }
 
-function Badges({ badges, dispatch, state, setDataFromClient, setUser }: any) {
+function Badges({
+  badges,
+  dispatch,
+  state,
+  setEditFlag,
+  setBadgeModalIsOpen,
+  setEditId,
+}: any) {
   function deletAndUpdate(id: number) {
     deleteBadge(id);
     dispatch({ type: "START_FETCH", payload: true });
   }
-
-  // useEffect(() => {
-  //   console.log("change in badge");
-  // }, [badges]);
+  function allowEditing(id: number) {
+    setEditId(id);
+    setEditFlag(true);
+    setBadgeModalIsOpen(true);
+    // editBadge(id, );
+    // dispatch({ type: "START_FETCH", payload: true });
+  }
 
   return (
     <ul className="grid grid-cols-2 gap-2">
@@ -142,7 +161,7 @@ function Badges({ badges, dispatch, state, setDataFromClient, setUser }: any) {
                   <AiOutlinePlusCircle />
                 )}
               </button>
-              <button>
+              <button onClick={() => allowEditing(id)}>
                 <AiOutlineEdit />
               </button>
               <button onClick={() => deletAndUpdate(id)}>

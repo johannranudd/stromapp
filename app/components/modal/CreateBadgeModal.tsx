@@ -3,14 +3,22 @@ import { useGlobalContext } from "@/app/context/context";
 import { validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
 import { createBadge } from "@/app/utils/posts";
+import { editBadge } from "@/app/utils/puts";
 import { useState, useEffect } from "react";
 import { CirclePicker } from "react-color";
 //
 //
 //
 export default function CreateBadgeModal() {
-  const { badgeModalIsOpen, setBadgeModalIsOpen, dispatch, state } =
-    useGlobalContext();
+  const {
+    badgeModalIsOpen,
+    setBadgeModalIsOpen,
+    dispatch,
+    state,
+    editFlag,
+    setEditFlag,
+    editId,
+  } = useGlobalContext();
   const [user, setUser]: any = useState();
   useEffect(() => {
     if (badgeModalIsOpen) {
@@ -29,20 +37,31 @@ export default function CreateBadgeModal() {
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-50">
       <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary dark:bg-primary">
         <div className="p-4 flex rounded-full justify-between bg-secondary text-primary">
-          <h2>Create Badge</h2>
+          {editFlag ? <h2>Edit Badge</h2> : <h2>Create Badge</h2>}
           <button onClick={() => setBadgeModalIsOpen(false)}>X</button>
         </div>
         <CreateBadgeForm
           {...user}
           setBadgeModalIsOpen={setBadgeModalIsOpen}
           dispatch={dispatch}
+          editFlag={editFlag}
+          setEditFlag={setEditFlag}
+          editId={editId}
         />
       </div>
     </div>
   );
 }
 
-function CreateBadgeForm({ id, badges, setBadgeModalIsOpen, dispatch }: any) {
+function CreateBadgeForm({
+  id,
+  badges,
+  setBadgeModalIsOpen,
+  dispatch,
+  editFlag,
+  editId,
+  setEditFlag,
+}: any) {
   const [badgeName, setBadgeName] = useState("");
   const [category, setCategory] = useState("");
   const [color, setColor] = useState("");
@@ -59,10 +78,18 @@ function CreateBadgeForm({ id, badges, setBadgeModalIsOpen, dispatch }: any) {
       user: id,
     };
     const isValid = validateBadgeForm(formData);
-    if (isValid) {
+    if (isValid && !editFlag) {
       createBadge(formData);
       setBadgeModalIsOpen(false);
       dispatch({ type: "START_FETCH", payload: true });
+    } else if (isValid && editFlag) {
+      //   console.log(editId);
+      editBadge(formData, editId);
+      dispatch({ type: "START_FETCH", payload: true });
+      setEditFlag(false);
+      setBadgeModalIsOpen(false);
+      //   setBadgeModalIsOpen(false);
+      //   console.log("EDITING");
     }
   };
 
