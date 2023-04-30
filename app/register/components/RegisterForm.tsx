@@ -2,22 +2,35 @@
 import { registerUser } from "@/app/utils/posts";
 import Link from "next/link";
 import { useState } from "react";
+import { validateRegisterForm } from "@/app/utils/generics";
+
 export default function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const formData = {
-      username: name,
-      email: email,
-      password: password,
-      address: address,
-    };
-    console.log(formData);
-    formData && registerUser(formData);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    const phoneRegex = /^\+?[0-9]\d{1,20}$/;
+    const trimmedPhoneNumber = phoneNumber.replace(/\s+/g, "");
+    const result = trimmedPhoneNumber.match(phoneRegex);
+    if (result) {
+      console.log("Phone number matches the regex pattern");
+      const formData = {
+        username: name,
+        email: email,
+        password: password,
+        address: address,
+        phoneNumber: trimmedPhoneNumber,
+      };
+      const isValid = validateRegisterForm(formData);
+      isValid && registerUser(formData);
+    } else {
+      console.log("Phone number does not match the regex pattern");
+    }
   };
 
   return (
@@ -32,7 +45,7 @@ export default function RegisterForm() {
           id="name"
           name="name"
           value={name}
-          onChange={(event) => setName(event.target.value)}
+          onChange={(e) => setName(e.target.value)}
           required
         />
 
@@ -42,7 +55,7 @@ export default function RegisterForm() {
           id="email"
           name="email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -52,7 +65,7 @@ export default function RegisterForm() {
           id="password"
           name="password"
           value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
 
@@ -62,7 +75,16 @@ export default function RegisterForm() {
           id="address"
           name="address"
           value={address}
-          onChange={(event) => setAddress(event.target.value)}
+          onChange={(e) => setAddress(e.target.value)}
+          required
+        />
+        <label htmlFor="phoneNumber">phone Number:</label>
+        <input
+          type="text"
+          id="phoneNumber"
+          name="phoneNumber"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
           required
         />
 

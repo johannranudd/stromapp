@@ -38,6 +38,16 @@ export function validateBadgeForm(formData: any) {
   }
   return allValid;
 }
+export function validateRegisterForm(formData: any) {
+  let allValid = true;
+  for (const key of Object.keys(formData)) {
+    if (!formData[key]) {
+      allValid = false;
+      console.log("FALSE PROPERY::: ", key);
+    }
+  }
+  return allValid;
+}
 
 export function getUniqueBadgeArray(badges: any) {
   const uniqueArray = badges.reduce((total: any, current: any) => {
