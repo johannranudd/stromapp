@@ -103,9 +103,9 @@ export async function login(formData: {
     });
     if (res.ok) {
       const data = await res.json();
-      const { id, username, email } = data.user;
+      const { id, username, email, address, phoneNumber } = data.user;
       await setItem("jwt", data.jwt);
-      await setItem("user", { id, username, email });
+      await setItem("user", { id, username, email, address, phoneNumber });
       window.location.href = "../dashboard/";
       return data;
     } else {
@@ -125,6 +125,7 @@ export async function registerUser(formData: {
   email: string;
   password: string;
   address: string;
+  phoneNumber: string;
 }) {
   const baseURL = getURL();
   const url = `${baseURL}/auth/local/register`;
@@ -138,9 +139,9 @@ export async function registerUser(formData: {
     });
     if (res.ok) {
       const data = await res.json();
-      const { id, username, email } = data.user;
+      const { id, username, email, address, phoneNumber } = data.user;
       await setItem("jwt", data.jwt);
-      await setItem("user", { id, username, email });
+      await setItem("user", { id, username, email, address, phoneNumber });
       window.location.href = "../dashboard/";
       return data;
     } else {
