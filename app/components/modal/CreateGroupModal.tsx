@@ -166,7 +166,7 @@ function CreateGroupForm({
         />
       </div>
       <div className="flex flex-col text-primary">
-        <p>{kwh} kwh</p>
+        <p>{kwh.toFixed(1)} kwh</p>
       </div>
 
       <button type="submit">Submit</button>

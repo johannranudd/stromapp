@@ -33,7 +33,12 @@ export default function page() {
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (
-    <>
+    <div
+      className={`${
+        modalIsOpen &&
+        "absolute top-0 overflow-hidden max-h-screen scrollbar-hide w-screen"
+      }`}
+    >
       {modalIsOpen && <CategoriesModal />}
       {badgeModalIsOpen && <CreateBadgeModal />}
       {groupModalIsOpen && <CreateGroupModal />}
@@ -46,7 +51,7 @@ export default function page() {
           <AreaChartDashboard dataFromClient={dataFromClient} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

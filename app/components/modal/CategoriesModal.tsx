@@ -1,10 +1,8 @@
 "use client";
 import { useGlobalContext } from "@/app/context/context";
 import { deleteItem } from "@/app/utils/delets";
-import { getURL } from "@/app/utils/environment/environment";
-import { fetchGroups, fetchUser, fetcherClient } from "@/app/utils/gets";
-import { editBadge } from "@/app/utils/puts";
-import { getItem } from "@/app/utils/storage/localstorage";
+import { sortByLocalCategory, sortByLocalName } from "@/app/utils/generics";
+import { fetchGroups, fetchUser } from "@/app/utils/gets";
 import { useState, useEffect } from "react";
 import {
   AiOutlineDelete,
@@ -20,7 +18,6 @@ export default function CategoriesModal() {
     setGroupModalIsOpen,
     dispatch,
     state,
-    editFlag,
     setEditFlag,
     setEditItem,
   } = useGlobalContext();
@@ -56,16 +53,29 @@ export default function CategoriesModal() {
     setGroupModalIsOpen(true);
   }
 
+  // const [sortOrder, setSortOrder] = useState("asc");
+  const [activeToggle, setActiveToggle] = useState("all");
+
+  const handleToggleChange = (toggleName: any) => {
+    setActiveToggle((prevToggle: any) =>
+      prevToggle === toggleName ? "all" : toggleName
+    );
+  };
+
   if (!modalIsOpen) return null;
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000a7] z-50">
-      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-screen-md flex flex-col justify-between rounded-[35px] bg-primary dark:bg-secondary">
+      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-screen-md flex flex-col justify-between rounded-[35px] bg-primary dark:bg-secondary ">
         <div className="p-4 flex rounded-full justify-between bg-secondary text-primary">
           <h2>Your groups and badges</h2>
           <button onClick={() => setModalIsOpen(false)}>X</button>
         </div>
-        <div className="h-full p-4 bg-[#def]">
+        <ToggleButtons
+          activeToggle={activeToggle}
+          handleToggleChange={handleToggleChange}
+        />
+        <div className="h-full p-4 bg-[#def] overflow-y-scroll">
           {user ? (
             <ListOfGroupsAndBadges
               user={user}
@@ -75,6 +85,7 @@ export default function CategoriesModal() {
               setBadgeModalIsOpen={setBadgeModalIsOpen}
               setGroupModalIsOpen={setGroupModalIsOpen}
               setEditItem={setEditItem}
+              activeToggle={activeToggle}
             />
           ) : (
             <div>Loading...</div>
@@ -93,6 +104,46 @@ export default function CategoriesModal() {
   );
 }
 
+function ToggleButtons({ activeToggle, handleToggleChange }: any) {
+  return (
+    <div className="flex justify-between p-4">
+      <div>
+        <h4>Groups</h4>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={activeToggle === "groups"}
+            onChange={() => handleToggleChange("groups")}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      <div>
+        <h4>Badges</h4>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={activeToggle === "badges"}
+            onChange={() => handleToggleChange("badges")}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      <div>
+        <h4>All</h4>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={activeToggle === "all"}
+            onChange={() => handleToggleChange("all")}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+    </div>
+  );
+}
+
 function ListOfGroupsAndBadges({
   user,
   dispatch,
@@ -101,6 +152,7 @@ function ListOfGroupsAndBadges({
   setBadgeModalIsOpen,
   setGroupModalIsOpen,
   setEditItem,
+  activeToggle,
 }: any) {
   const { groups, badges } = user;
 
@@ -110,22 +162,26 @@ function ListOfGroupsAndBadges({
     );
   return (
     <div>
-      <Badges
-        {...user}
-        dispatch={dispatch}
-        state={state}
-        setEditFlag={setEditFlag}
-        setBadgeModalIsOpen={setBadgeModalIsOpen}
-        setEditItem={setEditItem}
-      />
-      <Groups
-        {...user}
-        dispatch={dispatch}
-        state={state}
-        setEditFlag={setEditFlag}
-        setGroupModalIsOpen={setGroupModalIsOpen}
-        setEditItem={setEditItem}
-      />
+      {(activeToggle === "all" || activeToggle === "groups") && (
+        <Groups
+          {...user}
+          dispatch={dispatch}
+          state={state}
+          setEditFlag={setEditFlag}
+          setGroupModalIsOpen={setGroupModalIsOpen}
+          setEditItem={setEditItem}
+        />
+      )}
+      {(activeToggle === "all" || activeToggle === "badges") && (
+        <Badges
+          {...user}
+          dispatch={dispatch}
+          state={state}
+          setEditFlag={setEditFlag}
+          setBadgeModalIsOpen={setBadgeModalIsOpen}
+          setEditItem={setEditItem}
+        />
+      )}
     </div>
   );
 }
@@ -152,16 +208,26 @@ function Badges({
     await setEditFlag(true);
     await setBadgeModalIsOpen(true);
   }
+  const sortedBadges = sortByLocalCategory(badges);
 
+  if (badges.length === 0)
+    return (
+      <div>
+        <h2 className="text-center font-bold mb-4">Badges</h2>
+        <p>You have 0 Badges, click create badge</p>
+      </div>
+    );
   return (
     <>
-      <h2>Badges</h2>
-      <ul className="grid grid-cols-2 gap-2 mb-2">
-        {badges.map((badge: any) => {
+      <h2 className="text-center font-bold mb-4">Badges</h2>
+      <ul className="grid grid-cols-2 gap-2">
+        {sortedBadges.map((badge: any) => {
           const { id, name, kwh, categories, color, category } = badge;
           const hasBadgeId = state.totalKWHArray.some(
             (item: any) => item.id === id
           );
+          const kwhToString = kwh.toString();
+          // console.log(kwhToString.toFixed(1));
           return (
             <li
               key={id}
@@ -170,7 +236,7 @@ function Badges({
             >
               <div>
                 <p>{name}</p>
-                <p>{kwh} kwh</p>
+                <p>{kwh.toFixed(1)} kwh</p>
               </div>
               <p>{category}</p>
               <div className="flex justify-between">
@@ -225,7 +291,6 @@ function Groups({
   setEditItem,
 }: any) {
   const [fetchedGroups, setFetchedGroups]: any = useState();
-  // console.log(badges);
 
   useEffect(() => {
     fetchGroups(setFetchedGroups);
@@ -242,28 +307,33 @@ function Groups({
   }
 
   async function allowEditing(group: any) {
-    // console.log(group);
     await setEditItem(group);
     await setEditFlag(true);
     await setGroupModalIsOpen(true);
   }
-  if (!groups) return null;
-  if (groups && groups.length === 0) return null;
+
+  const sortedGroups = sortByLocalName(groups);
+  if (groups.length === 0)
+    return (
+      <div>
+        <h2 className="text-center font-bold mb-4">Groups</h2>
+        <p>You have 0 Groups, click create group</p>
+      </div>
+    );
   return (
     <>
-      <h2>Groups</h2>
-      <ul className="grid grid-cols-2 gap-2 mb-2">
-        {groups?.map((group: any) => {
+      <h2 className="text-center font-bold mb-4">Groups</h2>
+      <ul className="grid grid-cols-2 gap-2 mb-4">
+        {sortedGroups?.map((group: any) => {
           const { id, name, kwh, categories, color, category } = group;
           const hasGroupId = state.totalKWHArray.some(
             (item: any) => item.id === id
           );
-          const filter = fetchedGroups?.data.filter(
-            (item: any) => item.id === id
-          );
-          const amountOfGroups =
-            filter && filter[0].attributes.badges.data.length + 1;
+          const filterGroups =
+            fetchedGroups?.data?.filter?.((item: any) => item.id === id) || [];
 
+          const amountOfGroups =
+            (filterGroups[0]?.attributes?.badges?.data?.length || 0) + 1;
           return (
             <li
               key={id}
@@ -272,7 +342,7 @@ function Groups({
             >
               <div>
                 <p>{name}</p>
-                <p>{kwh} kwh</p>
+                <p>{kwh.toFixed(1)} kwh</p>
                 <p>
                   {amountOfGroups === 1
                     ? `${amountOfGroups} group`
