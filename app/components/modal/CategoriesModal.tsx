@@ -44,6 +44,17 @@ export default function CategoriesModal() {
     setEditFlag(false);
     setBadgeModalIsOpen(true);
   }
+  function handleCreateGroup() {
+    setEditItem({
+      id: 0,
+      name: "",
+      category: "",
+      color: "",
+      kwh: 0,
+    });
+    setEditFlag(false);
+    setGroupModalIsOpen(true);
+  }
 
   if (!modalIsOpen) return null;
 
@@ -73,10 +84,7 @@ export default function CategoriesModal() {
           <button onClick={handleCreateBadge} className="bg-green-500 p-2 mx-2">
             Create Badge +
           </button>
-          <button
-            onClick={() => setGroupModalIsOpen(true)}
-            className="bg-green-500 p-2 mx-2"
-          >
+          <button onClick={handleCreateGroup} className="bg-green-500 p-2 mx-2">
             Create Group +
           </button>
         </div>
@@ -213,7 +221,7 @@ function Groups({
   dispatch,
   state,
   setEditFlag,
-  setBadgeModalIsOpen,
+  setGroupModalIsOpen,
   setEditItem,
 }: any) {
   const [fetchedGroups, setFetchedGroups]: any = useState();
@@ -233,81 +241,82 @@ function Groups({
     await dispatch({ type: "START_FETCH", payload: true });
   }
 
-  //  async function allowEditing(badge: any) {
-  //    await setEditItem(badge);
-  //    await setEditFlag(true);
-  //    await setBadgeModalIsOpen(true);
-  //  }
+  async function allowEditing(group: any) {
+    // console.log(group);
+    await setEditItem(group);
+    await setEditFlag(true);
+    await setGroupModalIsOpen(true);
+  }
   if (!groups) return null;
   if (groups && groups.length === 0) return null;
   return (
     <>
       <h2>Groups</h2>
       <ul className="grid grid-cols-2 gap-2 mb-2">
-        {groups.length !== 0 &&
-          groups?.map((group: any) => {
-            const { id, name, kwh, categories, color, category } = group;
-            const hasGroupId = state.totalKWHArray.some(
-              (item: any) => item.id === id
-            );
-            const filter = fetchedGroups?.data.filter(
-              (item: any) => item.id === id
-            );
-            const amountOfGroups = filter[0].attributes.badges.data.length + 1;
+        {groups?.map((group: any) => {
+          const { id, name, kwh, categories, color, category } = group;
+          const hasGroupId = state.totalKWHArray.some(
+            (item: any) => item.id === id
+          );
+          const filter = fetchedGroups?.data.filter(
+            (item: any) => item.id === id
+          );
+          const amountOfGroups =
+            filter && filter[0].attributes.badges.data.length + 1;
 
-            return (
-              <li
-                key={id}
-                style={{ backgroundColor: `${color}` }}
-                className={`p-2 ${hasGroupId && "border-8 border-green-500"}`}
-              >
-                <div>
-                  <p>{name}</p>
-                  <p>{kwh} kwh</p>
-                  <p>
-                    {amountOfGroups === 1
-                      ? `${amountOfGroups} group`
-                      : `${amountOfGroups} groups`}{" "}
-                  </p>
-                </div>
-                <p>{category}</p>
-                <div className="flex justify-between">
-                  <button
-                    onClick={() =>
-                      dispatch({
-                        type: `${
-                          !hasGroupId ? "ADD_TO_ARRAY" : "REMOVE_FROM_ARRAY"
-                        }`,
-                        payload: { name, value: kwh, color, id },
-                      })
-                    }
-                  >
-                    {hasGroupId ? (
-                      <AiOutlineMinusCircle />
-                    ) : (
-                      <AiOutlinePlusCircle />
-                    )}
-                  </button>
-                  <button
-                  // onClick={() =>
-                  //   allowEditing({
-                  //     id,
-                  //     name,
-                  //     category,
-                  //     color,
-                  //     kwh,
-                  //   })
-                  // }
-                  >
-                    <AiOutlineEdit />
-                  </button>
-                  <button onClick={() => deleteAndUpdate(group)}>
-                    <AiOutlineDelete />
-                  </button>
-                </div>
-              </li>
-            );
-          })}
+          return (
+            <li
+              key={id}
+              style={{ backgroundColor: `${color}` }}
+              className={`p-2 ${hasGroupId && "border-8 border-green-500"}`}
+            >
+              <div>
+                <p>{name}</p>
+                <p>{kwh} kwh</p>
+                <p>
+                  {amountOfGroups === 1
+                    ? `${amountOfGroups} group`
+                    : `${amountOfGroups} groups`}
+                </p>
+              </div>
+              <p>{category}</p>
+              <div className="flex justify-between">
+                <button
+                  onClick={() =>
+                    dispatch({
+                      type: `${
+                        !hasGroupId ? "ADD_TO_ARRAY" : "REMOVE_FROM_ARRAY"
+                      }`,
+                      payload: { name, value: kwh, color, id },
+                    })
+                  }
+                >
+                  {hasGroupId ? (
+                    <AiOutlineMinusCircle />
+                  ) : (
+                    <AiOutlinePlusCircle />
+                  )}
+                </button>
+                <button
+                  onClick={() =>
+                    allowEditing({
+                      id,
+                      name,
+                      color,
+                      amountOfGroups,
+                      kwh,
+                    })
+                  }
+                >
+                  <AiOutlineEdit />
+                </button>
+                <button onClick={() => deleteAndUpdate(group)}>
+                  <AiOutlineDelete />
+                </button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </>
   );
