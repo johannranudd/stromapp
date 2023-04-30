@@ -15,6 +15,13 @@ export default function DesktopMenu() {
         <span className="h-[2px] w-0 group-hover:w-full duration-300 bg-thirdClrDark dark:bg-thirdClr"></span>
       </Link>
       <Link
+        href={"/profile"}
+        className="group flex flex-col items-center w-[70px]"
+      >
+        Profile
+        <span className="h-[2px] w-0 group-hover:w-full duration-300 bg-thirdClrDark dark:bg-thirdClr"></span>
+      </Link>
+      <Link
         href={"/login"}
         className="group flex flex-col items-center w-[70px]"
       >
