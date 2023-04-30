@@ -53,3 +53,24 @@ export function getUniqueBadgeArray(badges: any) {
   }, []);
   return uniqueArray;
 }
+
+export function sortByLocalCategory(badges: any) {
+  interface Badge {
+    category: string;
+  }
+  const newArr = badges.slice();
+  const sortedBadges = newArr.sort((a: Badge, b: Badge) => {
+    return a.category.localeCompare(b.category, "nb-NO");
+  });
+  return sortedBadges;
+}
+export function sortByLocalName(groups: any) {
+  interface Group {
+    name: string;
+  }
+  const newArr = groups.slice();
+  const sortedBadges = newArr.sort((a: Group, b: Group) => {
+    return a.name.localeCompare(b.name, "nb-NO");
+  });
+  return sortedBadges;
+}

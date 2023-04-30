@@ -3,6 +3,7 @@ import { useGlobalContext } from "@/app/context/context";
 import { validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
 import { createGroup } from "@/app/utils/posts";
+import { editGroup } from "@/app/utils/puts";
 import { useEffect, useState } from "react";
 import { CirclePicker } from "react-color";
 
@@ -32,7 +33,7 @@ export default function CreateBadgeModal() {
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-50">
       <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary dark:bg-primary">
         <div className="p-4 flex rounded-full justify-between bg-secondary text-primary">
-          {editFlag ? <h2>Edit Badge</h2> : <h2>Create Group</h2>}
+          {editFlag ? <h2>Edit Group</h2> : <h2>Create Group</h2>}
           <button onClick={() => setGroupModalIsOpen(false)}>X</button>
         </div>
         <CreateGroupForm
@@ -58,11 +59,8 @@ function CreateGroupForm({
   setEditFlag,
 }: any) {
   const [groupName, setGroupName] = useState("");
-  // const [badgeList, setBadgeList]: any = useState([]);
-  // const [selectedBadge, setSelectedBadge]: any = useState("");
   const [color, setColor] = useState("");
   const [kwh, setKwh] = useState<number>(0);
-  const [uniqueArrayOfBadges, setUniqueArrayOfBadges]: any = useState([]);
   const [selectedBadges, setSelectedBadges] = useState([]);
 
   const handleBadgeSelection = (e: any) => {
@@ -94,9 +92,8 @@ function CreateGroupForm({
       selectedBadges,
       color,
       kwh,
-      user: id,
+      // user: id,
     };
-    // console.log(formData);
     const isValid = validateBadgeForm(formData);
 
     if (isValid && !editFlag) {
@@ -104,37 +101,17 @@ function CreateGroupForm({
       await setGroupModalIsOpen(false);
       await dispatch({ type: "START_FETCH", payload: true });
     } else if (isValid && editFlag) {
-      // const { name, kwh, category, color } = editItem;
-      // await dispatch({
-      //   type: "REMOVE_FROM_ARRAY",
-      //   payload: { name, value: kwh, color, category, id: editItem.id },
-      // });
-      // await editBadge(formData, editItem);
-      // await dispatch({ type: "START_FETCH", payload: true });
-      // await setEditFlag(false);
-      // await setGroupModalIsOpen(false);
+      const { name, kwh, category, color } = editItem;
+      await dispatch({
+        type: "REMOVE_FROM_ARRAY",
+        payload: { name, value: kwh, color, category, id: editItem.id },
+      });
+      await editGroup(formData, editItem);
+      await dispatch({ type: "START_FETCH", payload: true });
+      await setEditFlag(false);
+      await setGroupModalIsOpen(false);
     }
   };
-
-  // const handleColorChange = (color: any) => {
-  //   setColor(color.hex);
-  // };
-
-  // useEffect(() => {
-  //   if (!badges || badges.length === 0) {
-  //   } else {
-  //     const uniqueArray = getUniqueBadgeArray(badges);
-  //     setUniqueArrayOfBadges(uniqueArray);
-  //   }
-  // }, [badges]);
-
-  // useEffect(() => {
-  //   if (uniqueArrayOfBadges) {
-  //     uniqueArrayOfBadges.findIndex(
-  //       (badge: any) => badge.category === category && setColor(badge.color)
-  //     );
-  //   }
-  // }, [category]);
 
   return (
     <form
@@ -164,13 +141,11 @@ function CreateGroupForm({
           id="badgeList"
           multiple
           value={selectedBadges.map((badge) => badges.indexOf(badge))}
-          // value={selectedBadges}
           onChange={handleBadgeSelection}
           className="text-secondary"
         >
           {badges?.map((badge: any, index: number) => {
-            const { name, category, color, kwh } = badge;
-            // const obj = { name, color, kwh };
+            const { name } = badge;
             return (
               <option key={name} value={index}>
                 <span>{name}</span>
@@ -191,65 +166,10 @@ function CreateGroupForm({
         />
       </div>
       <div className="flex flex-col text-primary">
-        <p>{kwh} kwh</p>
+        <p>{kwh.toFixed(1)} kwh</p>
       </div>
 
       <button type="submit">Submit</button>
     </form>
   );
 }
-
-// !old kwh
-// <div className="flex flex-col">
-//   <label htmlFor="kwh" className="text-primary">
-//     kwh:
-//   </label>
-//   <input
-//     type="number"
-//     id="kwh"
-//     value={kwh}
-//     onChange={(e: any) => {
-//       const value = parseFloat(e.target.value);
-//       if (!isNaN(value)) {
-//         setKwh(value);
-//       }
-//     }}
-//     step="0.1"
-//     placeholder={editFlag && editItem.kwh}
-//     className="text-secondary"
-//   />
-// </div>
-
-// !old
-//  <div className="flex flex-col">
-//    <label htmlFor="category" className="text-primary">
-//      Category:
-//    </label>
-//    <input
-//      list="categories"
-//      id="category"
-//      value={category}
-//      onChange={(e: any) => setCategory(e.target.value)}
-//      placeholder={editFlag && editItem.category}
-//      className="text-secondary"
-//    />
-//    <datalist id="categories">
-//      {!uniqueArrayOfBadges || uniqueArrayOfBadges.length === 0 ? (
-//        <>
-//          <option value="Appliances">Appliances</option>
-//          <option value="Heating">Heating</option>
-//          <option value="Lighting">Lighting</option>
-//        </>
-//      ) : (
-//        <>
-//          <option value="Appliances">Appliances</option>
-//          <option value="Heating">Heating</option>
-//          <option value="Lighting">Lighting</option>
-//          {uniqueArrayOfBadges?.map((badge: any) => {
-//            const { category, color } = badge;
-//            return <option value={category}>{category}</option>;
-//          })}
-//        </>
-//      )}
-//    </datalist>
-//  </div>
