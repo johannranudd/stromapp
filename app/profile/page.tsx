@@ -13,6 +13,10 @@ import EditPhoneNrModal from "./components/modal/EditPhoneNrModal";
 import ForgotEmailModal from "./components/modal/ChangeEmailModal";
 import ChangeEmailModal from "./components/modal/ChangeEmailModal";
 import ChangePWModal from "./components/modal/ChangePWModal";
+import { getItem, setItem } from "../utils/storage/localstorage";
+import { fetchUser } from "../utils/gets";
+import { editProfile } from "../utils/puts";
+import { AiOutlineCheck } from "react-icons/ai";
 
 export default function page() {
   const {
@@ -20,24 +24,20 @@ export default function page() {
     setModalIsOpen,
     badgeModalIsOpen,
     groupModalIsOpen,
-    allowNotifications,
-    setAllowNotifications,
-    sendPushWhenLower,
-    setSendPushWhenLower,
+    // allowNotifications,
+    // setAllowNotifications,
+    // sendPushWhenLower,
+    // setSendPushWhenLower,
   } = useGlobalContext();
   const [adrModalIsOpen, setAdrModalIsOpen] = useState(false);
   const [phoneNrModalIsOpen, setPhoneNrModalIsOpen] = useState(false);
   const [changeEmailModalIsOpen, setChangeEmailModalIsOpen] = useState(false);
   const [changePWModalIsOpen, setChangePWModalIsOpen] = useState(false);
-  const [notificationLimit, setNotificationLimit] = useState(0);
+  const [user, setUser] = useState();
 
-  function handleNotoficationValue(e: string) {
-    let value = Number(e);
-    setNotificationLimit(value++);
-  }
-  function sendValue() {
-    setSendPushWhenLower(notificationLimit);
-  }
+  useEffect(() => {
+    fetchUser(setUser);
+  }, []);
 
   return (
     <div
@@ -70,7 +70,7 @@ export default function page() {
           <ChangePWModal setChangePWModalIsOpen={setChangePWModalIsOpen} />
         )}
         <div>
-          <h2 className="text-xl mb-6">Profile Settings</h2>
+          <h2 className="text-xl mb-6">Profile Setting</h2>
           <div className="grid grid-cols-2 justify-items-start text-thirdClr mb-6">
             <button onClick={() => setAdrModalIsOpen(true)}>
               + Edit Address
@@ -88,69 +88,81 @@ export default function page() {
             </button>
           </div>
         </div>
-        {/* notifications */}
-        {/* notifications */}
-        {/* notifications */}
-        {/* notifications */}
-        <div className="space-y-3">
-          <h2 className="text-xl mb-6">Notification Settings</h2>
-          <div className="flex justify-between">
-            <p>Allow notifications</p>
-            <div>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={allowNotifications}
-                  onChange={() => setAllowNotifications(!allowNotifications)}
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
-          </div>
-          <div className="flex justify-between items-start">
-            <div>
-              <p>Send push when price is lower than selected amount</p>
-              <button onClick={sendValue} className="border">
-                Save Notifications
-              </button>
-            </div>
-            <input
-              type="number"
-              className="text-secondary"
-              value={notificationLimit}
-              onChange={(e) => handleNotoficationValue(e.target.value)}
-            />
-          </div>
-        </div>
+        <NotificationSettingComponent user={user} />
       </div>
     </div>
   );
 }
 
-// ${
-//         !aModalIsOpen && "space-y-6"
-//       }
+function NotificationSettingComponent({ user }: any) {
+  const [tempNotificationLimit, setTempNotificationLimit] = useState(0);
+  const [isToggled, setIsToggled] = useState<boolean>();
+  const [saved, setSaved] = useState<boolean>(false);
 
-//  ${aModalIsOpen && "absolute top-0 left-0 right-0 bottom-0"}
+  function handleNotoficationValue(e: string) {
+    let value = Number(e);
+    setTempNotificationLimit(value++);
+  }
+  async function updateLimit() {
+    setSaved(true);
+    await editProfile({ notificationLimit: tempNotificationLimit });
+    setTimeout(() => {
+      setSaved(false);
+    }, 1000);
+  }
+  async function updateAllowNotifications() {
+    await editProfile({ allowNotifications: isToggled });
+  }
 
-// const [aModalIsOpen, setAModaalIsOpen] = useState(false);
+  useEffect(() => {
+    if (user && user.hasOwnProperty("allowNotifications")) {
+      setIsToggled(user.allowNotifications);
+    }
+    if (user && user.hasOwnProperty("notificationLimit")) {
+      setTempNotificationLimit(user.notificationLimit);
+    }
+  }, [user]);
 
-// useEffect(() => {
-//   if (
-//     modalIsOpen ||
-//     adrModalIsOpen ||
-//     phoneNrModalIsOpen ||
-//     changeEmailModalIsOpen ||
-//     changePWModalIsOpen
-//   ) {
-//     setAModaalIsOpen(true);
-//   } else {
-//     setAModaalIsOpen(false);
-//   }
-// }, [
-//   modalIsOpen,
-//   adrModalIsOpen,
-//   phoneNrModalIsOpen,
-//   changeEmailModalIsOpen,
-//   changePWModalIsOpen,
-// ]);
+  useEffect(() => {
+    updateAllowNotifications();
+  }, [isToggled]);
+
+  if (!user) return null;
+  return (
+    <>
+      <div className="space-y-3">
+        <h2 className="text-xl mb-6">Notification Settings</h2>
+        <div className="flex justify-between">
+          <p>Allow notifications</p>
+          <div>
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={isToggled}
+                onChange={() => setIsToggled(!isToggled)}
+              />
+              <span className="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <div className="flex justify-between items-start">
+          <div>
+            <p>Send push when price is lower than selected amount</p>
+            <button
+              onClick={updateLimit}
+              className="w-[10rem] h-[2rem] flex justify-center items-center border"
+            >
+              {saved ? <AiOutlineCheck /> : "Save Notifications"}
+            </button>
+          </div>
+          <input
+            type="number"
+            className="text-secondary"
+            value={tempNotificationLimit}
+            onChange={(e) => handleNotoficationValue(e.target.value)}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
