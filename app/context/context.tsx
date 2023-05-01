@@ -45,6 +45,11 @@ interface ContextProps {
 
   windowWidth: number;
   setWindowWidth: Dispatch<SetStateAction<number>>;
+
+  allowNotifications: boolean;
+  setAllowNotifications: Dispatch<SetStateAction<boolean>>;
+  sendPushWhenLower: number;
+  setSendPushWhenLower: Dispatch<SetStateAction<number>>;
 }
 
 export const GlobalContext = createContext<ContextProps>({
@@ -70,6 +75,10 @@ export const GlobalContext = createContext<ContextProps>({
   setEditItem: () => {},
   windowWidth: 0,
   setWindowWidth: () => {},
+  allowNotifications: false,
+  setAllowNotifications: () => false,
+  sendPushWhenLower: 0,
+  setSendPushWhenLower: () => {},
 });
 
 export const GlobalContextProvider = ({
@@ -81,6 +90,10 @@ export const GlobalContextProvider = ({
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [badgeModalIsOpen, setBadgeModalIsOpen] = useState(false);
   const [groupModalIsOpen, setGroupModalIsOpen] = useState(false);
+
+  const [allowNotifications, setAllowNotifications] = useState(false);
+  const [sendPushWhenLower, setSendPushWhenLower] = useState(0);
+
   const [editFlag, setEditFlag] = useState(false);
   const [editItem, setEditItem] = useState({
     id: 0,
@@ -132,6 +145,10 @@ export const GlobalContextProvider = ({
         setEditFlag,
         editItem,
         setEditItem,
+        allowNotifications,
+        setAllowNotifications,
+        sendPushWhenLower,
+        setSendPushWhenLower,
         state,
         dispatch,
         windowWidth,

@@ -15,41 +15,29 @@ import ChangeEmailModal from "./components/modal/ChangeEmailModal";
 import ChangePWModal from "./components/modal/ChangePWModal";
 
 export default function page() {
-  const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
-    useGlobalContext();
+  const {
+    modalIsOpen,
+    setModalIsOpen,
+    badgeModalIsOpen,
+    groupModalIsOpen,
+    allowNotifications,
+    setAllowNotifications,
+    sendPushWhenLower,
+    setSendPushWhenLower,
+  } = useGlobalContext();
   const [adrModalIsOpen, setAdrModalIsOpen] = useState(false);
   const [phoneNrModalIsOpen, setPhoneNrModalIsOpen] = useState(false);
   const [changeEmailModalIsOpen, setChangeEmailModalIsOpen] = useState(false);
   const [changePWModalIsOpen, setChangePWModalIsOpen] = useState(false);
-  const [aModalIsOpen, setAModaalIsOpen] = useState(false);
+  const [notificationLimit, setNotificationLimit] = useState(0);
 
-  useEffect(() => {
-    if (
-      modalIsOpen ||
-      adrModalIsOpen ||
-      phoneNrModalIsOpen ||
-      changeEmailModalIsOpen ||
-      changePWModalIsOpen
-    ) {
-      setAModaalIsOpen(true);
-    } else {
-      setAModaalIsOpen(false);
-    }
-  }, [
-    modalIsOpen,
-    adrModalIsOpen,
-    phoneNrModalIsOpen,
-    changeEmailModalIsOpen,
-    changePWModalIsOpen,
-  ]);
-
-  const [allowNotifications, setAllowNotifications] = useState(false);
-  const [sendPushWhenLower, setSendPushWhenLower] = useState(false);
-
-  useEffect(() => {
-    // console.log(allowNotifications);
-    // console.log(sendPushWhenLower);
-  }, [allowNotifications, sendPushWhenLower]);
+  function handleNotoficationValue(e: string) {
+    let value = Number(e);
+    setNotificationLimit(value++);
+  }
+  function sendValue() {
+    setSendPushWhenLower(notificationLimit);
+  }
 
   return (
     <div
@@ -100,7 +88,12 @@ export default function page() {
             </button>
           </div>
         </div>
+        {/* notifications */}
+        {/* notifications */}
+        {/* notifications */}
+        {/* notifications */}
         <div className="space-y-3">
+          <h2 className="text-xl mb-6">Notification Settings</h2>
           <div className="flex justify-between">
             <p>Allow notifications</p>
             <div>
@@ -114,18 +107,19 @@ export default function page() {
               </label>
             </div>
           </div>
-          <div className="flex justify-between">
-            <p>Send push when price is lower than selected amount</p>
+          <div className="flex justify-between items-start">
             <div>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={sendPushWhenLower}
-                  onChange={() => setSendPushWhenLower(!sendPushWhenLower)}
-                />
-                <span className="slider round"></span>
-              </label>
+              <p>Send push when price is lower than selected amount</p>
+              <button onClick={sendValue} className="border">
+                Save Notifications
+              </button>
             </div>
+            <input
+              type="number"
+              className="text-secondary"
+              value={notificationLimit}
+              onChange={(e) => handleNotoficationValue(e.target.value)}
+            />
           </div>
         </div>
       </div>
@@ -138,3 +132,25 @@ export default function page() {
 //       }
 
 //  ${aModalIsOpen && "absolute top-0 left-0 right-0 bottom-0"}
+
+// const [aModalIsOpen, setAModaalIsOpen] = useState(false);
+
+// useEffect(() => {
+//   if (
+//     modalIsOpen ||
+//     adrModalIsOpen ||
+//     phoneNrModalIsOpen ||
+//     changeEmailModalIsOpen ||
+//     changePWModalIsOpen
+//   ) {
+//     setAModaalIsOpen(true);
+//   } else {
+//     setAModaalIsOpen(false);
+//   }
+// }, [
+//   modalIsOpen,
+//   adrModalIsOpen,
+//   phoneNrModalIsOpen,
+//   changeEmailModalIsOpen,
+//   changePWModalIsOpen,
+// ]);
