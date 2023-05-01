@@ -1,15 +1,45 @@
 import { getURL } from "./environment/environment";
-import { getItem } from "./storage/localstorage";
+import { getItem, setItem } from "./storage/localstorage";
 
+export async function editProfile(formData: any) {
+  const jwt = getItem("jwt");
+  const user = getItem("user");
+  const baseURL = getURL();
+  let url = `${baseURL}/user/me`;
+  try {
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(formData),
+    });
+    if (res.ok) {
+      setItem("user", { ...user, ...formData });
+    } else {
+      console.error(
+        res.status,
+        "An error occured in puts.ts/editProfile() res not OK"
+      );
+      return await res.json();
+    }
+  } catch (error) {
+    console.log(
+      error,
+      "An error occured in puts.ts/editProfile()/ catch block"
+    );
+  }
+}
+//
+//
+//
 export async function editGroup(formData: any, groupItem: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
   const baseURL = getURL();
-  // console.log(groupItem);
   let url = `${baseURL}/groups/${groupItem.id}`;
   const { groupName, amountOfGroups, selectedBadges, color, kwh } = formData;
-  // console.log(formData);
-  // console.log(groupItem);
   const formatedFormData = {
     data: {
       name: groupName,
@@ -31,18 +61,21 @@ export async function editGroup(formData: any, groupItem: any) {
     });
     if (res.ok) {
       const data = await res.json();
-      return await data;
+      return data;
     } else {
       console.error(
         res.status,
-        "An error occured in puts.ts/editBadge() res not OK"
+        "An error occured in puts.ts/editGroup() res not OK"
       );
       return await res.json();
     }
   } catch (error) {
-    console.log(error, "An error occured in puts.ts/editBadge()/ catch block");
+    console.log(error, "An error occured in puts.ts/editGroup()/ catch block");
   }
 }
+//
+//
+//
 export async function editBadge(formData: any, badgeItem: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
@@ -71,7 +104,7 @@ export async function editBadge(formData: any, badgeItem: any) {
     });
     if (res.ok) {
       const data = await res.json();
-      return await data;
+      return data;
     } else {
       console.error(
         res.status,

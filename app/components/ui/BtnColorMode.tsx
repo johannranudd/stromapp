@@ -19,30 +19,22 @@ const BtnColorMode = () => {
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   return (
-    <div className="flex justify-evenly items-center">
-      <div className="text-[1.7rem]">
-        {currentTheme === "dark" ? (
-          <div className="flex items-center">
-            <button
-              onClick={() => setTheme("light")}
-              className="flex justify-center alight-center"
-            >
-              <BsFillSunFill />
-            </button>
-            <NotificationBell />
-          </div>
-        ) : (
-          <div className="flex items-center">
-            <button
-              onClick={() => setTheme("dark")}
-              className="flex justify-center alight-center"
-            >
-              <BsFillMoonFill />
-            </button>
-            <NotificationBell />
-          </div>
-        )}
-      </div>
+    <div className="text-[1.7rem]">
+      {currentTheme === "dark" ? (
+        <button
+          onClick={() => setTheme("light")}
+          className="flex justify-center alight-center"
+        >
+          <BsFillSunFill />
+        </button>
+      ) : (
+        <button
+          onClick={() => setTheme("dark")}
+          className="flex justify-center alight-center"
+        >
+          <BsFillMoonFill />
+        </button>
+      )}
     </div>
   );
 };
