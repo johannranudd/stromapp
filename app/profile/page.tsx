@@ -12,6 +12,7 @@ import EditAddressModal from "./components/modal/EditAddressModal";
 import EditPhoneNrModal from "./components/modal/EditPhoneNrModal";
 import ForgotEmailModal from "./components/modal/ChangeEmailModal";
 import ChangeEmailModal from "./components/modal/ChangeEmailModal";
+import ChangePWModal from "./components/modal/ChangePWModal";
 
 export default function page() {
   const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
@@ -19,6 +20,7 @@ export default function page() {
   const [adrModalIsOpen, setAdrModalIsOpen] = useState(false);
   const [phoneNrModalIsOpen, setPhoneNrModalIsOpen] = useState(false);
   const [changeEmailModalIsOpen, setChangeEmailModalIsOpen] = useState(false);
+  const [changePWModalIsOpen, setChangePWModalIsOpen] = useState(false);
   const [aModalIsOpen, setAModaalIsOpen] = useState(false);
 
   useEffect(() => {
@@ -31,18 +33,12 @@ export default function page() {
   // test
   return (
     <div
-      className={`min-h-screen bg-secondary text-primary dark:bg-primary dark:text-secondary
-      ${aModalIsOpen && "absolute top-0 left-0 right-0 bottom-0"}
-      `}
+      className={` min-h-[calc(100vh-4rem)] bg-secondary text-primary dark:bg-primary dark:text-secondary`}
     >
-      <div
-        className={`w-[95%] max-w-screen-sm mx-auto ${
-          !aModalIsOpen && "space-y-6"
-        }`}
-      >
+      <div className={`w-[95%] max-w-screen-sm mx-auto`}>
         <ProfileInformation />
         <button
-          className="border border-thirdClr py-2 px-4"
+          className="bg-fourthClr text-secondary py-2 px-4 my-6"
           onClick={() => setModalIsOpen(true)}
         >
           Category settings
@@ -62,12 +58,10 @@ export default function page() {
             setChangeEmailModalIsOpen={setChangeEmailModalIsOpen}
           />
         )}
-        {/* {changeEmailModalIsOpen && (
-          <ChangePWModal
-            setChangeEmailModalIsOpen={setChangeEmailModalIsOpen}
-          />
-        )} */}
-        <div>
+        {changePWModalIsOpen && (
+          <ChangePWModal setChangePWModalIsOpen={setChangePWModalIsOpen} />
+        )}
+        <div className="grid grid-cols-2 justify-items-start text-thirdClr mb-6">
           <button onClick={() => setAdrModalIsOpen(true)}>
             + Edit Address
           </button>
@@ -75,7 +69,21 @@ export default function page() {
             + Edit Phone Number
           </button>
         </div>
+        <div className="grid grid-cols-2 justify-items-start text-thirdClr mb-6">
+          <button onClick={() => setChangeEmailModalIsOpen(true)}>
+            + Edit Email
+          </button>
+          <button onClick={() => setChangePWModalIsOpen(true)}>
+            + Edit Password
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
+// ${
+//         !aModalIsOpen && "space-y-6"
+//       }
+
+//  ${aModalIsOpen && "absolute top-0 left-0 right-0 bottom-0"}

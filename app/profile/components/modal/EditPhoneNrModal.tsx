@@ -20,12 +20,12 @@ export default function EditPhoneNrModal({
         </button>
 
         <form className="flex flex-col mx-auto space-y-4 p-8">
-          <label htmlFor="address" className="text-primary text-center">
-            Enter New Address
+          <label htmlFor="phoneNumber" className="text-primary text-center">
+            Enter New Phone Number
           </label>
           <input
             type="text"
-            id="address"
+            id="phoneNumber"
             value={phoneNr}
             onChange={(e: any) => setPhoneNr(e.target.value)}
             className="text-secondary p-2"

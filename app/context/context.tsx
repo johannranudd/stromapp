@@ -117,7 +117,6 @@ export const GlobalContextProvider = ({
   //   console.log("STATE FROM CONTEXT:: ", state);
   // }, [state]);
 
-  // TESTING DOUBLE QUOTES
   return (
     <GlobalContext.Provider
       value={{

@@ -20,12 +20,12 @@ export default function ChangeEmailModal({
         </button>
 
         <form className="flex flex-col mx-auto space-y-4 p-8">
-          <label htmlFor="address" className="text-primary text-center">
-            Enter New Address
+          <label htmlFor="email" className="text-primary text-center">
+            Enter New Email
           </label>
           <input
-            type="text"
-            id="address"
+            type="email"
+            id="email"
             value={newEmail}
             onChange={(e: any) => setNewEmail(e.target.value)}
             className="text-secondary p-2"
