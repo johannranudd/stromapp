@@ -52,11 +52,14 @@ export async function fetchGroups(setGroups: any) {
     } else {
       console.log(
         res.status,
-        "an error occured in gets.ts - fetchUser() res not ok"
+        "an error occured in gets.ts - fetchGroups() res not ok"
       );
     }
   } catch (error) {
-    console.log(error, "an error occured in gets.ts - fetchUser() catch block");
+    console.log(
+      error,
+      "an error occured in gets.ts - fetchGroups() catch block"
+    );
   }
 }
 export async function fetchUser(setUser: any) {

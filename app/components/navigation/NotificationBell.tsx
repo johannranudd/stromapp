@@ -1,30 +1,28 @@
 "use client";
 import { AiOutlineBell } from "react-icons/ai";
-import { useGlobalContext } from "@/app/context/context";
 import { getItem } from "@/app/utils/storage/localstorage";
 import { useState, useEffect } from "react";
 export default function NotificationBell({ currentPrice }: any) {
-  const {
-    allowNotifications,
-    setAllowNotifications,
-    sendPushWhenLower,
-    setSendPushWhenLower,
-  } = useGlobalContext();
   const user = getItem("user");
 
   const [myNotifications, setMyNotifications] = useState<number>(0);
   const [prevPrice, setPrevPrice] = useState<number>(0);
-  const [isBelow, setIsBellow] = useState<boolean>(false);
+
   useEffect(() => {
-    if (allowNotifications) {
-      console.log(sendPushWhenLower);
-      if (currentPrice < sendPushWhenLower && prevPrice >= sendPushWhenLower) {
-        console.log("pling");
-        setMyNotifications((prev) => prev + 1);
+    if (user) {
+      const { allowNotifications, notificationLimit } = user;
+      if (allowNotifications) {
+        if (
+          currentPrice < notificationLimit &&
+          prevPrice >= notificationLimit
+        ) {
+          console.log("pling");
+          setMyNotifications((prev) => prev + 1);
+        }
+        setPrevPrice(currentPrice);
       }
-      setPrevPrice(currentPrice);
     }
-  }, [sendPushWhenLower, currentPrice, allowNotifications]);
+  }, [user.notificationLimit, currentPrice, user.allowNotifications]);
 
   if (user.length === 0) return null;
   return (

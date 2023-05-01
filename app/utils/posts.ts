@@ -103,9 +103,25 @@ export async function login(formData: {
     });
     if (res.ok) {
       const data = await res.json();
-      const { id, username, email, address, phoneNumber } = data.user;
+      const {
+        id,
+        username,
+        email,
+        address,
+        phoneNumber,
+        allowNotifications,
+        notificationLimit,
+      } = data.user;
       await setItem("jwt", data.jwt);
-      await setItem("user", { id, username, email, address, phoneNumber });
+      await setItem("user", {
+        id,
+        username,
+        email,
+        address,
+        phoneNumber,
+        allowNotifications,
+        notificationLimit,
+      });
       window.location.href = "../dashboard/";
       return data;
     } else {
@@ -139,9 +155,25 @@ export async function registerUser(formData: {
     });
     if (res.ok) {
       const data = await res.json();
-      const { id, username, email, address, phoneNumber } = data.user;
+      const {
+        id,
+        username,
+        email,
+        address,
+        phoneNumber,
+        allowNotifications,
+        notificationLimit,
+      } = data.user;
       await setItem("jwt", data.jwt);
-      await setItem("user", { id, username, email, address, phoneNumber });
+      await setItem("user", {
+        id,
+        username,
+        email,
+        address,
+        phoneNumber,
+        allowNotifications,
+        notificationLimit,
+      });
       window.location.href = "../dashboard/";
       return data;
     } else {
