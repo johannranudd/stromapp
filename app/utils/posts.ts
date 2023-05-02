@@ -1,6 +1,57 @@
 import { getURL } from "./environment/environment";
 import { getItem, setItem } from "./storage/localstorage";
 
+export async function changePassword(formData: any) {
+  const jwt = getItem("jwt");
+  // const { id } = getItem("user");
+  const baseURL = getURL();
+  let url = `${baseURL}/auth/change-password`;
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(formData),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const {
+        id,
+        username,
+        email,
+        address,
+        phoneNumber,
+        allowNotifications,
+        notificationLimit,
+      } = data.user;
+      await setItem("jwt", data.jwt);
+      await setItem("user", {
+        id,
+        username,
+        email,
+        address,
+        phoneNumber,
+        allowNotifications,
+        notificationLimit,
+      });
+      return data;
+    } else {
+      console.error(
+        res.status,
+        "An error occured in posts.ts/changePassword() res not OK"
+      );
+      return await res.json();
+    }
+  } catch (error) {
+    console.log(
+      error,
+      "An error occured in posts.ts/changePassword()/ catch block"
+    );
+  }
+}
 export async function createGroup(formData: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
@@ -44,6 +95,10 @@ export async function createGroup(formData: any) {
     );
   }
 }
+//
+//
+//
+//
 export async function createBadge(formData: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
