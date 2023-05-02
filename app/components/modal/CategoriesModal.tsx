@@ -337,7 +337,7 @@ function Groups({
             fetchedGroups?.data?.filter?.((item: any) => item.id === id) || [];
 
           const amountOfGroups =
-            (filterGroups[0]?.attributes?.badges?.data?.length || 0) + 1;
+            filterGroups[0]?.attributes?.badges?.data?.length || 0;
           return (
             <li
               key={id}
