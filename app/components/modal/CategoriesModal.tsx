@@ -392,35 +392,3 @@ function Groups({
     </>
   );
 }
-
-// async function fetchGroupsAndBadges(
-//   name: string,
-//   id: string = "",
-//   populate: string = ""
-// ) {
-//   const baseURL = getURL();
-//   const res = await fetch(`${baseURL}/${name}/${id}${populate}`);
-//   const data = await res.json();
-// const newData: any = [];
-// data.data.map((item: any) => {
-//   const { id, attributes } = item;
-//   newData.push({ id: id, ...attributes });
-// });
-//   // *artificially adjust
-//   // if (name === "badges") setBadges(newData);
-//   if (name === "badges") setBadges([]);
-//   if (name === "groups") {
-//     let finalArray: any = [];
-//     newData.map((item: any) => {
-//       let badgesArray: any = [];
-//       item.badges.data.map((badge: any) => {
-//         const { id, attributes } = badge;
-//         badgesArray.push({ id: id, ...attributes });
-//       });
-//       finalArray.push({ ...item, badgesArray });
-//     });
-//     // setGroups(finalArray);
-//     // *artificially adjust
-//     setGroups([]);
-//   }
-// }

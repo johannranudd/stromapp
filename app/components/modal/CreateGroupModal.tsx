@@ -63,7 +63,6 @@ function CreateGroupForm({
   const [kwh, setKwh] = useState<number>(0);
   const [selectedBadges, setSelectedBadges]: any = useState([]);
 
-  // !new
   const handleBadgeSelection = (e: any, index: number) => {
     e.preventDefault();
     const badge = badges[index];
