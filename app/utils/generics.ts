@@ -33,7 +33,6 @@ export function validateBadgeForm(formData: any) {
   for (const key of Object.keys(formData)) {
     if (!formData[key]) {
       allValid = false;
-      console.log("FALSE PROPERY::: ", key);
     }
   }
   return allValid;
@@ -43,7 +42,6 @@ export function validateRegisterForm(formData: any) {
   for (const key of Object.keys(formData)) {
     if (!formData[key]) {
       allValid = false;
-      console.log("FALSE PROPERY::: ", key);
     }
   }
   return allValid;
@@ -53,7 +51,6 @@ export function validateForm(formData: any) {
   for (const key of Object.keys(formData)) {
     if (!formData[key]) {
       allValid = false;
-      console.log("FALSE PROPERY::: ", key);
     }
   }
   return allValid;

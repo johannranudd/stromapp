@@ -39,7 +39,7 @@ export async function editGroup(formData: any, groupItem: any) {
   const { id } = getItem("user");
   const baseURL = getURL();
   let url = `${baseURL}/groups/${groupItem.id}`;
-  const { groupName, amountOfGroups, selectedBadges, color, kwh } = formData;
+  const { groupName, selectedBadges, color, kwh } = formData;
   const formatedFormData = {
     data: {
       name: groupName,
@@ -80,7 +80,6 @@ export async function editBadge(formData: any, badgeItem: any) {
   const jwt = getItem("jwt");
   const { id } = getItem("user");
   const baseURL = getURL();
-  // console.log(badgeItem);
   let url = `${baseURL}/badges/${badgeItem.id}`;
   const { badgeName, category, color, kwh } = formData;
   const formatedFormData = {
