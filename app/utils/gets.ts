@@ -66,6 +66,8 @@ export async function fetchUser(setUser: any) {
   console.log("FETCHING USER !!!!!!!!!!!!!!!!!!!!!!!!!!");
   const baseURL = getURL();
   const { id } = getItem("user");
+  // console.log(baseURL);
+  // console.log(`${baseURL}/users/${id}?populate=groups&populate=badges`);
   try {
     const res = await fetch(
       // `${baseURL}/users/${id}?populate=groups&populate=badges`
