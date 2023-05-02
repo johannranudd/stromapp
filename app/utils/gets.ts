@@ -16,7 +16,7 @@ export async function getElectricityPrice(
   try {
     if (process.env.APIKEY) {
       const res = await fetch(url, {
-        next: { revalidate: 60 },
+        next: { revalidate: 3600 },
         headers: {
           "Content-Type": "application/json",
           "api-key": process.env.APIKEY,

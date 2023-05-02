@@ -3,23 +3,26 @@ import { AiOutlineBell } from "react-icons/ai";
 import { getItem } from "@/app/utils/storage/localstorage";
 import { useState, useEffect } from "react";
 export default function NotificationBell({ currentPrice }: any) {
+  // export default function NotificationBell() {
+  // let currentPrice = 98;
   const user = getItem("user");
 
   const [myNotifications, setMyNotifications] = useState<number>(0);
-  const [prevPrice, setPrevPrice] = useState<number>(0);
+  // * If prevPrice is active in the useEffect bellow, the user will only get notifications when price drops from over notificationLimit to under. without prevPrice the notifications will come every hour due to the { next: { revalidate: 3600 } } object in getElectricityPrice
+  // const [prevPrice, setPrevPrice] = useState<number>(0);
 
   useEffect(() => {
     if (user) {
       const { allowNotifications, notificationLimit } = user;
       if (allowNotifications) {
         if (
-          currentPrice < notificationLimit &&
-          prevPrice >= notificationLimit
+          currentPrice < notificationLimit
+          //  && prevPrice >= notificationLimit
         ) {
-          console.log("pling");
+          // console.log("pling you have a notification");
           setMyNotifications((prev) => prev + 1);
         }
-        setPrevPrice(currentPrice);
+        // setPrevPrice(currentPrice);
       }
     }
   }, [user.notificationLimit, currentPrice, user.allowNotifications]);
