@@ -182,31 +182,6 @@ function ListOfGroupsAndBadges({
         />
       )}
     </div>
-    // !new
-    // !old
-    // <div>
-    //   {(activeToggle === "all" || activeToggle === "groups") && (
-    //     <Groups
-    //       {...user}
-    //       dispatch={dispatch}
-    //       state={state}
-    //       setEditFlag={setEditFlag}
-    //       setGroupModalIsOpen={setGroupModalIsOpen}
-    //       setEditItem={setEditItem}
-    //     />
-    //   )}
-    //   {(activeToggle === "all" || activeToggle === "badges") && (
-    //     <Badges
-    //       {...user}
-    //       dispatch={dispatch}
-    //       state={state}
-    //       setEditFlag={setEditFlag}
-    //       setBadgeModalIsOpen={setBadgeModalIsOpen}
-    //       setEditItem={setEditItem}
-    //     />
-    //   )}
-    // </div>
-    // !old
   );
 }
 
