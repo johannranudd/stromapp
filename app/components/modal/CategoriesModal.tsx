@@ -54,13 +54,21 @@ export default function CategoriesModal() {
     setGroupModalIsOpen(true);
   }
 
-  // const [sortOrder, setSortOrder] = useState("asc");
-  const [activeToggle, setActiveToggle] = useState("all");
-
+  const [activeToggle, setActiveToggle] = useState({
+    groups: true,
+    badges: true,
+  });
   const handleToggleChange = (toggleName: any) => {
-    setActiveToggle((prevToggle: any) =>
-      prevToggle === toggleName ? "all" : toggleName
-    );
+    setActiveToggle((prevToggle: any) => {
+      const otherToggle = toggleName === "groups" ? "badges" : "groups";
+      const newToggleState = {
+        ...prevToggle,
+        [toggleName]: !prevToggle[toggleName],
+        [otherToggle]: prevToggle[toggleName] ? true : prevToggle[otherToggle],
+      };
+
+      return newToggleState;
+    });
   };
 
   if (!modalIsOpen) return null;
@@ -113,7 +121,7 @@ function ToggleButtons({ activeToggle, handleToggleChange }: any) {
         <label className="switch">
           <input
             type="checkbox"
-            checked={activeToggle === "groups"}
+            checked={activeToggle.groups}
             onChange={() => handleToggleChange("groups")}
           />
           <span className="slider round"></span>
@@ -124,19 +132,8 @@ function ToggleButtons({ activeToggle, handleToggleChange }: any) {
         <label className="switch">
           <input
             type="checkbox"
-            checked={activeToggle === "badges"}
+            checked={activeToggle.badges}
             onChange={() => handleToggleChange("badges")}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div>
-      <div>
-        <h4>All</h4>
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={activeToggle === "all"}
-            onChange={() => handleToggleChange("all")}
           />
           <span className="slider round"></span>
         </label>
@@ -162,8 +159,9 @@ function ListOfGroupsAndBadges({
       <div>You have 0 badges, create badges and organize them into groups</div>
     );
   return (
+    // !new
     <div>
-      {(activeToggle === "all" || activeToggle === "groups") && (
+      {activeToggle.groups && (
         <Groups
           {...user}
           dispatch={dispatch}
@@ -173,7 +171,7 @@ function ListOfGroupsAndBadges({
           setEditItem={setEditItem}
         />
       )}
-      {(activeToggle === "all" || activeToggle === "badges") && (
+      {activeToggle.badges && (
         <Badges
           {...user}
           dispatch={dispatch}
@@ -184,6 +182,31 @@ function ListOfGroupsAndBadges({
         />
       )}
     </div>
+    // !new
+    // !old
+    // <div>
+    //   {(activeToggle === "all" || activeToggle === "groups") && (
+    //     <Groups
+    //       {...user}
+    //       dispatch={dispatch}
+    //       state={state}
+    //       setEditFlag={setEditFlag}
+    //       setGroupModalIsOpen={setGroupModalIsOpen}
+    //       setEditItem={setEditItem}
+    //     />
+    //   )}
+    //   {(activeToggle === "all" || activeToggle === "badges") && (
+    //     <Badges
+    //       {...user}
+    //       dispatch={dispatch}
+    //       state={state}
+    //       setEditFlag={setEditFlag}
+    //       setBadgeModalIsOpen={setBadgeModalIsOpen}
+    //       setEditItem={setEditItem}
+    //     />
+    //   )}
+    // </div>
+    // !old
   );
 }
 
