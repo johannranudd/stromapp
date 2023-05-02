@@ -126,9 +126,9 @@ export const GlobalContextProvider = ({
     redirectToLoginPage(pathname);
   }, [pathname]);
 
-  // useEffect(() => {
-  //   console.log("STATE FROM CONTEXT:: ", state);
-  // }, [state]);
+  useEffect(() => {
+    console.log("STATE FROM CONTEXT:: ", state);
+  }, [state]);
 
   return (
     <GlobalContext.Provider

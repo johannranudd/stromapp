@@ -3,6 +3,7 @@ import { useGlobalContext } from "@/app/context/context";
 import { deleteItem } from "@/app/utils/delets";
 import { sortByLocalCategory, sortByLocalName } from "@/app/utils/generics";
 import { fetchGroups, fetchUser } from "@/app/utils/gets";
+import { IBadge, IGroup } from "@/types";
 import { useState, useEffect } from "react";
 import {
   AiOutlineDelete,
@@ -221,13 +222,12 @@ function Badges({
     <>
       <h2 className="text-center font-bold mb-4">Badges</h2>
       <ul className="grid grid-cols-2 gap-2">
-        {sortedBadges.map((badge: any) => {
-          const { id, name, kwh, categories, color, category } = badge;
-          const hasBadgeId = state.totalKWHArray.some(
-            (item: any) => item.id === id
-          );
-          const kwhToString = kwh.toString();
-          // console.log(kwhToString.toFixed(1));
+        {sortedBadges.map((badge: IBadge) => {
+          const { id, name, kwh, color, category } = badge;
+          const hasBadgeId = state.totalKWHArray.some((item: any) => {
+            return item.id === id && item.name === name;
+          });
+
           return (
             <li
               key={id}
@@ -280,7 +280,10 @@ function Badges({
     </>
   );
 }
-
+//
+//
+//
+//
 function Groups({
   badges,
   groups,
@@ -324,11 +327,12 @@ function Groups({
     <>
       <h2 className="text-center font-bold mb-4">Groups</h2>
       <ul className="grid grid-cols-2 gap-2 mb-4">
-        {sortedGroups?.map((group: any) => {
-          const { id, name, kwh, categories, color, category } = group;
+        {sortedGroups?.map((group: IGroup) => {
+          const { id, name, kwh, color } = group;
           const hasGroupId = state.totalKWHArray.some(
-            (item: any) => item.id === id
+            (item: IGroup) => item.id === id && item.name === name
           );
+          // to find out how many badges are in a group
           const filterGroups =
             fetchedGroups?.data?.filter?.((item: any) => item.id === id) || [];
 
@@ -349,7 +353,6 @@ function Groups({
                     : `${amountOfGroups} groups`}
                 </p>
               </div>
-              <p>{category}</p>
               <div className="flex justify-between">
                 <button
                   onClick={() =>
