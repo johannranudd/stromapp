@@ -20,7 +20,7 @@ export default function RootLayout({
         <GlobalContextProvider>
           <ColorThemeProvider>
             <Navbar />
-            <div>{children}</div>
+            <div className="overflow-y-scroll h-screen">{children}</div>
           </ColorThemeProvider>
         </GlobalContextProvider>
       </body>

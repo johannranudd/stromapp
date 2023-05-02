@@ -61,20 +61,20 @@ function CreateGroupForm({
   const [groupName, setGroupName] = useState("");
   const [color, setColor] = useState("");
   const [kwh, setKwh] = useState<number>(0);
-  const [selectedBadges, setSelectedBadges] = useState([]);
+  const [selectedBadges, setSelectedBadges]: any = useState([]);
 
-  const handleBadgeSelection = (e: any) => {
-    const options = e.target.options;
-    const selected: any = [];
+  const handleBadgeSelection = (e: any, index: number) => {
+    e.preventDefault();
+    const badge = badges[index];
+    const badgeIndex = selectedBadges.findIndex((item: any) => item === badge);
 
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        const badgeIndex = parseInt(options[i].value);
-        selected.push(badges[badgeIndex]);
-      }
+    if (badgeIndex > -1) {
+      setSelectedBadges((prevState: any) =>
+        prevState.filter((item: any, idx: any) => idx !== badgeIndex)
+      );
+    } else {
+      setSelectedBadges((prevState: any) => [...prevState, badge]);
     }
-
-    setSelectedBadges(selected);
   };
 
   useEffect(() => {
@@ -140,14 +140,18 @@ function CreateGroupForm({
         <select
           id="badgeList"
           multiple
-          value={selectedBadges.map((badge) => badges.indexOf(badge))}
-          onChange={handleBadgeSelection}
+          value={selectedBadges.map((badge: any) => badges.indexOf(badge))}
+          onChange={() => handleBadgeSelection}
           className="text-secondary"
         >
           {badges?.map((badge: any, index: number) => {
             const { name } = badge;
             return (
-              <option key={name} value={index}>
+              <option
+                key={name}
+                value={index}
+                onClick={(e) => handleBadgeSelection(e, index)}
+              >
                 <span>{name}</span>
               </option>
             );

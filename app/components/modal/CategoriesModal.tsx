@@ -54,13 +54,21 @@ export default function CategoriesModal() {
     setGroupModalIsOpen(true);
   }
 
-  // const [sortOrder, setSortOrder] = useState("asc");
-  const [activeToggle, setActiveToggle] = useState("all");
-
+  const [activeToggle, setActiveToggle] = useState({
+    groups: true,
+    badges: true,
+  });
   const handleToggleChange = (toggleName: any) => {
-    setActiveToggle((prevToggle: any) =>
-      prevToggle === toggleName ? "all" : toggleName
-    );
+    setActiveToggle((prevToggle: any) => {
+      const otherToggle = toggleName === "groups" ? "badges" : "groups";
+      const newToggleState = {
+        ...prevToggle,
+        [toggleName]: !prevToggle[toggleName],
+        [otherToggle]: prevToggle[toggleName] ? true : prevToggle[otherToggle],
+      };
+
+      return newToggleState;
+    });
   };
 
   if (!modalIsOpen) return null;
@@ -113,7 +121,7 @@ function ToggleButtons({ activeToggle, handleToggleChange }: any) {
         <label className="switch">
           <input
             type="checkbox"
-            checked={activeToggle === "groups"}
+            checked={activeToggle.groups}
             onChange={() => handleToggleChange("groups")}
           />
           <span className="slider round"></span>
@@ -124,19 +132,8 @@ function ToggleButtons({ activeToggle, handleToggleChange }: any) {
         <label className="switch">
           <input
             type="checkbox"
-            checked={activeToggle === "badges"}
+            checked={activeToggle.badges}
             onChange={() => handleToggleChange("badges")}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div>
-      <div>
-        <h4>All</h4>
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={activeToggle === "all"}
-            onChange={() => handleToggleChange("all")}
           />
           <span className="slider round"></span>
         </label>
@@ -162,8 +159,9 @@ function ListOfGroupsAndBadges({
       <div>You have 0 badges, create badges and organize them into groups</div>
     );
   return (
+    // !new
     <div>
-      {(activeToggle === "all" || activeToggle === "groups") && (
+      {activeToggle.groups && (
         <Groups
           {...user}
           dispatch={dispatch}
@@ -173,7 +171,7 @@ function ListOfGroupsAndBadges({
           setEditItem={setEditItem}
         />
       )}
-      {(activeToggle === "all" || activeToggle === "badges") && (
+      {activeToggle.badges && (
         <Badges
           {...user}
           dispatch={dispatch}
@@ -337,7 +335,7 @@ function Groups({
             fetchedGroups?.data?.filter?.((item: any) => item.id === id) || [];
 
           const amountOfGroups =
-            (filterGroups[0]?.attributes?.badges?.data?.length || 0) + 1;
+            filterGroups[0]?.attributes?.badges?.data?.length || 0;
           return (
             <li
               key={id}
@@ -394,35 +392,3 @@ function Groups({
     </>
   );
 }
-
-// async function fetchGroupsAndBadges(
-//   name: string,
-//   id: string = "",
-//   populate: string = ""
-// ) {
-//   const baseURL = getURL();
-//   const res = await fetch(`${baseURL}/${name}/${id}${populate}`);
-//   const data = await res.json();
-// const newData: any = [];
-// data.data.map((item: any) => {
-//   const { id, attributes } = item;
-//   newData.push({ id: id, ...attributes });
-// });
-//   // *artificially adjust
-//   // if (name === "badges") setBadges(newData);
-//   if (name === "badges") setBadges([]);
-//   if (name === "groups") {
-//     let finalArray: any = [];
-//     newData.map((item: any) => {
-//       let badgesArray: any = [];
-//       item.badges.data.map((badge: any) => {
-//         const { id, attributes } = badge;
-//         badgesArray.push({ id: id, ...attributes });
-//       });
-//       finalArray.push({ ...item, badgesArray });
-//     });
-//     // setGroups(finalArray);
-//     // *artificially adjust
-//     setGroups([]);
-//   }
-// }

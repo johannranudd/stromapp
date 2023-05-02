@@ -34,7 +34,7 @@ export default function page() {
   if (!dataFromClient) return <div>Loading...</div>;
   return (
     <div
-      className={`${
+      className={` ${
         modalIsOpen &&
         "absolute top-0 overflow-hidden max-h-screen scrollbar-hide w-screen"
       }`}
