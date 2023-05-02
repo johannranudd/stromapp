@@ -2,6 +2,7 @@ import { getURL } from "./environment/environment";
 import { getItem } from "./storage/localstorage";
 
 // `https://api.strompriser.no/public/prices?startDate=2023-04-21&endDate=2023-04-21&region=1`;
+// deploy
 export async function getElectricityPrice(
   startDate: string,
   endDate: string,
