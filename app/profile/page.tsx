@@ -3,32 +3,19 @@ import CategoriesModal from "../components/modal/CategoriesModal";
 import CreateBadgeModal from "../components/modal/CreateBadgeModal";
 import CreateGroupModal from "@/app/components/modal/CreateGroupModal";
 import { useGlobalContext } from "../context/context";
-import ModalStage from "./components/ModalStage";
-import OpenCategoryModalButton from "./components/OpenCategoryModalButton";
 import ProfileInformation from "./components/ProfileInformation";
-// import ProfileSettings from "./components/ProfileSettings";
 import { useEffect, useState } from "react";
 import EditAddressModal from "./components/modal/EditAddressModal";
 import EditPhoneNrModal from "./components/modal/EditPhoneNrModal";
-import ForgotEmailModal from "./components/modal/ChangeEmailModal";
 import ChangeEmailModal from "./components/modal/ChangeEmailModal";
 import ChangePWModal from "./components/modal/ChangePWModal";
-import { getItem, setItem } from "../utils/storage/localstorage";
 import { fetchUser } from "../utils/gets";
 import { editProfile } from "../utils/puts";
 import { AiOutlineCheck } from "react-icons/ai";
 
 export default function page() {
-  const {
-    modalIsOpen,
-    setModalIsOpen,
-    badgeModalIsOpen,
-    groupModalIsOpen,
-    // allowNotifications,
-    // setAllowNotifications,
-    // sendPushWhenLower,
-    // setSendPushWhenLower,
-  } = useGlobalContext();
+  const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
+    useGlobalContext();
   const [adrModalIsOpen, setAdrModalIsOpen] = useState(false);
   const [phoneNrModalIsOpen, setPhoneNrModalIsOpen] = useState(false);
   const [changeEmailModalIsOpen, setChangeEmailModalIsOpen] = useState(false);
