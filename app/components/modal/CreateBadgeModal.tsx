@@ -4,7 +4,8 @@ import { getUniqueBadgeArray, validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
 import { createBadge } from "@/app/utils/posts";
 import { editBadge } from "@/app/utils/puts";
-import { useState, useEffect } from "react";
+import { IBadge, IUser, TDispatch } from "@/types";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { CirclePicker } from "react-color";
 //
 //
@@ -19,7 +20,8 @@ export default function CreateBadgeModal() {
     setEditFlag,
     editItem,
   } = useGlobalContext();
-  const [user, setUser]: any = useState();
+  const [user, setUser] = useState<IUser | undefined>(undefined);
+
   useEffect(() => {
     if (badgeModalIsOpen) {
       fetchUser(setUser);
@@ -59,16 +61,30 @@ function CreateBadgeForm({
   editFlag,
   editItem,
   setEditFlag,
-}: any) {
+}: {
+  id?: number;
+  badges?: Array<IBadge>;
+  setBadgeModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  dispatch: Dispatch<any>;
+  editFlag: boolean;
+  editItem: any;
+  setEditFlag: Dispatch<SetStateAction<boolean>>;
+}) {
   const [badgeName, setBadgeName] = useState("");
   const [category, setCategory] = useState("");
   const [color, setColor] = useState("");
   const [kwh, setKwh] = useState<number>();
-  const [uniqueArrayOfBadges, setUniqueArrayOfBadges]: any = useState([]);
+  const [uniqueArrayOfBadges, setUniqueArrayOfBadges] = useState([]);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData: any = {
+    const formData: {
+      badgeName: string;
+      category: string;
+      color: string;
+      kwh: undefined | number;
+      user: undefined | number;
+    } = {
       badgeName,
       category,
       color,
@@ -78,24 +94,20 @@ function CreateBadgeForm({
     const isValid = validateBadgeForm(formData);
     if (isValid && !editFlag) {
       await createBadge(formData);
-      await setBadgeModalIsOpen(false);
-      await dispatch({ type: "START_FETCH", payload: true });
+      setBadgeModalIsOpen(false);
+      dispatch({ type: "START_FETCH", payload: true });
     } else if (isValid && editFlag) {
       const { name, kwh, category, color } = editItem;
-      await dispatch({
+      dispatch({
         type: "REMOVE_FROM_ARRAY",
         payload: { name, value: kwh, color, category, id: editItem.id },
       });
       await editBadge(formData, editItem);
-      await dispatch({ type: "START_FETCH", payload: true });
-      await setEditFlag(false);
-      await setBadgeModalIsOpen(false);
+      dispatch({ type: "START_FETCH", payload: true });
+      setEditFlag(false);
+      setBadgeModalIsOpen(false);
     }
   };
-
-  // const handleColorChange = (color: any) => {
-  //   setColor(color.hex);
-  // };
 
   useEffect(() => {
     if (!badges || badges.length === 0) {
@@ -108,7 +120,7 @@ function CreateBadgeForm({
   useEffect(() => {
     if (uniqueArrayOfBadges) {
       uniqueArrayOfBadges.findIndex(
-        (badge: any) => badge.category === category && setColor(badge.color)
+        (badge: IBadge) => badge.category === category && setColor(badge.color)
       );
     }
   }, [category]);
@@ -126,8 +138,12 @@ function CreateBadgeForm({
           type="text"
           id="badgeName"
           value={badgeName}
-          onChange={(e: any) => setBadgeName(e.target.value)}
-          onBlur={(e: any) => setBadgeName(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setBadgeName(e.target.value)
+          }
+          onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+            setBadgeName(e.target.value)
+          }
           placeholder={editFlag && editItem.name}
           className="text-secondary"
         />
@@ -141,7 +157,9 @@ function CreateBadgeForm({
           list="categories"
           id="category"
           value={category}
-          onChange={(e: any) => setCategory(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setCategory(e.target.value)
+          }
           placeholder={editFlag && editItem.category}
           className="text-secondary"
         />
@@ -157,8 +175,8 @@ function CreateBadgeForm({
               <option value="Appliances">Appliances</option>
               <option value="Heating">Heating</option>
               <option value="Lighting">Lighting</option>
-              {uniqueArrayOfBadges?.map((badge: any) => {
-                const { category, color } = badge;
+              {uniqueArrayOfBadges?.map((badge: IBadge) => {
+                const { category } = badge;
                 return <option value={category}>{category}</option>;
               })}
             </>
@@ -185,7 +203,7 @@ function CreateBadgeForm({
           type="number"
           id="kwh"
           value={kwh}
-          onChange={(e: any) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             const value = parseFloat(e.target.value);
             if (!isNaN(value)) {
               setKwh(value);
@@ -199,33 +217,4 @@ function CreateBadgeForm({
       <button type="submit">Submit</button>
     </form>
   );
-}
-
-// !OLD
-{
-  /* <div className="flex flex-col">
-        <label htmlFor="category" className="text-primary">
-          Category:
-        </label>
-        <select
-          id="category"
-          value={category}
-          onChange={(e: any) => setCategory(e.target.value)}
-          className="text-secondary"
-        >
-          <option value="">Choose a category</option>
-          {uniqueArrayOfBadges.length >= 1 ? (
-            uniqueArrayOfBadges?.map((badge: any) => {
-              const { category, color } = badge;
-              return <option value={category}>{category}</option>;
-            })
-          ) : (
-            <>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </>
-          )}
-        </select>
-      </div> */
 }

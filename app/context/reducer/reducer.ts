@@ -1,34 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
-
-interface IBadge {
-  id: number;
-  attributes: {
-    name: string;
-    kwh: number;
-  };
-}
-interface ICategories {
-  id: number;
-  attributes: {
-    name: string;
-    kwh: number;
-    badges: Array<IBadge>;
-  };
-}
-
-export interface IState {
-  date: string;
-  location: number;
-  selectedHours: Array<number>;
-  startFetch: boolean;
-  badges: Array<IBadge>;
-  categories: Array<ICategories>;
-  // totalNumber: number;
-  // setTotalNumber: Dispatch<SetStateAction<number>>;
-  totalNumber: Array<{ value: number }>;
-  // setTotalNumber: Dispatch<SetStateAction<Array<{ value: number }>>>;
-  totalKWHArray: Array<{ name: string; value: number }>;
-}
+import { IState } from "@/types";
 
 export const initialState: IState = {
   // TODO: get location from user by
@@ -37,17 +7,8 @@ export const initialState: IState = {
   selectedHours: [0, 24],
   startFetch: false,
   badges: [],
-  categories: [],
-  // totalNumber: [{ value: 100 }],
-  // totalNumber: 0,
-  // setTotalNumber: () => 0,
   totalNumber: [],
-  // setTotalNumber: () => {},
   totalKWHArray: [],
-  // totalKWHArray: [
-  //   { name: "placeholder badge", value: 3.3 },
-  //   { name: "placeholder badge 2", value: 1.2 },
-  // ],
 };
 
 export function reducer(state: any, action: { type: string; payload?: any }) {
@@ -107,21 +68,3 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
     }
   }
 }
-
-// "attributes": {
-//     "name": "testCategory by Ola",
-//     "badges": {
-//         "data": [
-//             {
-//                 "id": 53,
-//                 "attributes": {
-//                     "name": "Tørketrommel",
-//                     "kwh": 3.5,
-//                     "createdAt": "2023-04-23T23:58:46.325Z",
-//                     "updatedAt": "2023-04-23T23:58:46.325Z",
-//                     "publishedAt": "2023-04-23T23:58:46.323Z"
-//                 }
-//             },
-//         ]
-//     }
-// }

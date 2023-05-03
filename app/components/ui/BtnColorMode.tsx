@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
-import NotificationBell from "../navigation/NotificationBell";
 
 const BtnColorMode = () => {
   const [mounted, setMounted] = useState(false);
