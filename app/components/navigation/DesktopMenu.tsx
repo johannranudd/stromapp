@@ -1,5 +1,17 @@
+"use client";
+import { getItem } from "@/app/utils/storage/localstorage";
 import Link from "next/link";
+
 export default function DesktopMenu() {
+  const jwt = getItem("jwt");
+
+  if (jwt.length === 0)
+    return (
+      <Link href={"/login"} className="group flex flex-col items-end">
+        Login
+        <span className="h-[2px] w-0 group-hover:w-full duration-300 bg-thirdClrDark dark:bg-thirdClr"></span>
+      </Link>
+    );
   return (
     <div className="hidden md:inline md:space-x-3 md:ml-auto md:flex md:items-center mlg:space-x-6">
       <Link href={"/"} className="group flex flex-col items-center">

@@ -1,9 +1,12 @@
 "use client";
 import { useGlobalContext } from "@/app/context/context";
+import { getItem } from "@/app/utils/storage/localstorage";
 
 export default function MenuIcon() {
   const { menuIsOpen, setMenuIsOpen } = useGlobalContext();
+  const jwt = getItem("jwt");
 
+  if (jwt.length === 0) return null;
   return (
     <div className="md:hidden ml-auto flex items-center">
       <div

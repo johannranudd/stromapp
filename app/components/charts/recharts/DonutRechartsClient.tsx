@@ -10,6 +10,12 @@ import {
 } from "recharts";
 import { useGlobalContext } from "@/app/context/context";
 import { useState, useEffect } from "react";
+import {
+  DateTimeFormatOptions,
+  DonutDataItem,
+  IDataFromAPI,
+  IPriceAndTime,
+} from "@/types";
 
 const COLORS = [
   "#ce93d8",
@@ -20,10 +26,10 @@ const COLORS = [
   "#d500f9",
 ];
 
-export default function DonutRechartsServer(dataFromAPI: any) {
+export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
   const { windowWidth } = useGlobalContext();
   const now = new Date();
-  const options: any = {
+  const options: DateTimeFormatOptions = {
     timeZone: "Europe/Oslo",
     hour12: false,
     hour: "numeric",
@@ -34,16 +40,7 @@ export default function DonutRechartsServer(dataFromAPI: any) {
     .format(now)
     .slice(0, 2);
 
-  const {
-    _id,
-    region,
-    dailyPriceArray,
-    dailyPriceAverage,
-    dailyPriceMax,
-    dailyPriceMin,
-    averagePriceMonthlyToDate,
-    estimatedPowerSupportToDate,
-  } = dataFromAPI[0];
+  const { _id, dailyPriceArray, estimatedPowerSupportToDate } = dataFromAPI[0];
 
   const [width, setWidth] = useState(windowWidth / 1.3);
   useEffect(() => {
@@ -64,14 +61,17 @@ export default function DonutRechartsServer(dataFromAPI: any) {
       }}
       className="relative "
     >
-      {dailyPriceArray?.map((priceInOre: any, index: number) => {
+      {dailyPriceArray?.map((priceInOre: number, index: number) => {
         let hour = `${index}`;
         index < 10 ? (hour = `0${index}`) : `${index}`;
         if (osloTime === "24") {
           osloTime = "00";
         }
 
-        const priceInOreAndHour: any = { priceInOre, hour };
+        const priceInOreAndHour: IPriceAndTime = {
+          priceInOre,
+          hour,
+        };
 
         const oneHourAhead = Number(priceInOreAndHour.hour) + 1;
         const oneHourAheadToString = `${
@@ -84,7 +84,8 @@ export default function DonutRechartsServer(dataFromAPI: any) {
             priceInOre,
             estimatedPowerSupportToDate
           );
-          const data = [
+
+          const data: Array<DonutDataItem> = [
             {
               name: "Your expenses",
               value: Number(yourExpensesFinal),
@@ -115,7 +116,12 @@ function Donut({
   priceInOreAndHour,
   timeFrameForCurrentPrice,
   width,
-}: any) {
+}: {
+  data: Array<DonutDataItem>;
+  priceInOreAndHour: IPriceAndTime;
+  timeFrameForCurrentPrice: string;
+  width: number;
+}) {
   return (
     <>
       <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
@@ -132,15 +138,7 @@ function Donut({
             innerRadius={width / 2.3}
             outerRadius={width / 1.9}
             fill="#82ca9d"
-            label={({
-              cx,
-              cy,
-              midAngle,
-              innerRadius,
-              outerRadius,
-              percent,
-              index,
-            }) => {
+            label={({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
               const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
               const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
               const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
@@ -160,7 +158,7 @@ function Donut({
             }}
             labelLine={false}
           >
-            {data.map((entry: any, index: number) => (
+            {data.map((entry: DonutDataItem, index: number) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}

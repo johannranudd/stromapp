@@ -11,7 +11,7 @@ export default function RegisterForm() {
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const phoneRegex = /^\+?[0-9]\d{1,20}$/;
@@ -45,7 +45,9 @@ export default function RegisterForm() {
           id="name"
           name="name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setName(e.target.value)
+          }
           required
         />
 
@@ -55,7 +57,9 @@ export default function RegisterForm() {
           id="email"
           name="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
           required
         />
 
@@ -65,7 +69,9 @@ export default function RegisterForm() {
           id="password"
           name="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
           required
         />
 
@@ -75,7 +81,9 @@ export default function RegisterForm() {
           id="address"
           name="address"
           value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setAddress(e.target.value)
+          }
           required
         />
         <label htmlFor="phoneNumber">phone Number:</label>
@@ -84,7 +92,9 @@ export default function RegisterForm() {
           id="phoneNumber"
           name="phoneNumber"
           value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPhoneNumber(e.target.value)
+          }
           required
         />
 

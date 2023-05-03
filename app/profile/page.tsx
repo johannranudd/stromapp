@@ -12,6 +12,7 @@ import ChangePWModal from "./components/modal/ChangePWModal";
 import { fetchUser } from "../utils/gets";
 import { editProfile } from "../utils/puts";
 import { AiOutlineCheck } from "react-icons/ai";
+import { IUser } from "@/types";
 
 export default function page() {
   const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
@@ -81,7 +82,7 @@ export default function page() {
   );
 }
 
-function NotificationSettingComponent({ user }: any) {
+function NotificationSettingComponent({ user }: { user?: IUser }) {
   const [tempNotificationLimit, setTempNotificationLimit] = useState(0);
   const [isToggled, setIsToggled] = useState<boolean>();
   const [saved, setSaved] = useState<boolean>(false);
@@ -146,7 +147,9 @@ function NotificationSettingComponent({ user }: any) {
             type="number"
             className="text-secondary"
             value={tempNotificationLimit}
-            onChange={(e) => handleNotoficationValue(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleNotoficationValue(e.target.value)
+            }
           />
         </div>
       </div>

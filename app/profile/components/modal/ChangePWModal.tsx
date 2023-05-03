@@ -16,7 +16,7 @@ export default function ChangePWModal({
   const [warning, setWarning] = useState("");
   const [success, setSuccess] = useState("");
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = {
       currentPassword: currentPW,
@@ -72,7 +72,9 @@ export default function ChangePWModal({
             type="password"
             id="oldPassword"
             value={currentPW}
-            onChange={(e: any) => setCurrentPW(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCurrentPW(e.target.value)
+            }
             className="text-secondary p-2"
           />
           <label htmlFor="newPassword" className="text-primary text-center">
@@ -82,7 +84,9 @@ export default function ChangePWModal({
             type="password"
             id="newPassword"
             value={newPW}
-            onChange={(e: any) => setNewPW(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setNewPW(e.target.value)
+            }
             className="text-secondary p-2"
           />
           <label htmlFor="confirmNewPW" className="text-primary text-center">
@@ -92,7 +96,9 @@ export default function ChangePWModal({
             type="password"
             id="confirmNewPW"
             value={confirmNewPW}
-            onChange={(e: any) => setConfirNewPW(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setConfirNewPW(e.target.value)
+            }
             className="text-secondary p-2"
           />
           <button type="submit" className="border border-thirdClr p-2">

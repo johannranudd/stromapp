@@ -1,3 +1,4 @@
+import { IBadge, IGroup } from "@/types";
 import { getItem } from "./storage/localstorage";
 
 export function getElSupportPercentage(
@@ -33,7 +34,6 @@ export function validateBadgeForm(formData: any) {
   for (const key of Object.keys(formData)) {
     if (!formData[key]) {
       allValid = false;
-      console.log("FALSE PROPERY::: ", key);
     }
   }
   return allValid;
@@ -43,7 +43,6 @@ export function validateRegisterForm(formData: any) {
   for (const key of Object.keys(formData)) {
     if (!formData[key]) {
       allValid = false;
-      console.log("FALSE PROPERY::: ", key);
     }
   }
   return allValid;
@@ -53,13 +52,12 @@ export function validateForm(formData: any) {
   for (const key of Object.keys(formData)) {
     if (!formData[key]) {
       allValid = false;
-      console.log("FALSE PROPERY::: ", key);
     }
   }
   return allValid;
 }
 
-export function getUniqueBadgeArray(badges: any) {
+export function getUniqueBadgeArray(badges: Array<IBadge>) {
   const uniqueArray = badges.reduce((total: any, current: any) => {
     if (
       total.findIndex(
@@ -74,7 +72,7 @@ export function getUniqueBadgeArray(badges: any) {
   return uniqueArray;
 }
 
-export function sortByLocalCategory(badges: any) {
+export function sortByLocalCategory(badges: Array<IBadge>) {
   interface Badge {
     category: string;
   }
@@ -84,7 +82,7 @@ export function sortByLocalCategory(badges: any) {
   });
   return sortedBadges;
 }
-export function sortByLocalName(groups: any) {
+export function sortByLocalName(groups: Array<IGroup>) {
   interface Group {
     name: string;
   }

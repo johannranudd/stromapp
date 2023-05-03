@@ -4,8 +4,7 @@ import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
 export default function MainContent({ dataFromClient }: any) {
-  // const { state } = useGlobalContext();
-  const [activeTab, setActiveTab]: any = useState("tab1");
+  const [activeTab, setActiveTab] = useState("tab1");
 
   if (!dataFromClient) return <div>Loading</div>;
   return (
@@ -48,7 +47,7 @@ function Tabs({ activeTab, setActiveTab }: any) {
 }
 
 function PiechartsDashboard({ activeTab, dataFromClient }: any) {
-  const { state, dispatch, modalIsOpen, setModalIsOpen } = useGlobalContext();
+  const { state, dispatch, setModalIsOpen } = useGlobalContext();
   const { totalKWHArray }: any = state;
   const [kWh, setkWh] = useState(0);
 
@@ -59,10 +58,6 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
       payload: { value: Number(e.target.value) },
     });
   }
-
-  // function openCategoriesModal() {
-  //   console.log("MODAL IS OPEN");
-  // }
 
   return (
     <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
@@ -85,7 +80,6 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
               })}
           </ul>
           <button
-            // onClick={openCategoriesModal}
             onClick={() => setModalIsOpen(true)}
             className="bg-green-500 rounded-md"
           >

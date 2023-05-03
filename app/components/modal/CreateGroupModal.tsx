@@ -4,7 +4,8 @@ import { validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
 import { createGroup } from "@/app/utils/posts";
 import { editGroup } from "@/app/utils/puts";
-import { useEffect, useState } from "react";
+import { IBadge, IBadgeSimple, IUser } from "@/types";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CirclePicker } from "react-color";
 
 export default function CreateBadgeModal() {
@@ -17,7 +18,7 @@ export default function CreateBadgeModal() {
     setEditFlag,
     editItem,
   } = useGlobalContext();
-  const [user, setUser]: any = useState();
+  const [user, setUser] = useState<IUser | undefined>(undefined);
   useEffect(() => {
     if (groupModalIsOpen) {
       fetchUser(setUser);
@@ -57,15 +58,26 @@ function CreateGroupForm({
   editFlag,
   editItem,
   setEditFlag,
-}: any) {
+}: {
+  id?: number;
+  badges?: Array<IBadge>;
+  setGroupModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  dispatch: Dispatch<any>;
+  editFlag: boolean;
+  editItem: any;
+  setEditFlag: Dispatch<SetStateAction<boolean>>;
+}) {
   const [groupName, setGroupName] = useState("");
   const [color, setColor] = useState("");
-  const [kwh, setKwh] = useState<number>(0);
+  const [kwh, setKwh] = useState(0);
   const [selectedBadges, setSelectedBadges]: any = useState([]);
 
-  const handleBadgeSelection = (e: any, index: number) => {
+  const handleBadgeSelection = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
     e.preventDefault();
-    const badge = badges[index];
+    const badge = badges && badges[index];
     const badgeIndex = selectedBadges.findIndex((item: any) => item === badge);
 
     if (badgeIndex > -1) {
@@ -79,37 +91,41 @@ function CreateGroupForm({
 
   useEffect(() => {
     const totalKwhOfSelectedBadges = selectedBadges.reduce(
-      (total: any, current: any) => (total += current.kwh),
+      (total: number, current: IBadge) => (total += current.kwh),
       0
     );
     setKwh(totalKwhOfSelectedBadges);
   }, [selectedBadges]);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData: any = {
+    const formData: {
+      groupName: string;
+      selectedBadges: Array<IBadge>;
+      color: string;
+      kwh: number;
+    } = {
       groupName,
       selectedBadges,
       color,
       kwh,
-      // user: id,
     };
     const isValid = validateBadgeForm(formData);
 
     if (isValid && !editFlag) {
       await createGroup(formData);
-      await setGroupModalIsOpen(false);
-      await dispatch({ type: "START_FETCH", payload: true });
+      setGroupModalIsOpen(false);
+      dispatch({ type: "START_FETCH", payload: true });
     } else if (isValid && editFlag) {
       const { name, kwh, category, color } = editItem;
-      await dispatch({
+      dispatch({
         type: "REMOVE_FROM_ARRAY",
         payload: { name, value: kwh, color, category, id: editItem.id },
       });
       await editGroup(formData, editItem);
-      await dispatch({ type: "START_FETCH", payload: true });
-      await setEditFlag(false);
-      await setGroupModalIsOpen(false);
+      dispatch({ type: "START_FETCH", payload: true });
+      setEditFlag(false);
+      setGroupModalIsOpen(false);
     }
   };
 
@@ -126,8 +142,12 @@ function CreateGroupForm({
           type="text"
           id="groupName"
           value={groupName}
-          onChange={(e: any) => setGroupName(e.target.value)}
-          onBlur={(e: any) => setGroupName(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setGroupName(e.target.value)
+          }
+          onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+            setGroupName(e.target.value)
+          }
           placeholder={editFlag && editItem.name}
           className="text-secondary"
         />
@@ -140,17 +160,17 @@ function CreateGroupForm({
         <select
           id="badgeList"
           multiple
-          value={selectedBadges.map((badge: any) => badges.indexOf(badge))}
+          value={selectedBadges.map((badge: IBadge) => badges?.indexOf(badge))}
           onChange={() => handleBadgeSelection}
           className="text-secondary"
         >
-          {badges?.map((badge: any, index: number) => {
+          {badges?.map((badge: IBadge, index: number) => {
             const { name } = badge;
             return (
               <option
                 key={name}
                 value={index}
-                onClick={(e) => handleBadgeSelection(e, index)}
+                onClick={(e: any) => handleBadgeSelection(e, index)}
               >
                 <span>{name}</span>
               </option>

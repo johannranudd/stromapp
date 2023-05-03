@@ -3,7 +3,6 @@ import { getItem, setItem } from "./storage/localstorage";
 
 export async function changePassword(formData: any) {
   const jwt = getItem("jwt");
-  // const { id } = getItem("user");
   const baseURL = getURL();
   let url = `${baseURL}/auth/change-password`;
 
@@ -79,7 +78,6 @@ export async function createGroup(formData: any) {
     });
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
       return data;
     } else {
       console.error(

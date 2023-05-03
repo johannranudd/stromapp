@@ -1,10 +1,18 @@
 "use client";
-import { useGlobalContext } from "@/app/context/context";
+import { ContextProps, useGlobalContext } from "@/app/context/context";
+import { IBadgeSimple, IGroupEdit, IState, ITotalKWHProps } from "@/types";
 import { deleteItem } from "@/app/utils/delets";
 import { sortByLocalCategory, sortByLocalName } from "@/app/utils/generics";
 import { fetchGroups, fetchUser } from "@/app/utils/gets";
-import { IBadge, IGroup } from "@/types";
-import { useState, useEffect } from "react";
+import {
+  IActiveToggle,
+  IBadge,
+  IGroup,
+  IToggleProps,
+  IUser,
+  TDispatch,
+} from "@/types";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import {
   AiOutlineDelete,
   AiOutlineEdit,
@@ -54,12 +62,12 @@ export default function CategoriesModal() {
     setGroupModalIsOpen(true);
   }
 
-  const [activeToggle, setActiveToggle] = useState({
+  const [activeToggle, setActiveToggle] = useState<IActiveToggle>({
     groups: true,
     badges: true,
   });
-  const handleToggleChange = (toggleName: any) => {
-    setActiveToggle((prevToggle: any) => {
+  const handleToggleChange = (toggleName: string) => {
+    setActiveToggle((prevToggle) => {
       const otherToggle = toggleName === "groups" ? "badges" : "groups";
       const newToggleState = {
         ...prevToggle,
@@ -75,7 +83,7 @@ export default function CategoriesModal() {
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000a7] z-50 text-secondary">
-      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-screen-md flex flex-col justify-between rounded-[35px] bg-primary dark:bg-secondary ">
+      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-screen-md flex flex-col justify-between rounded-[35px] bg-primary dark:bg-secondary">
         <div className="p-4 flex rounded-full justify-between bg-secondary text-primary">
           <h2>Your groups and badges</h2>
           <button onClick={() => setModalIsOpen(false)}>X</button>
@@ -113,7 +121,7 @@ export default function CategoriesModal() {
   );
 }
 
-function ToggleButtons({ activeToggle, handleToggleChange }: any) {
+function ToggleButtons({ activeToggle, handleToggleChange }: IToggleProps) {
   return (
     <div className="flex justify-between p-4">
       <div>
@@ -151,7 +159,16 @@ function ListOfGroupsAndBadges({
   setGroupModalIsOpen,
   setEditItem,
   activeToggle,
-}: any) {
+}: {
+  user: IUser;
+  dispatch: TDispatch;
+  state: any;
+  setEditFlag: Dispatch<SetStateAction<boolean>>;
+  setBadgeModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  setGroupModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  setEditItem: Dispatch<SetStateAction<any>>;
+  activeToggle: IActiveToggle;
+}) {
   const { groups, badges } = user;
 
   if (badges.length === 0 && groups.length === 0)
@@ -159,7 +176,6 @@ function ListOfGroupsAndBadges({
       <div>You have 0 badges, create badges and organize them into groups</div>
     );
   return (
-    // !new
     <div>
       {activeToggle.groups && (
         <Groups
@@ -192,8 +208,15 @@ function Badges({
   setEditFlag,
   setBadgeModalIsOpen,
   setEditItem,
-}: any) {
-  async function deleteAndUpdate(badge: any) {
+}: {
+  badges: Array<IBadge>;
+  dispatch: TDispatch;
+  state: any;
+  setEditFlag: Dispatch<SetStateAction<boolean>>;
+  setBadgeModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  setEditItem: Dispatch<SetStateAction<any>>;
+}) {
+  async function deleteAndUpdate(badge: IBadgeSimple) {
     const { id, name, kwh, category, color } = badge;
     await dispatch({
       type: "REMOVE_FROM_ARRAY",
@@ -202,7 +225,7 @@ function Badges({
     await deleteItem("badges", id);
     await dispatch({ type: "START_FETCH", payload: true });
   }
-  async function allowEditing(badge: any) {
+  async function allowEditing(badge: IBadgeSimple) {
     await setEditItem(badge);
     await setEditFlag(true);
     await setBadgeModalIsOpen(true);
@@ -222,9 +245,11 @@ function Badges({
       <ul className="grid grid-cols-2 gap-2">
         {sortedBadges.map((badge: IBadge) => {
           const { id, name, kwh, color, category } = badge;
-          const hasBadgeId = state.totalKWHArray.some((item: any) => {
-            return item.id === id && item.name === name;
-          });
+          const hasBadgeId = state.totalKWHArray.some(
+            (item: ITotalKWHProps) => {
+              return item.id === id && item.name === name;
+            }
+          );
 
           return (
             <li
@@ -290,27 +315,36 @@ function Groups({
   setEditFlag,
   setGroupModalIsOpen,
   setEditItem,
-}: any) {
+}: {
+  badges: Array<IBadge>;
+  groups: Array<IGroup>;
+  dispatch: TDispatch;
+  state: any;
+  setEditFlag: Dispatch<SetStateAction<boolean>>;
+  setGroupModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  setEditItem: Dispatch<SetStateAction<any>>;
+}) {
   const [fetchedGroups, setFetchedGroups]: any = useState();
 
   useEffect(() => {
     fetchGroups(setFetchedGroups);
   }, [state]);
 
-  async function deleteAndUpdate(group: any) {
-    const { id, name, kwh, category, color } = group;
-    await dispatch({
+  async function deleteAndUpdate(group: IGroup) {
+    const { id, name, kwh, color } = group;
+    dispatch({
       type: "REMOVE_FROM_ARRAY",
-      payload: { name, value: kwh, color, category, id },
+      payload: { name, value: kwh, color, id },
     });
     await deleteItem("groups", id);
-    await dispatch({ type: "START_FETCH", payload: true });
+    dispatch({ type: "START_FETCH", payload: true });
   }
 
-  async function allowEditing(group: any) {
-    await setEditItem(group);
-    await setEditFlag(true);
-    await setGroupModalIsOpen(true);
+  async function allowEditing(group: IGroupEdit) {
+    console.log(group);
+    setEditItem(group);
+    setEditFlag(true);
+    setGroupModalIsOpen(true);
   }
 
   const sortedGroups = sortByLocalName(groups);

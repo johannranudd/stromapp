@@ -12,7 +12,7 @@ import {
 import { reducer, initialState } from "./reducer/reducer";
 import { redirectToLoginPage } from "../utils/generics";
 
-interface ContextProps {
+export interface ContextProps {
   state: Object;
   dispatch: Dispatch<any>;
   menuIsOpen: boolean;
@@ -112,10 +112,6 @@ export const GlobalContextProvider = ({
   useEffect(() => {
     redirectToLoginPage(pathname);
   }, [pathname]);
-
-  useEffect(() => {
-    console.log("STATE FROM CONTEXT:: ", state);
-  }, [state]);
 
   return (
     <GlobalContext.Provider

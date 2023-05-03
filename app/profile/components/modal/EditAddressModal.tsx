@@ -11,7 +11,7 @@ export default function EditAddressModal({
 }: EditPhoneNrModalProps) {
   const [address, setAddress] = useState("");
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await editProfile({ address });
     setAdrModalIsOpen(false);
@@ -38,7 +38,9 @@ export default function EditAddressModal({
             type="text"
             id="address"
             value={address}
-            onChange={(e: any) => setAddress(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setAddress(e.target.value)
+            }
             className="text-secondary p-2"
           />
           <button type="submit" className="border border-thirdClr p-2">

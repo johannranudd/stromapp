@@ -39,14 +39,9 @@ export async function getElectricityPrice(
 }
 
 export async function fetchGroups(setGroups: any) {
-  console.log("FETCHING group !!!!!!!!!!!!!!!!!!!!!!!!!!");
   const baseURL = getURL();
-  // const { id } = getItem("user");
   try {
-    const res = await fetch(
-      // `${baseURL}/users/${id}?populate=groups&populate=badges`
-      `${baseURL}/groups?populate=badges`
-    );
+    const res = await fetch(`${baseURL}/groups?populate=badges`);
     if (res.ok) {
       const data = await res.json();
       setGroups(data);
@@ -64,14 +59,10 @@ export async function fetchGroups(setGroups: any) {
   }
 }
 export async function fetchUser(setUser: any) {
-  console.log("FETCHING USER !!!!!!!!!!!!!!!!!!!!!!!!!!");
   const baseURL = getURL();
   const { id } = getItem("user");
-  // console.log(baseURL);
-  // console.log(`${baseURL}/users/${id}?populate=groups&populate=badges`);
   try {
     const res = await fetch(
-      // `${baseURL}/users/${id}?populate=groups&populate=badges`
       `${baseURL}/users/${id}?populate=groups&populate=badges`
     );
     if (res.ok) {
@@ -89,7 +80,6 @@ export async function fetchUser(setUser: any) {
 }
 
 export async function fetcherClient(state: any, setDataFromClient: any) {
-  console.log("FETCHING CLIENT PRICES API !!!!!!!!!!!!!!!!!!!!!!!!!!");
   const { date, location }: any = state;
   const res = await fetch("../../../api/prices", {
     method: "POST",
