@@ -11,6 +11,7 @@ import { fetcherClient } from "../utils/gets";
 export default function page() {
   const { state, modalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
     useGlobalContext();
+  const { date, location }: any = state;
 
   const [dataFromClient, setDataFromClient] = useState();
   // const [invalidData, setInvalidData] = useState(false);
@@ -22,8 +23,7 @@ export default function page() {
   useEffect(() => {
     const { startFetch }: any = state;
     if (startFetch) fetcherClient(state, setDataFromClient);
-    console.log(dataFromClient);
-  }, [state]);
+  }, [date, location]);
 
   if (!dataFromClient) return <div>Loading...</div>;
   return (
@@ -37,14 +37,14 @@ export default function page() {
       {badgeModalIsOpen && <CreateBadgeModal />}
       {groupModalIsOpen && <CreateGroupModal />}
 
-      {/* <div>
+      <div>
         <h1 className="py-8 text-center text-2xl">Dashboard</h1>
         <LocationAndDateForm />
         <MainContent dataFromClient={dataFromClient} />
         <div className="w-full max-w-screen-lg mx-auto bg-secondary text-primary dark:bg-primary dark:text-secondary">
           <AreaChartDashboard dataFromClient={dataFromClient} />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
