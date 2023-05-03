@@ -75,6 +75,7 @@ function CreateBadgeForm({
   const [color, setColor] = useState("");
   const [kwh, setKwh] = useState<number>();
   const [uniqueArrayOfBadges, setUniqueArrayOfBadges] = useState([]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,10 +93,25 @@ function CreateBadgeForm({
       user: id,
     };
     const isValid = validateBadgeForm(formData);
-    if (isValid && !editFlag) {
-      await createBadge(formData);
-      setBadgeModalIsOpen(false);
-      dispatch({ type: "START_FETCH", payload: true });
+    if (!isValid) {
+      setErrors(["All fields must be filled out"]);
+      setTimeout(() => {
+        setErrors([]);
+      }, 3000);
+    } else if (isValid && !editFlag) {
+      const res = await createBadge(formData);
+      if (res.error) {
+        const allErrors = res.error.details.errors.map(
+          (error: any) => error.message
+        );
+        setErrors(allErrors);
+        setTimeout(() => {
+          setErrors([]);
+        }, 3000);
+      } else {
+        setBadgeModalIsOpen(false);
+        dispatch({ type: "START_FETCH", payload: true });
+      }
     } else if (isValid && editFlag) {
       const { name, kwh, category, color } = editItem;
       dispatch({
@@ -126,95 +142,104 @@ function CreateBadgeForm({
   }, [category]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="h-full py-20 mx-auto flex flex-col justify-between  text-primary"
-    >
-      <div className="flex flex-col">
-        <label htmlFor="badgeName" className="text-primary">
-          Badge Name:
-        </label>
-        <input
-          type="text"
-          id="badgeName"
-          value={badgeName}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setBadgeName(e.target.value)
-          }
-          onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-            setBadgeName(e.target.value)
-          }
-          placeholder={editFlag && editItem.name}
-          className="text-secondary"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="category" className="text-primary">
-          Category:
-        </label>
-        <input
-          list="categories"
-          id="category"
-          value={category}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setCategory(e.target.value)
-          }
-          placeholder={editFlag && editItem.category}
-          className="text-secondary"
-        />
-        <datalist id="categories">
-          {!uniqueArrayOfBadges || uniqueArrayOfBadges.length === 0 ? (
-            <>
-              <option value="Appliances">Appliances</option>
-              <option value="Heating">Heating</option>
-              <option value="Lighting">Lighting</option>
-            </>
-          ) : (
-            <>
-              <option value="Appliances">Appliances</option>
-              <option value="Heating">Heating</option>
-              <option value="Lighting">Lighting</option>
-              {uniqueArrayOfBadges?.map((badge: IBadge) => {
-                const { category } = badge;
-                return <option value={category}>{category}</option>;
-              })}
-            </>
-          )}
-        </datalist>
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="color" className="text-primary">
-          Color:
-        </label>
-        <CirclePicker
-          className="colorpicker"
-          color={color}
-          onChange={(color) => setColor(color.hex)}
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="kwh" className="text-primary">
-          kwh:
-        </label>
-        <input
-          type="number"
-          id="kwh"
-          value={kwh}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = parseFloat(e.target.value);
-            if (!isNaN(value)) {
-              setKwh(value);
+    <>
+      {errors.length > 0 && (
+        <div className="absolute top-[10%]  w-full max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
+          {errors.map((item: any) => {
+            return <p>{item}</p>;
+          })}
+        </div>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="h-full py-20 mx-auto flex flex-col justify-between  text-primary"
+      >
+        <div className="flex flex-col">
+          <label htmlFor="badgeName" className="text-primary">
+            Badge Name:
+          </label>
+          <input
+            type="text"
+            id="badgeName"
+            value={badgeName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setBadgeName(e.target.value)
             }
-          }}
-          step="0.1"
-          placeholder={editFlag && editItem.kwh}
-          className="text-secondary"
-        />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+              setBadgeName(e.target.value)
+            }
+            placeholder={editFlag && editItem.name}
+            className="text-secondary"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="category" className="text-primary">
+            Category:
+          </label>
+          <input
+            list="categories"
+            id="category"
+            value={category}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCategory(e.target.value)
+            }
+            placeholder={editFlag && editItem.category}
+            className="text-secondary"
+          />
+          <datalist id="categories">
+            {!uniqueArrayOfBadges || uniqueArrayOfBadges.length === 0 ? (
+              <>
+                <option value="Appliances">Appliances</option>
+                <option value="Heating">Heating</option>
+                <option value="Lighting">Lighting</option>
+              </>
+            ) : (
+              <>
+                <option value="Appliances">Appliances</option>
+                <option value="Heating">Heating</option>
+                <option value="Lighting">Lighting</option>
+                {uniqueArrayOfBadges?.map((badge: IBadge) => {
+                  const { category } = badge;
+                  return <option value={category}>{category}</option>;
+                })}
+              </>
+            )}
+          </datalist>
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="color" className="text-primary">
+            Color:
+          </label>
+          <CirclePicker
+            className="colorpicker"
+            color={color}
+            onChange={(color) => setColor(color.hex)}
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="kwh" className="text-primary">
+            kwh:
+          </label>
+          <input
+            type="number"
+            id="kwh"
+            value={kwh}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const value = parseFloat(e.target.value);
+              if (!isNaN(value)) {
+                setKwh(value);
+              }
+            }}
+            step="0.1"
+            placeholder={editFlag && editItem.kwh}
+            className="text-secondary"
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 }
