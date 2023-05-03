@@ -13,7 +13,6 @@ export default function ChangePWModal({
   const [currentPW, setCurrentPW] = useState("");
   const [newPW, setNewPW] = useState("");
   const [confirmNewPW, setConfirNewPW] = useState("");
-  // const [warning, setWarning] = useState("");
   const [success, setSuccess] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
 
