@@ -71,6 +71,7 @@ function CreateGroupForm({
   const [color, setColor] = useState("");
   const [kwh, setKwh] = useState(0);
   const [selectedBadges, setSelectedBadges]: any = useState([]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleBadgeSelection = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -111,11 +112,25 @@ function CreateGroupForm({
       kwh,
     };
     const isValid = validateBadgeForm(formData);
-
-    if (isValid && !editFlag) {
-      await createGroup(formData);
-      setGroupModalIsOpen(false);
-      dispatch({ type: "START_FETCH", payload: true });
+    if (!isValid) {
+      setErrors(["All fields must be filled out"]);
+      setTimeout(() => {
+        setErrors([]);
+      }, 3000);
+    } else if (isValid && !editFlag) {
+      const res = await createGroup(formData);
+      if (res.error) {
+        const allErrors = res.error.details.errors.map(
+          (error: any) => error.message
+        );
+        setErrors(allErrors);
+        setTimeout(() => {
+          setErrors([]);
+        }, 3000);
+      } else {
+        setGroupModalIsOpen(false);
+        dispatch({ type: "START_FETCH", payload: true });
+      }
     } else if (isValid && editFlag) {
       const { name, kwh, category, color } = editItem;
       dispatch({
@@ -130,70 +145,81 @@ function CreateGroupForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="h-full py-20 mx-auto flex flex-col justify-between  text-primary"
-    >
-      <div className="flex flex-col">
-        <label htmlFor="groupName" className="text-primary">
-          Group Name:
-        </label>
-        <input
-          type="text"
-          id="groupName"
-          value={groupName}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setGroupName(e.target.value)
-          }
-          onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-            setGroupName(e.target.value)
-          }
-          placeholder={editFlag && editItem.name}
-          className="text-secondary"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="badgeList" className="text-primary">
-          Select Badges:
-        </label>
-        <select
-          id="badgeList"
-          multiple
-          value={selectedBadges.map((badge: IBadge) => badges?.indexOf(badge))}
-          onChange={() => handleBadgeSelection}
-          className="text-secondary"
-        >
-          {badges?.map((badge: IBadge, index: number) => {
-            const { name } = badge;
-            return (
-              <option
-                key={name}
-                value={index}
-                onClick={(e: any) => handleBadgeSelection(e, index)}
-              >
-                <span>{name}</span>
-              </option>
-            );
+    <>
+      {errors.length > 0 && (
+        <div className="absolute top-[10%]  w-full max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
+          {errors.map((item: any) => {
+            return <p>{item}</p>;
           })}
-        </select>
-      </div>
+        </div>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="h-full py-20 mx-auto flex flex-col justify-between  text-primary"
+      >
+        <div className="flex flex-col">
+          <label htmlFor="groupName" className="text-primary">
+            Group Name:
+          </label>
+          <input
+            type="text"
+            id="groupName"
+            value={groupName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setGroupName(e.target.value)
+            }
+            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+              setGroupName(e.target.value)
+            }
+            placeholder={editFlag && editItem.name}
+            className="text-secondary"
+          />
+        </div>
 
-      <div className="flex flex-col">
-        <label htmlFor="color" className="text-primary">
-          Color:
-        </label>
-        <CirclePicker
-          className="colorpicker"
-          color={color}
-          onChange={(color) => setColor(color.hex)}
-        />
-      </div>
-      <div className="flex flex-col text-primary">
-        <p>{kwh.toFixed(1)} kwh</p>
-      </div>
+        <div className="flex flex-col">
+          <label htmlFor="badgeList" className="text-primary">
+            Select Badges:
+          </label>
+          <select
+            id="badgeList"
+            multiple
+            value={selectedBadges.map((badge: IBadge) =>
+              badges?.indexOf(badge)
+            )}
+            onChange={() => handleBadgeSelection}
+            className="text-secondary"
+          >
+            {badges?.map((badge: IBadge, index: number) => {
+              const { name } = badge;
+              return (
+                <option
+                  key={name}
+                  value={index}
+                  onClick={(e: any) => handleBadgeSelection(e, index)}
+                >
+                  <span>{name}</span>
+                </option>
+              );
+            })}
+          </select>
+        </div>
 
-      <button type="submit">Submit</button>
-    </form>
+        <div className="flex flex-col">
+          <label htmlFor="color" className="text-primary">
+            Color:
+          </label>
+          <CirclePicker
+            className="colorpicker"
+            color={color}
+            onChange={(color) => setColor(color.hex)}
+          />
+        </div>
+        <div className="flex flex-col text-primary">
+          <p>{kwh.toFixed(1)} kwh</p>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 }

@@ -4,13 +4,13 @@ import { useGlobalContext } from "@/app/context/context";
 import { TDispatch } from "@/types";
 
 export default function LocationAndDateForm() {
-  const { state, dispatch } = useGlobalContext();
+  const { dispatch } = useGlobalContext();
   const [location, setLocation] = useState("1");
   const [warning, setWarning] = useState(false);
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
 
   useEffect(() => {
-    vaidateDashboardForm(location, date, setWarning, dispatch);
+    validateDashboardForm(location, date, setWarning, dispatch);
   }, [date, location]);
 
   return (
@@ -50,29 +50,68 @@ export default function LocationAndDateForm() {
 //
 //
 //
-function vaidateDashboardForm(
+function validateDashboardForm(
   location: string,
   date: string,
   setWarning: Dispatch<SetStateAction<boolean>>,
   dispatch: TDispatch
 ) {
-  const currentDate = new Date().getTime();
-  const selectedDate = new Date(date).getTime();
-  const oneDay = 24 * 60 * 60 * 1000;
+  const currentDate = new Date();
+  const selectedDate = new Date(date);
 
-  if (selectedDate - currentDate >= oneDay * 1) {
-    setWarning(true);
-    alert("Please select a date that is not more than one day ahead.");
-    return;
+  const norwayTimezone = "Europe/Oslo";
+  const currentNorwayDate = new Date(
+    currentDate.toLocaleString("nb-NO", { timeZone: norwayTimezone })
+  );
+  const selectedNorwayDate = new Date(
+    selectedDate.toLocaleString("nb-NO", { timeZone: norwayTimezone })
+  );
+
+  const nextDay = new Date(currentNorwayDate);
+  nextDay.setDate(nextDay.getDate() + 1);
+  nextDay.setHours(1, 0, 0, 0);
+
+  if (selectedNorwayDate >= nextDay) {
+    if (currentNorwayDate.getHours() < 14) {
+      setWarning(true);
+      alert("You can select the next day only after 2 o'clock Norwegian time.");
+      return;
+    }
   } else {
     setWarning(false);
-    if (Number(location) > 0 && date) {
-      const formData = {
-        location: Number(location),
-        date: date,
-      };
-      dispatch({ type: "START_FETCH", payload: true });
-      dispatch({ type: "LOCATION_AND_DATE", payload: formData });
-    }
+    const formData = {
+      location: Number(location),
+      date: date,
+    };
+    dispatch({ type: "START_FETCH", payload: true });
+    dispatch({ type: "LOCATION_AND_DATE", payload: formData });
   }
 }
+
+// !old
+// function vaidateDashboardForm(
+//   location: string,
+//   date: string,
+//   setWarning: Dispatch<SetStateAction<boolean>>,
+//   dispatch: TDispatch
+// ) {
+//   const currentDate = new Date().getTime();
+//   const selectedDate = new Date(date).getTime();
+//   const oneDay = 24 * 60 * 60 * 1000;
+
+//   if (selectedDate - currentDate >= oneDay * 1) {
+//     setWarning(true);
+//     alert("Please select a date that is not more than one day ahead.");
+//     return;
+//   } else {
+//     setWarning(false);
+//     if (Number(location) > 0 && date) {
+//       const formData = {
+//         location: Number(location),
+//         date: date,
+//       };
+//       dispatch({ type: "START_FETCH", payload: true });
+//       dispatch({ type: "LOCATION_AND_DATE", payload: formData });
+//     }
+//   }
+// }
