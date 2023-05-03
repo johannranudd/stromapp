@@ -13,6 +13,7 @@ export default function page() {
     useGlobalContext();
 
   const [dataFromClient, setDataFromClient] = useState();
+  const [invalidData, setInvalidData] = useState(false);
 
   useEffect(() => {
     fetcherClient(state, setDataFromClient);
