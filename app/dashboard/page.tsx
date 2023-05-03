@@ -22,6 +22,7 @@ export default function page() {
   useEffect(() => {
     const { startFetch }: any = state;
     if (startFetch) fetcherClient(state, setDataFromClient);
+    // console.log(dataFromClient);
   }, [state]);
 
   if (!dataFromClient) return <div>Loading...</div>;

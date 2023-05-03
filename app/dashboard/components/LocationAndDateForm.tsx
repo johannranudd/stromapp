@@ -50,68 +50,68 @@ export default function LocationAndDateForm() {
 //
 //
 //
+// function validateDashboardForm(
+//   location: string,
+//   date: string,
+//   setWarning: Dispatch<SetStateAction<boolean>>,
+//   dispatch: TDispatch
+// ) {
+//   const currentDate = new Date();
+//   const selectedDate = new Date(date);
+
+//   const norwayTimezone = "Europe/Oslo";
+//   const currentNorwayDate = new Date(
+//     currentDate.toLocaleString("nb-NO", { timeZone: norwayTimezone })
+//   );
+//   const selectedNorwayDate = new Date(
+//     selectedDate.toLocaleString("nb-NO", { timeZone: norwayTimezone })
+//   );
+
+//   const nextDay = new Date(currentNorwayDate);
+//   nextDay.setDate(nextDay.getDate() + 1);
+//   nextDay.setHours(1, 0, 0, 0);
+
+//   if (selectedNorwayDate >= nextDay) {
+//     if (currentNorwayDate.getHours() < 14) {
+//       setWarning(true);
+//       alert("You can select the next day only after 2 o'clock Norwegian time.");
+//       return;
+//     }
+//   } else {
+//     setWarning(false);
+//     const formData = {
+//       location: Number(location),
+//       date: date,
+//     };
+//     dispatch({ type: "START_FETCH", payload: true });
+//     dispatch({ type: "LOCATION_AND_DATE", payload: formData });
+//   }
+// }
+
+// !old
 function validateDashboardForm(
   location: string,
   date: string,
   setWarning: Dispatch<SetStateAction<boolean>>,
   dispatch: TDispatch
 ) {
-  const currentDate = new Date();
-  const selectedDate = new Date(date);
+  const currentDate = new Date().getTime();
+  const selectedDate = new Date(date).getTime();
+  const oneDay = 24 * 60 * 60 * 1000;
 
-  const norwayTimezone = "Europe/Oslo";
-  const currentNorwayDate = new Date(
-    currentDate.toLocaleString("nb-NO", { timeZone: norwayTimezone })
-  );
-  const selectedNorwayDate = new Date(
-    selectedDate.toLocaleString("nb-NO", { timeZone: norwayTimezone })
-  );
-
-  const nextDay = new Date(currentNorwayDate);
-  nextDay.setDate(nextDay.getDate() + 1);
-  nextDay.setHours(1, 0, 0, 0);
-
-  if (selectedNorwayDate >= nextDay) {
-    if (currentNorwayDate.getHours() < 14) {
-      setWarning(true);
-      alert("You can select the next day only after 2 o'clock Norwegian time.");
-      return;
-    }
+  if (selectedDate - currentDate >= oneDay * 1) {
+    setWarning(true);
+    alert("Please select a date that is not more than one day ahead.");
+    return;
   } else {
     setWarning(false);
-    const formData = {
-      location: Number(location),
-      date: date,
-    };
-    dispatch({ type: "START_FETCH", payload: true });
-    dispatch({ type: "LOCATION_AND_DATE", payload: formData });
+    if (Number(location) > 0 && date) {
+      const formData = {
+        location: Number(location),
+        date: date,
+      };
+      dispatch({ type: "START_FETCH", payload: true });
+      dispatch({ type: "LOCATION_AND_DATE", payload: formData });
+    }
   }
 }
-
-// !old
-// function vaidateDashboardForm(
-//   location: string,
-//   date: string,
-//   setWarning: Dispatch<SetStateAction<boolean>>,
-//   dispatch: TDispatch
-// ) {
-//   const currentDate = new Date().getTime();
-//   const selectedDate = new Date(date).getTime();
-//   const oneDay = 24 * 60 * 60 * 1000;
-
-//   if (selectedDate - currentDate >= oneDay * 1) {
-//     setWarning(true);
-//     alert("Please select a date that is not more than one day ahead.");
-//     return;
-//   } else {
-//     setWarning(false);
-//     if (Number(location) > 0 && date) {
-//       const formData = {
-//         location: Number(location),
-//         date: date,
-//       };
-//       dispatch({ type: "START_FETCH", payload: true });
-//       dispatch({ type: "LOCATION_AND_DATE", payload: formData });
-//     }
-//   }
-// }
