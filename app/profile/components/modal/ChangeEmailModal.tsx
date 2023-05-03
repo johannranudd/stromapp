@@ -11,7 +11,7 @@ export default function ChangeEmailModal({
 }: ChangeEmailModalProps) {
   const [newEmail, setNewEmail] = useState("");
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const emailRegex =
       /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
@@ -45,7 +45,9 @@ export default function ChangeEmailModal({
             type="email"
             id="email"
             value={newEmail}
-            onChange={(e: any) => setNewEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setNewEmail(e.target.value)
+            }
             className="text-secondary p-2"
           />
           <button type="submit" className="border border-thirdClr p-2">

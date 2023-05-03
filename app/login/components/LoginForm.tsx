@@ -7,8 +7,8 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = {
       identifier: email,
       password: password,
@@ -29,7 +29,7 @@ export default function LoginForm() {
           id="email"
           name="email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -39,7 +39,7 @@ export default function LoginForm() {
           id="password"
           name="password"
           value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
 

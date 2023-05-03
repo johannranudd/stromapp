@@ -11,7 +11,7 @@ export default function EditPhoneNrModal({
 }: EditPhoneNrModalProps) {
   const [phoneNr, setPhoneNr] = useState("");
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const phoneRegex = /^\+?[0-9]\d{1,20}$/;
     const trimmedPhoneNumber = phoneNr.replace(/\s+/g, "");
@@ -44,7 +44,9 @@ export default function EditPhoneNrModal({
             type="text"
             id="phoneNumber"
             value={phoneNr}
-            onChange={(e: any) => setPhoneNr(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPhoneNr(e.target.value)
+            }
             className="text-secondary p-2"
           />
           <button type="submit" className="border border-thirdClr p-2">

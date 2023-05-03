@@ -2,7 +2,7 @@
 import { useGlobalContext } from "@/app/context/context";
 
 export default function OpenCategoryModalButton() {
-  const { modalIsOpen, setModalIsOpen } = useGlobalContext();
+  const { setModalIsOpen } = useGlobalContext();
 
   return (
     <button

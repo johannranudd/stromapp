@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useGlobalContext } from "@/app/context/context";
+import { TDispatch } from "@/types";
 
 export default function LocationAndDateForm() {
   const { state, dispatch } = useGlobalContext();
@@ -9,7 +10,7 @@ export default function LocationAndDateForm() {
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
 
   useEffect(() => {
-    vaidateDashboardForm(location, date, setWarning, dispatch, state);
+    vaidateDashboardForm(location, date, setWarning, dispatch);
   }, [date, location]);
 
   return (
@@ -42,11 +43,6 @@ export default function LocationAndDateForm() {
           className={`border ${warning ? "border-red-500" : "border-black"}`}
         />
       </div>
-      {/* <div className="text-center py-4">
-        <button type="submit" className="border">
-          Submit
-        </button>
-      </div> */}
     </form>
   );
 }
@@ -55,11 +51,10 @@ export default function LocationAndDateForm() {
 //
 //
 function vaidateDashboardForm(
-  location: any,
-  date: any,
-  setWarning: any,
-  dispatch: any,
-  state: any
+  location: string,
+  date: string,
+  setWarning: Dispatch<SetStateAction<boolean>>,
+  dispatch: TDispatch
 ) {
   const currentDate = new Date().getTime();
   const selectedDate = new Date(date).getTime();
@@ -81,49 +76,3 @@ function vaidateDashboardForm(
     }
   }
 }
-//
-//
-//
-//
-//
-// ! oslo time
-// function getTimeOslo(date: any) {
-//   const osloTimezone = "Europe/Oslo";
-//   const dateInOslo = new Date(date)
-//     .toLocaleString("en-UK", {
-//       timeZone: osloTimezone,
-//     })
-//     .slice(0, 10);
-//   const officialOsloDate = dateInOslo.split("/").reverse().join("-");
-
-//   return officialOsloDate;
-// }
-
-// !submit functions
-
-//   const handleSubmit = (e: any) => {
-//     e.preventDefault();
-//     vaidateDashboardForm(location, date, setWarning, dispatch, state);
-//   };
-
-//   function handleLocation(e: any) {
-//     if (e.target.value) {
-//     //   setLocation(e.taret.value);
-//       // vaidateDashboardForm(location, date, setWarning, dispatch, state);
-//     }
-//   }
-//   function handleDate(e: any) {
-//     // setDate(e.taret.value);
-//     // if (date) {
-//     //   console.log(date);
-//     // vaidateDashboardForm(location, date, setWarning, dispatch, state);
-//     // }
-//   }
-
-//   function handleLocationBlur() {
-//     vaidateDashboardForm(location, date, setWarning, dispatch, state);
-//   }
-
-//   function handleDateBlur() {
-//     vaidateDashboardForm(location, date, setWarning, dispatch, state);
-//   }

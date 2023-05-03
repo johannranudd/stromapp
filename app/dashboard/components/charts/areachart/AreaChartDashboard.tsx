@@ -1,23 +1,14 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import { useGlobalContext } from "@/app/context/context";
 import * as Recharts from "recharts";
+import { CustomTooltipProps, IPriceAndTime } from "@/types";
 
 export default function AreaChartDashboard({ dataFromClient }: any) {
   const { dispatch } = useGlobalContext();
   // TODO replace date with hour and value with priceInOre
-  const data: any = [];
-  const {
-    _id,
-    region,
-    dailyPriceArray,
-    dailyPriceAverage,
-    dailyPriceMax,
-    dailyPriceMin,
-    averagePriceMonthlyToDate,
-    estimatedPowerSupportToDate,
-    date,
-  } = dataFromClient[0];
+  const data: Array<IPriceAndTime> = [];
+  const { dailyPriceArray } = dataFromClient[0];
 
   dailyPriceArray.map((priceInOre: any, index: number) => {
     let hour = `${index}`;
@@ -51,7 +42,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
       dispatch({ type: "START_FETCH", payload: false });
     }
   };
-  const handleMouseUp = (e: any) => {
+  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsMoving(false);
     dispatch({ type: "START_FETCH", payload: true });
   };
@@ -100,7 +91,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
             dataKey="hour"
             axisLine={false}
             tickLine={false}
-            tickFormatter={(str: any) => {
+            tickFormatter={(str: string) => {
               const num = Number(str);
               if (num % 5 === 0) {
                 return `${str}:00`;
@@ -114,7 +105,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
             axisLine={false}
             tickLine={false}
             tickCount={8}
-            tickFormatter={(number: any) => `${number} Øre`}
+            tickFormatter={(number: number) => `${number} Øre`}
           />
 
           <Recharts.Tooltip content={<CustomTooltip />} />
@@ -136,9 +127,13 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
   );
 }
 
-function CustomTooltip({ active, payload, label }: any) {
+const CustomTooltip: React.FC<CustomTooltipProps> = ({
+  active,
+  label,
+  payload,
+}) => {
   const modifiedLabel = `${label}:00`;
-  if (active) {
+  if (active && payload && payload[0]?.value !== undefined) {
     return (
       // todo style here
       <div className="rounded-lg bg-[#26313c] text-white p-[1rem] shadow-2xl text-center">
@@ -148,4 +143,4 @@ function CustomTooltip({ active, payload, label }: any) {
     );
   }
   return null;
-}
+};

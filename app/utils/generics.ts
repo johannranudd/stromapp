@@ -1,3 +1,4 @@
+import { IBadge, IGroup } from "@/types";
 import { getItem } from "./storage/localstorage";
 
 export function getElSupportPercentage(
@@ -56,7 +57,7 @@ export function validateForm(formData: any) {
   return allValid;
 }
 
-export function getUniqueBadgeArray(badges: any) {
+export function getUniqueBadgeArray(badges: Array<IBadge>) {
   const uniqueArray = badges.reduce((total: any, current: any) => {
     if (
       total.findIndex(
@@ -71,7 +72,7 @@ export function getUniqueBadgeArray(badges: any) {
   return uniqueArray;
 }
 
-export function sortByLocalCategory(badges: any) {
+export function sortByLocalCategory(badges: Array<IBadge>) {
   interface Badge {
     category: string;
   }
@@ -81,7 +82,7 @@ export function sortByLocalCategory(badges: any) {
   });
   return sortedBadges;
 }
-export function sortByLocalName(groups: any) {
+export function sortByLocalName(groups: Array<IGroup>) {
   interface Group {
     name: string;
   }

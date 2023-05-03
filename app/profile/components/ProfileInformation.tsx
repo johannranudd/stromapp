@@ -4,7 +4,7 @@ import { getItem } from "@/app/utils/storage/localstorage";
 
 export default function ProfileInformation() {
   const user = getItem("user");
-  const { id, username, email, address, phoneNumber } = user;
+  const { username, email, address, phoneNumber } = user;
   return (
     <>
       <h1 className="text-center text-xl font-bold capitalize py-8">

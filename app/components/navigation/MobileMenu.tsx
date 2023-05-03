@@ -2,9 +2,11 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { useGlobalContext } from "@/app/context/context";
+import { getItem } from "@/app/utils/storage/localstorage";
 
 export default function MobileMenu() {
   const { menuIsOpen, setMenuIsOpen } = useGlobalContext();
+  const jwt = getItem("jwt");
 
   function handleResize() {
     if (window.innerWidth > 768) {
@@ -18,7 +20,7 @@ export default function MobileMenu() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+  if (jwt.length === 0) return null;
   return (
     <div
       className={`fixed top-16 left-0 w-full z-10 flex flex-col bg-secondary text-primary dark:bg-primary dark:text-secondary border-2 rounded-b-md border-fourthClr duration-300 transform ${

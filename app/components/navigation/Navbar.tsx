@@ -6,6 +6,7 @@ import LogoComponent from "./LogoComponent";
 import NotificationBell from "./NotificationBell";
 import { use } from "react";
 import { getElectricityPrice } from "@/app/utils/gets";
+import { DateTimeFormatOptions } from "@/types";
 
 export default function Navbar() {
   const currentDate: Date = new Date();
@@ -17,7 +18,7 @@ export default function Navbar() {
   let currentPrice = 0;
 
   const now = new Date();
-  const options: any = {
+  const options: DateTimeFormatOptions = {
     timeZone: "Europe/Oslo",
     hour12: false,
     hour: "numeric",
@@ -28,7 +29,7 @@ export default function Navbar() {
     .format(now)
     .slice(0, 2);
 
-  dailyPriceArray?.map((priceInOre: any, index: number) => {
+  dailyPriceArray?.map((priceInOre: number, index: number) => {
     let hour = `${index}`;
     index < 10 ? (hour = `0${index}`) : `${index}`;
 

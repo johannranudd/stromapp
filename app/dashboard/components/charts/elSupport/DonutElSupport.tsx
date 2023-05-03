@@ -3,6 +3,7 @@ import { getElSupportPercentage } from "@/app/utils/generics";
 import { PieChart, ResponsiveContainer, Pie, Tooltip, Cell } from "recharts";
 import { useGlobalContext } from "@/app/context/context";
 import { useState, useEffect } from "react";
+import { DateTimeFormatOptions, DonutDataItem, IPriceAndTime } from "@/types";
 
 const COLORS = [
   "#ce93d8",
@@ -13,14 +14,10 @@ const COLORS = [
   // "#d500f9",
 ];
 
-export default function DonutElSupport(
-  // dataFromAPI: any
-  { dataFromClient }: any
-) {
-  // console.log(dataFromClient);
+export default function DonutElSupport({ dataFromClient }: any) {
   const { windowWidth } = useGlobalContext();
   const now = new Date();
-  const options: any = {
+  const options: DateTimeFormatOptions = {
     timeZone: "Europe/Oslo",
     hour12: false,
     hour: "numeric",
@@ -31,17 +28,8 @@ export default function DonutElSupport(
     .format(now)
     .slice(0, 2);
 
-  const {
-    _id,
-    region,
-    dailyPriceArray,
-    dailyPriceAverage,
-    dailyPriceMax,
-    dailyPriceMin,
-    averagePriceMonthlyToDate,
-    estimatedPowerSupportToDate,
-  } = dataFromClient[0];
-  // console.log(dataFromClient[0]);
+  const { _id, dailyPriceArray, estimatedPowerSupportToDate } =
+    dataFromClient[0];
 
   const [width, setWidth] = useState(windowWidth / 1.3);
   useEffect(() => {
@@ -50,7 +38,6 @@ export default function DonutElSupport(
     } else {
       setWidth(windowWidth / 2.3);
     }
-    // setWidth(windowWidth / 2.3);
   }, [windowWidth]);
 
   return (
@@ -63,7 +50,7 @@ export default function DonutElSupport(
       }}
       className="relative"
     >
-      {dailyPriceArray?.map((priceInOre: any, index: number) => {
+      {dailyPriceArray?.map((priceInOre: number, index: number) => {
         let hour = `${index}`;
         index < 10 ? (hour = `0${index}`) : `${index}`;
 
@@ -80,7 +67,7 @@ export default function DonutElSupport(
             priceInOre,
             estimatedPowerSupportToDate
           );
-          const data = [
+          const data: Array<DonutDataItem> = [
             {
               name: "Your expenses",
               value: Number(yourExpensesFinal),
@@ -94,9 +81,6 @@ export default function DonutElSupport(
           return (
             <Donut
               key={_id}
-              // dataFromClient={dataFromClient[0]}
-              yourExpensesFinal={yourExpensesFinal}
-              elSupportFinal={elSupportFinal}
               priceInOreAndHour={priceInOreAndHour}
               data={data}
               width={width}
@@ -114,10 +98,12 @@ function Donut({
   priceInOreAndHour,
   timeFrameForCurrentPrice,
   width,
-  yourExpensesFinal,
-  elSupportFinal,
-}: any) {
-  // console.log(data);
+}: {
+  data: Array<DonutDataItem>;
+  priceInOreAndHour: IPriceAndTime;
+  timeFrameForCurrentPrice: string;
+  width: number;
+}) {
   return (
     <>
       <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">

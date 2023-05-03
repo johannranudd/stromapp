@@ -1,7 +1,7 @@
 import { getURL } from "./environment/environment";
 import { getItem } from "./storage/localstorage";
 
-export async function deleteItem(itemName: string, itemId: any) {
+export async function deleteItem(itemName: string, itemId: number) {
   const jwt = getItem("jwt");
   const baseURL = getURL();
   let url = `${baseURL}/${itemName}/${itemId}`;
