@@ -14,7 +14,6 @@ export default function page() {
   const { date, location }: any = state;
 
   const [dataFromClient, setDataFromClient] = useState();
-  // const [invalidData, setInvalidData] = useState(false);
 
   useEffect(() => {
     fetcherClient(state, setDataFromClient);
