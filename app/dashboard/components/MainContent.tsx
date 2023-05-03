@@ -4,6 +4,7 @@ import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
 export default function MainContent({ dataFromClient }: any) {
+  // console.log(dataFromClient);
   const [activeTab, setActiveTab] = useState("tab1");
 
   if (!dataFromClient) return <div>Loading</div>;
