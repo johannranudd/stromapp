@@ -80,10 +80,7 @@ export async function POST(request: Request) {
   if (startDate === todayStringDate && endDate === todayStringDate) {
     url = `https://api.strompriser.no/public/prices-today?region=${region}`;
   }
-  console.log("UTE");
   if (process.env.APIKEY) {
-    console.log("INNE");
-    console.log(process.env.APIKEY);
     try {
       const res = await fetch(url, {
         headers: {
