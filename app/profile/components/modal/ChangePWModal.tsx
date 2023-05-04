@@ -49,12 +49,12 @@ export default function ChangePWModal({
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-red-500">
+        <div className="absolute top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-red-500">
           <p>{errors}</p>
         </div>
       )}
       {success && (
-        <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-green-500">
+        <div className="absolute top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-green-500">
           <p>{success}</p>
         </div>
       )}

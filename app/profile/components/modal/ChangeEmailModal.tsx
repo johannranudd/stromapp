@@ -26,13 +26,13 @@ export default function ChangeEmailModal({
     }
     if (result) {
       const res = await editProfile({ email: newEmail });
-      if (res) {
+      if (res === "OK") {
+        setChangeEmailModalIsOpen(false);
+      } else if (res.error) {
         setErrors(res.error.message);
         setTimeout(() => {
           setErrors([]);
         }, 3000);
-      } else {
-        setChangeEmailModalIsOpen(false);
       }
     } else {
       setErrors([`${newEmail} is not a valid phone number`]);
@@ -44,7 +44,7 @@ export default function ChangeEmailModal({
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
+        <div className="absolute top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-red-500">
           {errors.map((item: any) => {
             return <p>{item}</p>;
           })}

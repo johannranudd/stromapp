@@ -4,7 +4,7 @@ import CreateBadgeModal from "../components/modal/CreateBadgeModal";
 import CreateGroupModal from "@/app/components/modal/CreateGroupModal";
 import { useGlobalContext } from "../context/context";
 import ProfileInformation from "./components/ProfileInformation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import EditAddressModal from "./components/modal/EditAddressModal";
 import EditPhoneNrModal from "./components/modal/EditPhoneNrModal";
 import ChangeEmailModal from "./components/modal/ChangeEmailModal";
@@ -82,7 +82,6 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   const [tempNotificationLimit, setTempNotificationLimit] = useState(0);
   const [isToggled, setIsToggled] = useState<boolean>();
   const [saved, setSaved] = useState<boolean>(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const increment = () => {
     setTempNotificationLimit((prevValue) => prevValue + 1);
@@ -94,21 +93,6 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
     }
   };
 
-  const startIncrement = () => {
-    increment();
-    intervalRef.current = setInterval(increment, 125);
-  };
-
-  const startDecrement = () => {
-    decrement();
-    intervalRef.current = setInterval(decrement, 125);
-  };
-
-  const stopInterval = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-  };
   function handleNotoficationValue(e: string) {
     let value = Number(e);
     setTempNotificationLimit(value);
@@ -140,7 +124,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   if (!user) return null;
   return (
     <>
-      <div className="space-y-3">
+      <div className="space-y-6">
         <h2 className="text-xl mb-6">Notification Settings</h2>
         <div className="flex justify-between">
           <p>Allow notifications</p>
@@ -162,8 +146,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
           <div className="flex items-center">
             <button
               className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
-              onMouseDown={startDecrement}
-              onMouseUp={stopInterval}
+              onClick={decrement}
             >
               <FiMinus />
             </button>
@@ -177,8 +160,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
             />
             <button
               className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
-              onMouseDown={startIncrement}
-              onMouseUp={stopInterval}
+              onClick={increment}
             >
               <FiPlus />
             </button>
