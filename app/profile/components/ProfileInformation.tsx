@@ -7,10 +7,10 @@ export default function ProfileInformation() {
   const { username, email, address, phoneNumber } = user;
   return (
     <>
-      <h1 className="text-center text-xl font-bold capitalize py-8">
+      <h1 className="text-center text-2xl font-bold capitalize py-8">
         {username}
       </h1>
-      <div className="space-y-4 sm:space-y-0 ">
+      <div className="space-y-4">
         <p>
           Email: <span>{email}</span>
         </p>

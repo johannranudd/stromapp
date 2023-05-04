@@ -4,7 +4,7 @@ import CreateBadgeModal from "../components/modal/CreateBadgeModal";
 import CreateGroupModal from "@/app/components/modal/CreateGroupModal";
 import { useGlobalContext } from "../context/context";
 import ProfileInformation from "./components/ProfileInformation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import EditAddressModal from "./components/modal/EditAddressModal";
 import EditPhoneNrModal from "./components/modal/EditPhoneNrModal";
 import ChangeEmailModal from "./components/modal/ChangeEmailModal";
@@ -13,6 +13,7 @@ import { fetchUser } from "../utils/gets";
 import { editProfile } from "../utils/puts";
 import { AiOutlineCheck } from "react-icons/ai";
 import { IUser } from "@/types";
+import { FiPlus, FiMinus } from "react-icons/fi";
 
 export default function page() {
   const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
@@ -29,10 +30,11 @@ export default function page() {
 
   return (
     <div className={`min-h-[calc(100vh-4rem)]`}>
-      <div className={`w-[95%] max-w-screen-sm mx-auto`}>
+      <div className={`w-[95%] max-w-screen-sm mx-auto space-y-6`}>
         <ProfileInformation />
         <button
-          className="bg-fourthClr text-secondary py-2 px-4 my-6"
+          className="btnCta"
+          // className="bg-fourthClr text-secondary py-2 px-4 my-6"
           onClick={() => setModalIsOpen(true)}
         >
           Category settings
@@ -84,10 +86,36 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   const [tempNotificationLimit, setTempNotificationLimit] = useState(0);
   const [isToggled, setIsToggled] = useState<boolean>();
   const [saved, setSaved] = useState<boolean>(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  const increment = () => {
+    setTempNotificationLimit((prevValue) => prevValue + 1);
+  };
+
+  const decrement = () => {
+    if (tempNotificationLimit > 0) {
+      setTempNotificationLimit((prevValue) => prevValue - 1);
+    }
+  };
+
+  const startIncrement = () => {
+    increment();
+    intervalRef.current = setInterval(increment, 125);
+  };
+
+  const startDecrement = () => {
+    decrement();
+    intervalRef.current = setInterval(decrement, 125);
+  };
+
+  const stopInterval = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
   function handleNotoficationValue(e: string) {
     let value = Number(e);
-    setTempNotificationLimit(value++);
+    setTempNotificationLimit(value);
   }
   async function updateLimit() {
     setSaved(true);
@@ -131,25 +159,41 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
             </label>
           </div>
         </div>
-        <div className="flex justify-between items-start">
-          <div>
-            <p>Send push when price is lower than selected amount</p>
+        <div className="flex flex-col justify-between items-start xxs:flex-row space-y-3">
+          <p className="w-1/2">
+            Send notification when price is lower than selected amount
+          </p>
+          <div className="flex items-center">
             <button
-              onClick={updateLimit}
-              className="w-[10rem] h-[2rem] flex justify-center items-center border"
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onMouseDown={startDecrement}
+              onMouseUp={stopInterval}
             >
-              {saved ? <AiOutlineCheck /> : "Save Notifications"}
+              <FiMinus />
+            </button>
+            <input
+              type="number"
+              value={tempNotificationLimit}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleNotoficationValue(e.target.value)
+              }
+              className="w-28 text-center bg-primary text-secondary dark:bg-secondary dark:text-primary custom-input"
+            />
+            <button
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onMouseDown={startIncrement}
+              onMouseUp={stopInterval}
+            >
+              <FiPlus />
             </button>
           </div>
-          <input
-            type="number"
-            className="text-secondary"
-            value={tempNotificationLimit}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleNotoficationValue(e.target.value)
-            }
-          />
         </div>
+        <button
+          onClick={updateLimit}
+          className="w-[10rem] flex justify-center items-center btnCta"
+        >
+          {saved ? <AiOutlineCheck /> : "Save Notifications"}
+        </button>
       </div>
     </>
   );

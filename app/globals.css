@@ -53,11 +53,31 @@ input {
   padding: 0.5rem 0 0.5rem 0;
 }
 
+.btnCta {
+  background: var(--fourthClr);
+  color: var(--secondary);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
 .btnCtaWide {
   background: var(--fourthClr);
   color: var(--secondary);
   width: 100%;
   padding: 0.5rem 0 0.5rem 0;
+}
+
+.custom-input {
+  appearance: none;
+}
+
+.custom-input::-webkit-inner-spin-button,
+.custom-input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.custom-button {
+  border: none;
+  cursor: pointer;
 }
 
 /* The switch - the box around the slider */
