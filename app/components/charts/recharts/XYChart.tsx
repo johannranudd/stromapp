@@ -22,7 +22,7 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
         <p>Pris I øre</p>
         <p className="">{todayStringDate}</p>
       </div>
-      <Recharts.ResponsiveContainer width="100%" height={400}>
+      <Recharts.ResponsiveContainer width="100%" height={350}>
         <Recharts.AreaChart data={data}>
           <defs>
             <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
@@ -48,7 +48,6 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
               }
               return "";
             }}
-            domain={["dataMin", "dataMax"]}
           />
 
           <Recharts.YAxis
@@ -57,7 +56,7 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
             tickLine={false}
             tickCount={8}
             tickFormatter={(number: number) => `${number}`}
-            // domain={["dataMin", "dataMax"]}
+            width={20}
           />
 
           <Recharts.Tooltip content={<CustomTooltip />} />
