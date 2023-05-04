@@ -1,10 +1,5 @@
 "use client";
-import {
-  CustomTooltipProps,
-  ICustomToolTip,
-  IDataFromAPI,
-  IPriceAndTime,
-} from "@/types";
+import { CustomTooltipProps, IDataFromAPI, IPriceAndTime } from "@/types";
 import * as Recharts from "recharts";
 
 export default function XYChart(dataFromAPI: IDataFromAPI) {
