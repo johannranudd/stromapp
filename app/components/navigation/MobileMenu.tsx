@@ -23,7 +23,7 @@ export default function MobileMenu() {
   if (jwt.length === 0) return null;
   return (
     <div
-      className={`fixed top-16 left-0 w-full z-10 flex flex-col bg-primary text-secondary dark:bg-secondary dark:text-primary border-2 rounded-b-md border-fourthClr duration-300 transform ${
+      className={`fixed top-16 left-0 w-full z-40 flex flex-col bg-primary text-secondary dark:bg-secondary dark:text-primary border-2 rounded-b-md border-fourthClr duration-300 transform ${
         menuIsOpen ? "translate-y-0" : "-translate-y-full"
       } transition-all`}
       onClick={() => setMenuIsOpen(!menuIsOpen)}

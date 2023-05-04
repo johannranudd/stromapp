@@ -1,6 +1,7 @@
 "use client";
 import { editProfile } from "@/app/utils/puts";
 import { useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
 interface EditPhoneNrModalProps {
   setAdrModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,13 +17,13 @@ export default function EditAddressModal({
     e.preventDefault();
     if (address) {
       const res = await editProfile({ address });
-      if (res.error) {
+      if (res === "OK") {
+        setAdrModalIsOpen(false);
+      } else if (res.error) {
         setErrors(res.error.message);
         setTimeout(() => {
           setErrors([]);
         }, 3000);
-      } else {
-        setAdrModalIsOpen(false);
       }
     } else {
       setErrors(["Address can not be empty"]);
@@ -35,19 +36,17 @@ export default function EditAddressModal({
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
-          {errors.map((item: any) => {
-            return <p>{item}</p>;
-          })}
+        <div className="absolute top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-red-500">
+          {errors}
         </div>
       )}
-      <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000a7] ">
-        <div className="w-[95%] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-screen-xxs  rounded-[35px] bg-secondary text-primary">
+      <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000a7] z-50">
+        <div className="w-[95%] absolute top-[calc(50%-4rem)] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-screen-xxs  rounded-[35px] bg-secondary text-primary">
           <button
             onClick={() => setAdrModalIsOpen(false)}
             className="absolute top-4 right-8"
           >
-            X
+            <AiOutlineClose />
           </button>
 
           <form
@@ -66,7 +65,7 @@ export default function EditAddressModal({
               }
               className="text-secondary p-2"
             />
-            <button type="submit" className="border border-thirdClr p-2">
+            <button type="submit" className="btnCtaWide2">
               Submit
             </button>
           </form>

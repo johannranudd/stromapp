@@ -16,13 +16,16 @@ export async function editProfile(formData: any) {
       body: JSON.stringify(formData),
     });
     if (res.ok) {
+      const data = await res.text();
       setItem("user", { ...user, ...formData });
+      return data;
     } else {
       console.error(
         res.status,
         "An error occured in puts.ts/editProfile() res not OK"
       );
-      return await res.json();
+      const data = await res.json();
+      return data;
     }
   } catch (error) {
     console.log(

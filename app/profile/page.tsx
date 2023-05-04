@@ -30,13 +30,9 @@ export default function page() {
 
   return (
     <div className={`min-h-[calc(100vh-4rem)]`}>
-      <div className={`w-[95%] max-w-screen-sm mx-auto space-y-6`}>
+      <div className={`w-[95%] max-w-screen-sm mx-auto`}>
         <ProfileInformation />
-        <button
-          className="btnCta"
-          // className="bg-fourthClr text-secondary py-2 px-4 my-6"
-          onClick={() => setModalIsOpen(true)}
-        >
+        <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
           Category settings
         </button>
 
