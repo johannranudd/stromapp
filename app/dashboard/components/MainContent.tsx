@@ -24,10 +24,10 @@ function Tabs({ activeTab, setActiveTab }: any) {
     <div className="flex w-full max-w-screen-lg mx-auto">
       <div
         onClick={() => setActiveTab("tab1")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary ${
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
           activeTab === "tab1"
-            ? "bg-secondary text-primary dark:bg-primary dark:text-secondary"
-            : "bg-primary text-secondary dark:bg-secondary dark:text-primary"
+            ? "text-thirdClr"
+            : "shadow-[inset_0px_-2px_4px_rgba(0,0,0,0.6)]"
         }`}
       >
         <h3>Estimated usage</h3>
@@ -35,10 +35,10 @@ function Tabs({ activeTab, setActiveTab }: any) {
 
       <div
         onClick={() => setActiveTab("tab2")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary ${
-          activeTab === "tab1"
-            ? "bg-primary text-secondary dark:bg-secondary dark:text-primary"
-            : "bg-secondary text-primary dark:bg-primary dark:text-secondary"
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
+          activeTab === "tab2"
+            ? "text-thirdClr"
+            : "shadow-[inset_0px_-2px_4px_rgba(0,0,0,0.6)]"
         }`}
       >
         <h3>Categories</h3>
@@ -61,7 +61,7 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
   }
 
   return (
-    <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
+    <div className="relative">
       {activeTab === "tab2" && (
         <div className="w-[95%] mx-auto max-w-screen-lg">
           <ul className="flex flex-wrap mb-2">
