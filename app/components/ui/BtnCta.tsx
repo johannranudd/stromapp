@@ -1,9 +1,15 @@
-"use client";
+import Link from "next/link";
 
-export default function BtnCta() {
+interface BtnCtaProps {
+  props: string;
+}
+
+export default function BtnCta({ props }: BtnCtaProps) {
   return (
-    <div className="flex justify-center my-3">
-      <button className="btnCta">Test Selv</button>
+    <div className={`${props}`}>
+      <Link href={`/login`} className="text-xl font-bold btnCta">
+        Test Selv
+      </Link>
     </div>
   );
 }

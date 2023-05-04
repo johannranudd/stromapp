@@ -15,12 +15,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="relative min-h-screen bg-primary text-secondary dark:bg-secondary dark:text-primary">
+      <body className="relative h-screen bg-primary text-secondary dark:bg-secondary dark:text-primary overflow-hidden">
         <GlobalContextProvider>
           <ColorThemeProvider>
-            <Navbar />
-            <div className="relative overflow-y-scroll h-screen">
-              {children}
+            <div className="h-full flex flex-col">
+              <Navbar />
+              <div className="relative flex-grow overflow-y-scroll">
+                {children}
+              </div>
             </div>
           </ColorThemeProvider>
         </GlobalContextProvider>

@@ -18,7 +18,10 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
 
   return (
     <>
-      <h2>{todayStringDate}</h2>
+      <div className="flex justify-between">
+        <p>Pris I øre</p>
+        <p className="">{todayStringDate}</p>
+      </div>
       <Recharts.ResponsiveContainer width="100%" height={400}>
         <Recharts.AreaChart data={data}>
           <defs>
@@ -45,6 +48,7 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
               }
               return "";
             }}
+            domain={["dataMin", "dataMax"]}
           />
 
           <Recharts.YAxis
@@ -52,7 +56,8 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
             axisLine={false}
             tickLine={false}
             tickCount={8}
-            tickFormatter={(number: number) => `${number} Øre`}
+            tickFormatter={(number: number) => `${number}`}
+            // domain={["dataMin", "dataMax"]}
           />
 
           <Recharts.Tooltip content={<CustomTooltip />} />
