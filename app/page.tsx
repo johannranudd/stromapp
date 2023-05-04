@@ -21,7 +21,7 @@ export default function Home() {
       />
       <main className="relative w-[95%] max-w-screen-xl mx-auto overflow-x-hidden">
         <div className="md:flex md:justify-between md:items-center">
-          <div className="text-center mt-3 space-y-3 max-w-[400px] mx-auto md:text-left md:m-0 md:max-w-[600px]">
+          <div className="text-center  space-y-3 max-w-[400px] mx-auto md:text-left md:m-0 md:max-w-[600px]">
             <h1 className="text-2xl md:text-4xl mlg:text-5xl">
               Sjekk strømprisene
             </h1>

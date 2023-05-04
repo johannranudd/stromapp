@@ -20,7 +20,7 @@ export default function RootLayout({
           <ColorThemeProvider>
             <div className="h-full flex flex-col">
               <Navbar />
-              <div className="relative flex-grow overflow-y-scroll">
+              <div className="flex-grow overflow-y-scroll mt-16">
                 {children}
               </div>
             </div>

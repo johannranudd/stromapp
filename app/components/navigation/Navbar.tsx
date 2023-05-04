@@ -39,7 +39,7 @@ export default function Navbar() {
   });
 
   return (
-    <header className="relative z-[99] h-16">
+    <header className="relative z-[99] ">
       <nav className="fixed w-full z-[99] bg-primary text-secondary dark:bg-secondary dark:text-primary">
         <div className="w-[95%] max-w-screen-xl mx-auto grid z-50 grid-cols-3 items-center h-16">
           <LogoComponent />
