@@ -29,6 +29,7 @@ module.exports = {
         primary: "var(--primary)",
         secondary: "var(--secondary)",
         thirdClr: "var(--thirdClr)",
+        thirdClrDark: "var(--thirdClrDark)",
         fourthClr: "var(--fourthClr)",
         fourthClrDark: "var(--fourthClrDark)",
         // thirdClrDark: "var(--thirdClrDark)",

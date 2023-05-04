@@ -28,9 +28,7 @@ export default function page() {
   }, []);
 
   return (
-    <div
-      className={`min-h-[calc(100vh-4rem)] bg-secondary text-primary dark:bg-primary dark:text-secondary`}
-    >
+    <div className={`min-h-[calc(100vh-4rem)]`}>
       <div className={`w-[95%] max-w-screen-sm mx-auto`}>
         <ProfileInformation />
         <button

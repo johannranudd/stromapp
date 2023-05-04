@@ -11,7 +11,7 @@
   --fourthClrDark: #1f8826;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --primary: #fbf5f5;
     --secondary: #242431;
@@ -19,9 +19,8 @@
     --thirdClrDark: #006161;
     --fourthClr: #6be072;
     --fourthClrDark: #1f8826;
-    /* --fourthClrDark: #48c61a; */
   }
-}
+} */
 
 * {
   box-sizing: border-box;
@@ -37,14 +36,27 @@ body {
   /* min-height: 100vh; */
 }
 
-h1,
+/* h1,
 h2 {
-  /* text-align: center; */
-}
+} */
 
 a {
   text-decoration: none;
   display: inline-block;
+}
+
+input {
+  background: var(--primary);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+  border-radius: 3px;
+  padding: 0.5rem 0 0.5rem 0;
+}
+
+.btnCtaWide {
+  background: var(--fourthClr);
+  width: 100%;
+  padding: 0.5rem 0 0.5rem 0;
 }
 
 /* The switch - the box around the slider */

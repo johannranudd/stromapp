@@ -5,7 +5,7 @@ export default function LogoComponent() {
   return (
     <Link href={"/"} className="flex items-end">
       <Image src={LogoSVG} alt="logo" width={40} />
-      <span className="hidden text-xl xs:block">StromPrisApp</span>
+      <span className="hidden text-xl xs:block">StromApp</span>
     </Link>
   );
 }
