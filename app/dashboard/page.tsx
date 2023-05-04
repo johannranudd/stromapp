@@ -19,6 +19,7 @@ export default function page() {
     fetcherClient(state, setDataFromClient);
   }, []);
 
+  // only fetch when date and location is changed
   useEffect(() => {
     const { startFetch }: any = state;
     if (startFetch) fetcherClient(state, setDataFromClient);
