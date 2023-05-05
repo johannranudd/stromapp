@@ -259,7 +259,7 @@ function Badges({
               key={id}
               style={{ backgroundColor: `${color}` }}
               className={`p-2 flex flex-col justify-between rounded text-secondary ${
-                hasBadgeId && "border-8 border-thirdClr"
+                hasBadgeId && "border-8 border-primary"
               }`}
             >
               <div className="space-y-2">
@@ -383,7 +383,7 @@ function Groups({
               key={id}
               style={{ backgroundColor: `${color}` }}
               className={`p-2 flex flex-col justify-between rounded text-secondary ${
-                hasGroupId && "border-8 border-thirdClr"
+                hasGroupId && "border-8 border-primary"
               }`}
             >
               <div className="space-y-2">

@@ -158,7 +158,7 @@ function CreateBadgeForm({
       )}
       <form
         onSubmit={handleSubmit}
-        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-20 mx-auto flex flex-col justify-between  text-primary"
+        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-16 mx-auto flex flex-col justify-between  text-primary"
       >
         <div className="flex flex-col">
           <label htmlFor="badgeName" className="text-primary">
