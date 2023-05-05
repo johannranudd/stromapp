@@ -96,7 +96,7 @@ function CreateGroupForm({
     } else {
       setSelectedBadges((prevState: any) => [...prevState, badge]);
     }
-    e.target.options[clickedIndex].selected = false;
+    // e.target.options[clickedIndex].selected = false;
   };
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
