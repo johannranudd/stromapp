@@ -32,9 +32,9 @@ export default function CreateBadgeModal() {
 
   if (!groupModalIsOpen) return null;
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
-      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary dark:bg-primary">
-        <div className="p-4 flex rounded-full justify-between bg-secondary text-primary text-xl">
+    <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
+      <div className="w-[95%] h-[calc(100vh-2rem)] mt-[1rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+        <div className="p-4 flex rounded-full justify-between text-xl">
           {editFlag ? <h2>Edit Group</h2> : <h2>Create Group</h2>}
           <button
             onClick={() => setGroupModalIsOpen(false)}
@@ -181,9 +181,7 @@ function CreateGroupForm({
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="badgeList" className="text-primary">
-            Select Badges:
-          </label>
+          <label htmlFor="badgeList">Select Badges:</label>
           <select
             id="badgeList"
             multiple
@@ -191,7 +189,7 @@ function CreateGroupForm({
               badges?.indexOf(badge)
             )}
             onChange={() => handleBadgeSelection}
-            className="text-secondary"
+            className="bg-primary text-secondary"
           >
             {badges?.map((badge: IBadge, index: number) => {
               const { name } = badge;
