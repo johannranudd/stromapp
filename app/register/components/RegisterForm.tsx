@@ -54,14 +54,14 @@ export default function RegisterForm() {
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[5%] left-[50%] translate-x-[-50%] w-[95%] max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
+        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] w-[95%] max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
           {errors}
         </div>
       )}
-      <div className="relative h-[calc(100vh-4rem)]">
+      <div className="relative min-h-[calc(100vh-4rem)]">
         <form
           onSubmit={handleSubmit}
-          className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6 py-6"
+          className="absolute top-[calc(50%+4rem)] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6"
         >
           <h1 className="text-2xl">Register</h1>
           <div className="flex flex-col w-full space-y-3">

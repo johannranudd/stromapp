@@ -1,6 +1,6 @@
 "use client";
-import { ContextProps, useGlobalContext } from "@/app/context/context";
-import { IBadgeSimple, IGroupEdit, IState, ITotalKWHProps } from "@/types";
+import { useGlobalContext } from "@/app/context/context";
+import { IBadgeSimple, IGroupEdit, ITotalKWHProps } from "@/types";
 import { deleteItem } from "@/app/utils/delets";
 import { sortByLocalCategory, sortByLocalName } from "@/app/utils/generics";
 import { fetchGroups, fetchUser } from "@/app/utils/gets";
@@ -14,6 +14,7 @@ import {
 } from "@/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import {
+  AiOutlineClose,
   AiOutlineDelete,
   AiOutlineEdit,
   AiOutlineMinusCircle,
@@ -82,17 +83,19 @@ export default function CategoriesModal() {
   if (!modalIsOpen) return null;
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000a7] z-50 text-secondary">
-      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-screen-md flex flex-col justify-between rounded-[35px] bg-primary dark:bg-secondary">
-        <div className="p-4 flex rounded-full justify-between bg-secondary text-primary">
-          <h2>Your groups and badges</h2>
-          <button onClick={() => setModalIsOpen(false)}>X</button>
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000a7] z-[51]">
+      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-screen-md flex flex-col justify-between rounded-[35px] bg-primary text-secondary dark:bg-secondary dark:text-primary z-[51]">
+        <div className="p-4 flex rounded-full justify-between">
+          <h2 className="text-xl">Your groups and badges</h2>
+          <button onClick={() => setModalIsOpen(false)}>
+            <AiOutlineClose className="text-3xl" />
+          </button>
         </div>
         <ToggleButtons
           activeToggle={activeToggle}
           handleToggleChange={handleToggleChange}
         />
-        <div className="h-full p-4 bg-[#def] overflow-y-scroll">
+        <div className="h-full p-4  overflow-y-scroll shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] ">
           {user ? (
             <ListOfGroupsAndBadges
               user={user}
@@ -123,8 +126,8 @@ export default function CategoriesModal() {
 
 function ToggleButtons({ activeToggle, handleToggleChange }: IToggleProps) {
   return (
-    <div className="flex justify-between p-4">
-      <div>
+    <div className="flex justify-between py-2 w-full max-w-[250px] mx-auto ">
+      <div className="">
         <h4>Groups</h4>
         <label className="switch">
           <input
@@ -135,7 +138,7 @@ function ToggleButtons({ activeToggle, handleToggleChange }: IToggleProps) {
           <span className="slider round"></span>
         </label>
       </div>
-      <div>
+      <div className="">
         <h4>Badges</h4>
         <label className="switch">
           <input
@@ -218,17 +221,17 @@ function Badges({
 }) {
   async function deleteAndUpdate(badge: IBadgeSimple) {
     const { id, name, kwh, category, color } = badge;
-    await dispatch({
+    dispatch({
       type: "REMOVE_FROM_ARRAY",
       payload: { name, value: kwh, color, category, id },
     });
     await deleteItem("badges", id);
-    await dispatch({ type: "START_FETCH", payload: true });
+    dispatch({ type: "START_FETCH", payload: true });
   }
-  async function allowEditing(badge: IBadgeSimple) {
-    await setEditItem(badge);
-    await setEditFlag(true);
-    await setBadgeModalIsOpen(true);
+  function allowEditing(badge: IBadgeSimple) {
+    setEditItem(badge);
+    setEditFlag(true);
+    setBadgeModalIsOpen(true);
   }
   const sortedBadges = sortByLocalCategory(badges);
 
@@ -241,8 +244,8 @@ function Badges({
     );
   return (
     <>
-      <h2 className="text-center font-bold mb-4">Badges</h2>
-      <ul className="grid grid-cols-2 gap-2">
+      <h2 className="text-center text-lg font-bold mb-4">Badges</h2>
+      <ul className="grid grid-cols-2 gap-2 mb-4 sm:grid-cols-3 md:grid-cols-4">
         {sortedBadges.map((badge: IBadge) => {
           const { id, name, kwh, color, category } = badge;
           const hasBadgeId = state.totalKWHArray.some(
@@ -255,14 +258,16 @@ function Badges({
             <li
               key={id}
               style={{ backgroundColor: `${color}` }}
-              className={`p-2 ${hasBadgeId && "border-8 border-green-500"}`}
+              className={`p-2 flex flex-col justify-between rounded text-secondary ${
+                hasBadgeId && "border-8 border-thirdClr"
+              }`}
             >
-              <div>
-                <p>{name}</p>
+              <div className="space-y-2">
+                <h5 className="font-bold cpitalize">{name}</h5>
                 <p>{kwh.toFixed(1)} kwh</p>
               </div>
-              <p>{category}</p>
-              <div className="flex justify-between">
+              <p className="capitalize mt-3">{category}</p>
+              <div className="flex justify-between mt-3">
                 <button
                   onClick={() =>
                     dispatch({
@@ -272,6 +277,7 @@ function Badges({
                       payload: { name, value: kwh, color, category, id },
                     })
                   }
+                  className="text-lg hover:opacity-50"
                 >
                   {hasBadgeId ? (
                     <AiOutlineMinusCircle />
@@ -289,10 +295,14 @@ function Badges({
                       kwh,
                     })
                   }
+                  className="text-lg hover:opacity-50"
                 >
                   <AiOutlineEdit />
                 </button>
-                <button onClick={() => deleteAndUpdate(badge)}>
+                <button
+                  onClick={() => deleteAndUpdate(badge)}
+                  className="text-lg hover:opacity-50"
+                >
                   <AiOutlineDelete />
                 </button>
               </div>
@@ -308,7 +318,6 @@ function Badges({
 //
 //
 function Groups({
-  badges,
   groups,
   dispatch,
   state,
@@ -316,7 +325,6 @@ function Groups({
   setGroupModalIsOpen,
   setEditItem,
 }: {
-  badges: Array<IBadge>;
   groups: Array<IGroup>;
   dispatch: TDispatch;
   state: any;
@@ -357,8 +365,8 @@ function Groups({
     );
   return (
     <>
-      <h2 className="text-center font-bold mb-4">Groups</h2>
-      <ul className="grid grid-cols-2 gap-2 mb-4">
+      <h2 className="text-center text-lg  font-bold mb-4">Groups</h2>
+      <ul className="grid grid-cols-2 gap-2 mb-4 sm:grid-cols-3 md:grid-cols-4">
         {sortedGroups?.map((group: IGroup) => {
           const { id, name, kwh, color } = group;
           const hasGroupId = state.totalKWHArray.some(
@@ -374,10 +382,12 @@ function Groups({
             <li
               key={id}
               style={{ backgroundColor: `${color}` }}
-              className={`p-2 ${hasGroupId && "border-8 border-green-500"}`}
+              className={`p-2 flex flex-col justify-between rounded text-secondary ${
+                hasGroupId && "border-8 border-thirdClr"
+              }`}
             >
-              <div>
-                <p>{name}</p>
+              <div className="space-y-2">
+                <h5 className="font-bold cpitalize">{name}</h5>
                 <p>{kwh.toFixed(1)} kwh</p>
                 <p>
                   {amountOfGroups === 1
@@ -385,7 +395,7 @@ function Groups({
                     : `${amountOfGroups} groups`}
                 </p>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between mt-3">
                 <button
                   onClick={() =>
                     dispatch({
@@ -395,6 +405,7 @@ function Groups({
                       payload: { name, value: kwh, color, id },
                     })
                   }
+                  className="text-lg hover:opacity-50"
                 >
                   {hasGroupId ? (
                     <AiOutlineMinusCircle />
@@ -412,10 +423,14 @@ function Groups({
                       kwh,
                     })
                   }
+                  className="text-lg hover:opacity-50"
                 >
                   <AiOutlineEdit />
                 </button>
-                <button onClick={() => deleteAndUpdate(group)}>
+                <button
+                  onClick={() => deleteAndUpdate(group)}
+                  className="text-lg hover:opacity-50"
+                >
                   <AiOutlineDelete />
                 </button>
               </div>
