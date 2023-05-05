@@ -83,8 +83,8 @@ export default function CategoriesModal() {
   if (!modalIsOpen) return null;
 
   return (
-    <div className="absolute top-[-4rem] left-0 right-0 bottom-0 h-full bg-[#000000a7] z-[49]">
-      <div className="w-[95%] mx-auto max-w-screen-md h-[calc(100vh-5rem)] mt-[4.5rem] flex flex-col justify-between rounded-[35px] bg-primary text-secondary dark:bg-secondary dark:text-primary z-[49]">
+    <div className="fixed top-[0] left-0 right-0 bottom-0 h-full bg-[#000000a7] z-[51]">
+      <div className="w-[95%] mx-auto max-w-screen-md h-[calc(100vh-2rem)] mt-[1rem] flex flex-col justify-between rounded-[35px] bg-primary text-secondary dark:bg-secondary dark:text-primary z-[51]">
         <div className="p-4 flex rounded-full justify-between">
           <h2 className="text-xl">Your groups and badges</h2>
           <button onClick={() => setModalIsOpen(false)}>

@@ -49,17 +49,17 @@ export default function ChangePWModal({
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-red-500">
+        <div className="fixed top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-red-500">
           <p>{errors}</p>
         </div>
       )}
       {success && (
-        <div className="absolute top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-green-500">
+        <div className="fixed top-[calc(50%-4rem)] left-[50%] translate-y-[-50%] translate-x-[-50%]  w-full max-w-[400px] z-[99] flex flex-col items-center py-6 bg-green-500">
           <p>{success}</p>
         </div>
       )}
-      <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000a7] z-50">
-        <div className="w-[95%] absolute top-[calc(50%-4rem)] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-screen-xxs  rounded-[35px] bg-secondary text-primary">
+      <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000a7] z-50">
+        <div className="w-[95%] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-screen-xxs  rounded-[35px] bg-secondary text-primary">
           <button
             onClick={() => setChangePWModalIsOpen(false)}
             className="absolute top-4 right-8"

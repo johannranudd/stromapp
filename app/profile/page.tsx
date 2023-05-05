@@ -52,11 +52,7 @@ export default function page() {
   ]);
 
   return (
-    <div
-      className={`overflow-y-hidden h-[0%]  ${
-        !disableScrollbar && "h-screen min-h-screen flex flex-col"
-      }`}
-    >
+    <div className={`h-screen min-h-screen flex flex-col`}>
       <div className={`w-[95%] max-w-screen-sm mx-auto`}>
         <ProfileInformation />
         <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
@@ -151,7 +147,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   if (!user) return null;
   return (
     <>
-      <div className="space-y-6">
+      <div className="space-y-6 mb-8">
         <h2 className="text-xl mb-6">Notification Settings</h2>
         <div className="flex justify-between">
           <p>Allow notifications</p>
@@ -195,7 +191,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
         </div>
         <button
           onClick={updateLimit}
-          className="w-[10rem] flex justify-center items-center btnCta"
+          className="w-[10rem] flex justify-center items-center btnCta "
         >
           {saved ? <AiOutlineCheck /> : "Save Notifications"}
         </button>
