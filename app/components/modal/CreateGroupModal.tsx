@@ -98,6 +98,9 @@ function CreateGroupForm({
     }
     e.target.options[clickedIndex].selected = false;
   };
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
 
   useEffect(() => {
     const totalKwhOfSelectedBadges = selectedBadges.reduce(
@@ -162,6 +165,7 @@ function CreateGroupForm({
       )}
       <form
         onSubmit={handleSubmit}
+        onClick={handleClick}
         className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-20 mx-auto flex flex-col justify-between text-primary space-y-2 min-w-[240px]"
       >
         <div className="flex flex-col">
