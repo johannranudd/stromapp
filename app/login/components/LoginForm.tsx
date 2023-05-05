@@ -41,10 +41,10 @@ export default function LoginForm() {
           {errors}
         </div>
       )}
-      <div className="relative h-[calc(100vh-4rem)]">
+      <div className="relative min-h-[calc(100vh-4rem)]">
         <form
           onSubmit={handleSubmit}
-          className="absolute top-[35%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6 py-6"
+          className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6"
         >
           <h1 className="text-2xl">Login</h1>
           <div className="flex flex-col w-full space-y-3">

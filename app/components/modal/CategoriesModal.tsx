@@ -84,8 +84,8 @@ export default function CategoriesModal() {
 
   return (
     <div className="fixed top-[0] left-0 right-0 bottom-0 h-full bg-[#000000a7] z-[51]">
-      <div className="w-[95%] mx-auto max-w-screen-md h-[calc(100vh-2rem)] mt-[1rem] flex flex-col justify-between rounded-[35px] bg-primary text-secondary dark:bg-secondary dark:text-primary z-[51]">
-        <div className="p-4 flex rounded-full justify-between">
+      <div className="w-[95%] mx-auto max-w-screen-md h-[calc(100vh-1rem)] mt-[.5rem] flex flex-col justify-between rounded-[35px] bg-primary text-secondary dark:bg-secondary dark:text-primary z-[51]">
+        <div className="py-3 px-4 flex rounded-full justify-between">
           <h2 className="text-xl">Your groups and badges</h2>
           <button onClick={() => setModalIsOpen(false)}>
             <AiOutlineClose className="text-3xl" />
@@ -95,7 +95,7 @@ export default function CategoriesModal() {
           activeToggle={activeToggle}
           handleToggleChange={handleToggleChange}
         />
-        <div className="h-full p-4  overflow-y-scroll shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] ">
+        <div className="h-full p-4 overflow-y-scroll shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] ">
           {user ? (
             <ListOfGroupsAndBadges
               user={user}
@@ -112,10 +112,16 @@ export default function CategoriesModal() {
           )}
         </div>
         <div className="p-3 flex rounded-full justify-between bg-secondary text-primary">
-          <button onClick={handleCreateBadge} className="bg-green-500 p-2 mx-2">
+          <button
+            onClick={handleCreateBadge}
+            className="bg-fourthClr text-secondary p-2 mx-2"
+          >
             Create Badge +
           </button>
-          <button onClick={handleCreateGroup} className="bg-green-500 p-2 mx-2">
+          <button
+            onClick={handleCreateGroup}
+            className="bg-fourthClr text-secondary p-2 mx-2"
+          >
             Create Group +
           </button>
         </div>
@@ -126,9 +132,9 @@ export default function CategoriesModal() {
 
 function ToggleButtons({ activeToggle, handleToggleChange }: IToggleProps) {
   return (
-    <div className="flex justify-between pb-2 w-full max-w-[250px] mx-auto ">
-      <div className="">
-        <h4>Groups</h4>
+    <div className="flex justify-between pb-2 w-full px-4 max-w-[400px] mx-auto ">
+      <div className="flex flex-col items-center">
+        <h4 className="pb-2">Groups</h4>
         <label className="switch">
           <input
             type="checkbox"
@@ -138,8 +144,8 @@ function ToggleButtons({ activeToggle, handleToggleChange }: IToggleProps) {
           <span className="slider round"></span>
         </label>
       </div>
-      <div className="">
-        <h4>Badges</h4>
+      <div className="flex flex-col items-center">
+        <h4 className="pb-2">Badges</h4>
         <label className="switch">
           <input
             type="checkbox"
@@ -253,20 +259,19 @@ function Badges({
               return item.id === id && item.name === name;
             }
           );
-
           return (
             <li
               key={id}
               style={{ backgroundColor: `${color}` }}
               className={`p-2 flex flex-col justify-between rounded text-secondary ${
-                hasBadgeId && "border-8 border-primary"
+                hasBadgeId && "border-8 border-secondary dark:border-primary"
               }`}
             >
               <div className="space-y-2">
-                <h5 className="font-bold cpitalize">{name}</h5>
+                <h5 className="font-bold capitalize truncate">{name}</h5>
                 <p>{kwh.toFixed(1)} kwh</p>
+                <p className="capitalize mt-3 truncate">{category}</p>
               </div>
-              <p className="capitalize mt-3">{category}</p>
               <div className="flex justify-between mt-3">
                 <button
                   onClick={() =>
@@ -349,7 +354,6 @@ function Groups({
   }
 
   async function allowEditing(group: IGroupEdit) {
-    console.log(group);
     setEditItem(group);
     setEditFlag(true);
     setGroupModalIsOpen(true);
@@ -383,11 +387,11 @@ function Groups({
               key={id}
               style={{ backgroundColor: `${color}` }}
               className={`p-2 flex flex-col justify-between rounded text-secondary ${
-                hasGroupId && "border-8 border-primary"
+                hasGroupId && "border-8 border-secondary dark:border-primary"
               }`}
             >
               <div className="space-y-2">
-                <h5 className="font-bold cpitalize">{name}</h5>
+                <h5 className="font-bold capitalize truncate">{name}</h5>
                 <p>{kwh.toFixed(1)} kwh</p>
                 <p>
                   {amountOfGroups === 1
