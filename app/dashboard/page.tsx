@@ -40,7 +40,9 @@ export default function page() {
   if (!dataFromClient) return <div>Loading...</div>;
 
   return (
-    <div className="h-screen min-h-screen flex flex-col">
+    <div
+    // className="h-screen min-h-screen flex flex-col"
+    >
       {modalIsOpen && <CategoriesModal />}
       {badgeModalIsOpen && <CreateBadgeModal />}
       {groupModalIsOpen && <CreateGroupModal />}

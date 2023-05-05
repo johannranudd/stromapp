@@ -19,10 +19,10 @@ export default function Home() {
         alt="logo"
         className="absolute top-[calc(40%-4rem)] md:top-[calc(30%-4rem)] "
       />
-      <main className="relative w-[95%] max-w-screen-xl mx-auto overflow-x-hidden">
+      <main className="w-[95%] max-w-screen-xl mx-auto overflow-x-hidden   ">
         <div className="md:flex md:justify-between md:items-center">
           <div className="text-center space-y-3 max-w-[400px] mx-auto md:text-left md:m-0 md:max-w-[600px]">
-            <h1 className="text-2xl md:text-4xl mlg:text-5xl">
+            <h1 className="mt-16 text-2xl md:text-4xl mlg:text-5xl">
               Sjekk strømprisene
             </h1>
             <p className="md:text-lg mlg:text-xl">
