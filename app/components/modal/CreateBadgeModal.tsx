@@ -4,7 +4,7 @@ import { getUniqueBadgeArray, validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
 import { createBadge } from "@/app/utils/posts";
 import { editBadge } from "@/app/utils/puts";
-import { IBadge, IUser, TDispatch } from "@/types";
+import { IBadge, IUser } from "@/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { CirclePicker } from "react-color";
 import { AiOutlineClose } from "react-icons/ai";
@@ -36,9 +36,13 @@ export default function CreateBadgeModal() {
   if (!badgeModalIsOpen) return null;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
-      <div className="w-[95%] h-[calc(100vh-2rem)] mt-[1rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
-        <div className="p-4 flex rounded-full justify-between text-xl">
-          {editFlag ? <h2>Edit Badge</h2> : <h2>Create Badge</h2>}
+      <div className="w-[95%] h-[calc(100vh-1rem)] mt-[.5rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+        <div className="max-w-[250px] mx-auto flex justify-between w-full text-xl py-4 z-[52]">
+          {editFlag ? (
+            <h2 className="ml-1">Edit Badge</h2>
+          ) : (
+            <h2 className="ml-1">Create Badge</h2>
+          )}
           <button
             onClick={() => setBadgeModalIsOpen(false)}
             className="text-3xl"
@@ -150,7 +154,7 @@ function CreateBadgeForm({
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[10%]  w-full max-w-[400px] z-[52] flex flex-col items-center py-6 bg-red-500">
+        <div className="absolute top-[10%] w-full max-w-[400px] z-[52] flex flex-col items-center py-6 bg-red-500">
           {errors.map((item: any) => {
             return <p>{item}</p>;
           })}
@@ -158,7 +162,7 @@ function CreateBadgeForm({
       )}
       <form
         onSubmit={handleSubmit}
-        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-20 mx-auto flex flex-col justify-between  text-primary"
+        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-16 mx-auto flex flex-col justify-between text-primary"
       >
         <div className="flex flex-col">
           <label htmlFor="badgeName" className="text-primary">

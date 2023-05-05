@@ -61,10 +61,10 @@ export default function RegisterForm() {
       <div className="relative min-h-[calc(100vh-4rem)]">
         <form
           onSubmit={handleSubmit}
-          className="absolute top-[calc(50%+4rem)] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6"
+          className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-40%] md:translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6 py-8"
         >
-          <h1 className="text-2xl">Register</h1>
-          <div className="flex flex-col w-full space-y-3">
+          <h1 className="text-2xl mt-20">Register</h1>
+          <div className="flex flex-col w-full">
             <label htmlFor="name">Name:</label>
             <input
               type="text"

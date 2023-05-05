@@ -115,9 +115,9 @@ export interface IGroupEdit {
 //   windowWidth: number;
 // }
 
-// export interface DataWrapper {
-//   [key: number]: IDataFromAPI;
-// }
+export interface DataWrapper {
+  [key: number]: IDataFromAPI;
+}
 
 export interface IDataFromAPI {
   0: {
