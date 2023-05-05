@@ -7,7 +7,7 @@ export default function DesktopMenu() {
 
   if (jwt.length === 0)
     return (
-      <Link href={"/login"} className="group flex flex-col items-end">
+      <Link href={"/login"} className="group ml-auto">
         Login
         <span className="h-[2px] w-0 group-hover:w-full duration-300 bg-thirdClrDark dark:bg-thirdClr"></span>
       </Link>
