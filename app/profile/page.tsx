@@ -52,7 +52,9 @@ export default function page() {
   ]);
 
   return (
-    <div className={`h-screen min-h-screen flex flex-col`}>
+    <div
+    //  className={`h-screen min-h-screen flex flex-col`}
+    >
       <div className={`w-[95%] max-w-screen-sm mx-auto`}>
         <ProfileInformation />
         <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
