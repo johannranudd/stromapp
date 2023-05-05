@@ -14,7 +14,7 @@ export default function LocationAndDateForm() {
   }, [date, location]);
 
   return (
-    <form className="w-[95%] mx-auto max-w-screen-md pb-16 flex justify-center space-x-6">
+    <form className="w-[95%] mx-auto max-w-screen-md pb-10 flex justify-center space-x-6">
       <div className="inputBox">
         {/* <label htmlFor="location">Location:</label> */}
         <select

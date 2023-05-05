@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
+import { FiMinus, FiPlus } from "react-icons/fi";
 export default function MainContent({ dataFromClient }: any) {
   // console.log(dataFromClient);
   const [activeTab, setActiveTab] = useState("tab1");
@@ -52,13 +53,26 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
   const { totalKWHArray }: any = state;
   const [kWh, setkWh] = useState(0);
 
+  const increment = () => {
+    setkWh((prevValue) => prevValue + 1);
+  };
+
+  const decrement = () => {
+    if (kWh > 0) {
+      setkWh((prevValue) => prevValue - 1);
+    }
+  };
+
   function handleTotalValue(e: any) {
     setkWh(Number(e.target.value));
+  }
+
+  useEffect(() => {
     dispatch({
       type: "CHANGE_KWH",
-      payload: { value: Number(e.target.value) },
+      payload: { value: kWh },
     });
-  }
+  }, [kWh]);
 
   return (
     <div className="relative">
@@ -91,25 +105,36 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
 
       <div className="flex w-full max-w-screen-lg mx-auto pt-6">
         {activeTab === "tab1" && (
-          <form className="absolute top-0 left-[50%] translate-x-[-50%]">
+          <div className="absolute top-[10px] left-[50%] translate-x-[-50%] z-50">
+            <button
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onClick={decrement}
+            >
+              <FiMinus />
+            </button>
             <input
               type="number"
-              id="kWh"
-              name="kWh"
               value={kWh}
-              onChange={(e) => handleTotalValue(e)}
-              className="text-red-500 w-[50px]"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleTotalValue(e)
+              }
+              className="w-28 text-center bg-primary text-secondary dark:bg-secondary dark:text-primary max-w-[70px]  custom-input border-thirdClr"
             />
-            <label htmlFor="kWh">kWh:</label>
-          </form>
+            <button
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onClick={increment}
+            >
+              <FiPlus />
+            </button>
+          </div>
         )}
-        <div className="w-1/2">
+        <div className="w-1/2 mt-6">
           <DonutConsumption
             dataFromClient={dataFromClient}
             activeTab={activeTab}
           />
         </div>
-        <div className="w-1/2">
+        <div className="w-1/2 mt-6">
           <DonutElSupport dataFromClient={dataFromClient} />
         </div>
       </div>

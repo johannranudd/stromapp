@@ -76,7 +76,6 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   const modifiedLabel = `${label}:00`;
   if (active && payload && payload[0]?.value !== undefined) {
     return (
-      // todo style here
       <div className="rounded-lg bg-[#26313c] text-white p-[1rem] shadow-2xl text-center">
         <h4>{modifiedLabel}</h4>
         <p>${payload[0].value} Øre</p>

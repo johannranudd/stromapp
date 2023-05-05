@@ -66,10 +66,6 @@ input {
 .inputBox select {
   width: 100%;
   height: 40px;
-  /* padding: 10px; */
-  /* border: 1px solid var(--thirdClr); */
-  /* background: var(--secondary); */
-  /* color: var(--thirdClr); */
   outline: none;
   font-size: 1rem;
   border-radius: 5px;
@@ -77,10 +73,6 @@ input {
 .inputBox input {
   width: 100%;
   height: 40px;
-  /* padding: 10px; */
-  /* border: 1px solid var(--thirdClr); */
-  /* background: var(--secondary); */
-  /* color: var(--thirdClr); */
   outline: none;
   font-size: 1rem;
   border-radius: 5px;

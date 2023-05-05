@@ -37,10 +37,10 @@ export default function page() {
       {groupModalIsOpen && <CreateGroupModal />}
 
       <div>
-        <h1 className="py-8 text-center text-2xl">Dashboard</h1>
+        <h1 className="py-6 text-center text-2xl">Dashboard</h1>
         <LocationAndDateForm />
         <MainContent dataFromClient={dataFromClient} />
-        <div className="w-full max-w-screen-lg mx-auto ">
+        <div className="w-full max-w-screen-lg mx-auto">
           <AreaChartDashboard dataFromClient={dataFromClient} />
         </div>
       </div>

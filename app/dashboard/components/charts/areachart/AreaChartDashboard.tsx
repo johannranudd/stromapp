@@ -57,7 +57,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
 
   return (
     <>
-      <div className="flex justify-evenly">
+      <div className="w-[95%] mx-auto flex justify-between">
         <button onClick={handleReset}>Reset Time</button>
         <h2>{todayStringDate}</h2>
       </div>
@@ -105,7 +105,8 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
             axisLine={false}
             tickLine={false}
             tickCount={8}
-            tickFormatter={(number: number) => `${number} Øre`}
+            tickFormatter={(number: number) => `${number}`}
+            width={20}
           />
 
           <Recharts.Tooltip content={<CustomTooltip />} />
