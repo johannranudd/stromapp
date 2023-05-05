@@ -41,11 +41,7 @@ export default function DonutConsumption({ dataFromClient, activeTab }: any) {
 function Donut({
   data,
   dataFromClient,
-  // priceInOreAndHour,
-  // timeFrameForCurrentPrice,
   width,
-  // yourExpensesFinal,
-  // elSupportFinal,
   state,
   activeTab,
 }: {
@@ -79,7 +75,6 @@ function Donut({
         />
         <ChartComponent
           data={tempData}
-          dataFromClient={dataFromClient}
           width={width}
           isEmpty={isEmpty}
           activeTab={activeTab}
@@ -102,7 +97,6 @@ function Donut({
           />
           <ChartComponent
             data={tempData}
-            dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
             activeTab={activeTab}
@@ -125,7 +119,6 @@ function Donut({
           />
           <ChartComponent
             data={tempData}
-            dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
             activeTab={activeTab}
@@ -172,8 +165,11 @@ function ChartComponentHTML({
   const priceInNOK = getTotalPrice(selectedHours, kwh, dataFromClient);
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
-      <p className="text-center mb-6" style={{ fontSize: width / 15 }}>
-        {`${kwh.toFixed(1)} kwh / ${hoursOfUse} hours`}
+      <p
+        className="text-center mb-2 whitespace-nowrap"
+        style={{ fontSize: width / 14 }}
+      >
+        {`${kwh.toFixed(1)} kwh / ${hoursOfUse} Timer`}
       </p>
       <p className="text-center">
         <strong className="text-xl" style={{ fontSize: width / 10 }}>
@@ -216,13 +212,11 @@ function getTotalPrice(
 
 function ChartComponent({
   data,
-  dataFromClient,
   width,
   isEmpty,
   activeTab,
 }: {
   data: any;
-  dataFromClient: any;
   width: number;
   isEmpty: boolean;
   activeTab: string;

@@ -6,7 +6,6 @@ import { CustomTooltipProps, IPriceAndTime } from "@/types";
 
 export default function AreaChartDashboard({ dataFromClient }: any) {
   const { dispatch } = useGlobalContext();
-  // TODO replace date with hour and value with priceInOre
   const data: Array<IPriceAndTime> = [];
   const { dailyPriceArray } = dataFromClient[0];
 
@@ -57,8 +56,10 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
 
   return (
     <>
-      <div className="w-[95%] mx-auto flex justify-between">
-        <button onClick={handleReset}>Reset Time</button>
+      <div className="w-[95%] mx-auto flex justify-between items-end">
+        <button onClick={handleReset} className="btnCta2">
+          Tilbakestill Tid
+        </button>
         <h2>{todayStringDate}</h2>
       </div>
       <Recharts.ResponsiveContainer width="100%" height={400}>

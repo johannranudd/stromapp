@@ -25,6 +25,7 @@ export default function page() {
   }, [date, location]);
 
   if (!dataFromClient) return <div>Loading...</div>;
+
   return (
     <div
       className={` ${

@@ -107,6 +107,18 @@ input {
   border-radius: 3px;
 }
 
+.btnCta2 {
+  background: var(--secondary);
+  color: var(--thirdClr);
+  border: 1px solid var(--thirdClr);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+.btnCta2:hover {
+  background: var(--thirdClr);
+  color: var(--secondary);
+}
 .btnCtaWide2 {
   background: var(--secondary);
   color: var(--thirdClr);

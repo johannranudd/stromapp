@@ -62,7 +62,7 @@ export default function DonutElSupport({ dataFromClient }: any) {
           );
           const data: Array<DonutDataItem> = [
             {
-              name: "Your expenses",
+              name: "Dine Utgifter",
               value: Number(yourExpensesFinal),
             },
             {

@@ -4,6 +4,8 @@ import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
 import { FiMinus, FiPlus } from "react-icons/fi";
+import { DonutDataItem } from "@/types";
+import { AiOutlineClose, AiOutlineCloseCircle } from "react-icons/ai";
 export default function MainContent({ dataFromClient }: any) {
   // console.log(dataFromClient);
   const [activeTab, setActiveTab] = useState("tab1");
@@ -78,32 +80,44 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
     <div className="relative">
       {activeTab === "tab2" && (
         <div className="w-[95%] mx-auto max-w-screen-lg">
-          <ul className="flex flex-wrap mb-2">
+          <ul className="flex flex-wrap my-2">
             {totalKWHArray.length >= 1 &&
               totalKWHArray.map((item: any) => {
                 return (
-                  <button
-                    onClick={() =>
-                      dispatch({ type: "REMOVE_FROM_ARRAY", payload: item })
-                    }
+                  <div
+                    className="rounded-md m-1 px-1 flex justify-between items-center"
                     style={{ backgroundColor: item.color }}
-                    className={`rounded-md m-1`}
                   >
-                    {item.name} <span>X</span>&nbsp;
-                  </button>
+                    {item.name}
+                    &nbsp;
+                    <button
+                      onClick={() =>
+                        dispatch({ type: "REMOVE_FROM_ARRAY", payload: item })
+                      }
+                    >
+                      <AiOutlineClose />
+                    </button>
+                  </div>
                 );
               })}
           </ul>
-          <button
-            onClick={() => setModalIsOpen(true)}
-            className="bg-green-500 rounded-md"
-          >
-            Add categories +
-          </button>
+          <div className="flex justify-between items-end">
+            <button
+              onClick={() => setModalIsOpen(true)}
+              className="bg-green-500 rounded-md p-1"
+            >
+              Add categories +
+            </button>
+            <p>{totalKWHArray.length} active categories</p>
+          </div>
         </div>
       )}
 
-      <div className="flex w-full max-w-screen-lg mx-auto pt-6">
+      <div
+        className={`flex w-full max-w-screen-lg mx-auto ${
+          activeTab === "tab1" && "pt-6"
+        }`}
+      >
         {activeTab === "tab1" && (
           <div className="absolute top-[10px] left-[50%] translate-x-[-50%] z-50">
             <button
