@@ -6,6 +6,7 @@ import { useGlobalContext } from "@/app/context/context";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { DonutDataItem } from "@/types";
 import { AiOutlineClose, AiOutlineCloseCircle } from "react-icons/ai";
+import { isColorLight } from "@/app/utils/generics";
 export default function MainContent({ dataFromClient }: any) {
   // console.log(dataFromClient);
   const [activeTab, setActiveTab] = useState("tab1");
@@ -83,9 +84,12 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
           <ul className="flex flex-wrap my-2">
             {totalKWHArray.length >= 1 &&
               totalKWHArray.map((item: any) => {
+                const hasGoodContrast = isColorLight(item.color);
                 return (
                   <div
-                    className="rounded-md m-1 px-1 flex justify-between items-center"
+                    className={`rounded-md m-1 px-1 flex justify-between items-center ${
+                      !hasGoodContrast ? "text-primary" : "text-secondary"
+                    }`}
                     style={{ backgroundColor: item.color }}
                   >
                     {item.name}
@@ -102,10 +106,7 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
               })}
           </ul>
           <div className="flex justify-between items-end">
-            <button
-              onClick={() => setModalIsOpen(true)}
-              className="bg-green-500 rounded-md p-1"
-            >
+            <button onClick={() => setModalIsOpen(true)} className="btnCta2">
               Add categories +
             </button>
             <p>{totalKWHArray.length} active categories</p>

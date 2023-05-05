@@ -36,7 +36,7 @@ export default function CreateBadgeModal() {
   if (!badgeModalIsOpen) return null;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
-      <div className="w-[95%] h-[calc(100vh-4rem)] mt-[1rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+      <div className="w-[95%] h-[calc(100vh-4rem)] mt-[.5rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
         <div className="max-w-[250px] mx-auto flex justify-between w-full text-xl py-4 z-[52]">
           {editFlag ? (
             <h2 className="ml-1">Edit Badge</h2>
@@ -120,7 +120,7 @@ function CreateBadgeForm({
         }, 3000);
       } else {
         setBadgeModalIsOpen(false);
-        // dispatch({ type: "START_FETCH", payload: true });
+        dispatch({ type: "START_FETCH", payload: true });
       }
     } else if (isValid && editFlag) {
       const { name, kwh, category, color } = editItem;
@@ -129,7 +129,7 @@ function CreateBadgeForm({
         payload: { name, value: kwh, color, category, id: editItem.id },
       });
       await editBadge(formData, editItem);
-      // dispatch({ type: "START_FETCH", payload: true });
+      dispatch({ type: "START_FETCH", payload: true });
       setEditFlag(false);
       setBadgeModalIsOpen(false);
     }
@@ -150,15 +150,6 @@ function CreateBadgeForm({
       );
     }
   }, [category]);
-
-  // const [isHidde, setIsHidden] = useState(false);
-  // function handleFocus() {
-  //   setIsHidden(true);
-  // }
-  // function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-  //   setBadgeName(e.target.value);
-  //   setIsHidden(false);
-  // }
 
   return (
     <>
@@ -189,7 +180,6 @@ function CreateBadgeForm({
             }
             placeholder={editFlag && editItem.name}
             className="text-secondary"
-            // onFocus={handleFocus}
           />
         </div>
 
@@ -228,7 +218,6 @@ function CreateBadgeForm({
           </datalist>
         </div>
 
-        {/* <div className={`flex flex-col ${isHidde && "hidden"}`}> */}
         <div className={`flex flex-col`}>
           <label htmlFor="color" className="text-primary">
             Color:
@@ -253,8 +242,6 @@ function CreateBadgeForm({
                 setKwh(value);
               }
             }}
-            // onFocus={handleFocus}
-            // onBlur={() => setIsHidden(false)}
             step="0.1"
             placeholder={editFlag && editItem.kwh}
             className="text-secondary"

@@ -55,7 +55,7 @@ export default function page() {
         )}
         <div>
           <h2 className="text-xl mb-6">Profile Setting</h2>
-          <div className="grid grid-cols-2 justify-items-start text-thirdClr mb-6">
+          <div className="grid grid-cols-2 justify-items-start text-thirdClrDark dark:text-thirdClr mb-6">
             <button onClick={() => setAdrModalIsOpen(true)}>
               + Edit Address
             </button>
@@ -63,7 +63,7 @@ export default function page() {
               + Edit Phone Number
             </button>
           </div>
-          <div className="grid grid-cols-2 justify-items-start text-thirdClr mb-6">
+          <div className="grid grid-cols-2 justify-items-start text-thirdClrDark dark:text-thirdClr mb-6">
             <button onClick={() => setChangeEmailModalIsOpen(true)}>
               + Edit Email
             </button>
