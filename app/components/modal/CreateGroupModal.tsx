@@ -82,9 +82,7 @@ function CreateGroupForm({
   const [kwh, setKwh] = useState(0);
   const [selectedBadges, setSelectedBadges]: any = useState([]);
   const [errors, setErrors] = useState<string[]>([]);
-
-  const handleBadgeSelection = (e: any, index: number) => {
-    e.preventDefault();
+  const handleBadgeSelection = (index: number) => {
     if (badges) {
       const badge = badges[index];
       const badgeIndex = selectedBadges.findIndex(
@@ -188,27 +186,25 @@ function CreateGroupForm({
 
         <div className="flex flex-col">
           <label htmlFor="badgeList">Select Badges:</label>
-
-          <select
-            id="badgeList"
-            multiple
-            value={selectedBadges.map((badge: any) => badges?.indexOf(badge))}
-            onChange={() => handleBadgeSelection}
-            className="text-secondary"
-          >
-            {badges?.map((badge: any, index: number) => {
+          <div className="flex flex-wrap">
+            {badges?.map((badge: IBadge, index: number) => {
               const { name } = badge;
+              const isSelected = selectedBadges.some(
+                (item: IBadge) => item === badge
+              );
               return (
-                <option
-                  key={name}
-                  value={index}
-                  onClick={(e) => handleBadgeSelection(e, index)}
-                >
-                  <span>{name}</span>
-                </option>
+                <label key={name} className="inline-flex items-center mr-3">
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => handleBadgeSelection(index)}
+                    className="text-secondary"
+                  />
+                  <span className="ml-2">{name}</span>
+                </label>
               );
             })}
-          </select>
+          </div>
         </div>
 
         <div className={`flex flex-col`}>
