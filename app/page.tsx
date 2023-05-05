@@ -17,7 +17,7 @@ export default function Home() {
       <Image
         src={HeroVector}
         alt="logo"
-        className="absolute top-[calc(40%-4rem)] md:top-[calc(30%-4rem)] "
+        className="absolute top-[calc(40%-4rem)] md:top-[calc(30%-4rem)] z-[-50]"
       />
       <main className="w-[95%] max-w-screen-xl mx-auto overflow-x-hidden   ">
         <div className="md:flex md:justify-between md:items-center mt-16">
