@@ -33,7 +33,7 @@ export default function CreateBadgeModal() {
   if (!groupModalIsOpen) return null;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
-      <div className="w-[95%] h-[calc(100vh-1rem)] mt-[.5rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+      <div className="w-[95%] h-[calc(100vh-4rem)] mt-[2rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
         <div className="max-w-[250px] mx-auto flex justify-between w-full text-xl py-4 z-[52]">
           {editFlag ? (
             <h2 className="ml-1">Edit Group</h2>
@@ -139,7 +139,7 @@ function CreateGroupForm({
         }, 3000);
       } else {
         setGroupModalIsOpen(false);
-        dispatch({ type: "START_FETCH", payload: true });
+        // dispatch({ type: "START_FETCH", payload: true });
       }
     } else if (isValid && editFlag) {
       const { name, kwh, category, color } = editItem;
@@ -148,22 +148,31 @@ function CreateGroupForm({
         payload: { name, value: kwh, color, category, id: editItem.id },
       });
       await editGroup(formData, editItem);
-      dispatch({ type: "START_FETCH", payload: true });
+      // dispatch({ type: "START_FETCH", payload: true });
       setEditFlag(false);
       setGroupModalIsOpen(false);
     }
   };
 
+  const [isHidde, setIsHidden] = useState(false);
+  function handleFocus() {
+    setIsHidden(true);
+  }
+  function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+    setGroupName(e.target.value);
+    setIsHidden(false);
+  }
+
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[10%]  w-full max-w-[400px] z-[52] flex flex-col items-center py-6 bg-red-500">
+        <div className="absolute top-[10%] left-[50%] translate-x-[-50%] w-full max-w-[400px] z-[52] flex flex-col items-center py-6 bg-red-500">
           {errors}
         </div>
       )}
       <form
         onSubmit={handleSubmit}
-        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-16 mx-auto flex flex-col justify-between text-primary space-y-8"
+        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-20 mx-auto flex flex-col justify-between text-primary space-y-2 min-w-[240px]"
       >
         <div className="flex flex-col">
           <label htmlFor="groupName" className="text-primary">
@@ -176,9 +185,8 @@ function CreateGroupForm({
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setGroupName(e.target.value)
             }
-            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-              setGroupName(e.target.value)
-            }
+            onBlur={(e: React.FocusEvent<HTMLInputElement>) => handleBlur(e)}
+            onFocus={handleFocus}
             placeholder={editFlag && editItem.name}
             className="text-secondary"
           />
@@ -202,7 +210,6 @@ function CreateGroupForm({
                   key={name}
                   value={index}
                   onClick={(e: any) => handleBadgeSelection(e, index)}
-                  // className="flex-grow"
                 >
                   <span>{name}</span>
                 </option>
@@ -211,7 +218,7 @@ function CreateGroupForm({
           </select>
         </div>
 
-        <div className="flex flex-col">
+        <div className={`flex flex-col ${isHidde && "hidden"}`}>
           <label htmlFor="color" className="text-primary">
             Color:
           </label>

@@ -5,7 +5,7 @@ export const initialState: IState = {
   date: new Date().toISOString().slice(0, 10),
   location: 1,
   selectedHours: [0, 24],
-  startFetch: false,
+  // startFetch: false,
   badges: [],
   totalNumber: [],
   totalKWHArray: [],
@@ -30,11 +30,11 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
         ...state,
         selectedHours: action.payload,
       };
-    case "START_FETCH":
-      return {
-        ...state,
-        startFetch: action.payload,
-      };
+    // case "START_FETCH":
+    //   return {
+    //     ...state,
+    //     startFetch: action.payload,
+    //   };
     case "ADD_TO_ARRAY":
       // check if already has
       const hasDuplicate = state.totalKWHArray.some(
