@@ -16,8 +16,14 @@ import { IUser } from "@/types";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
 export default function page() {
-  const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
-    useGlobalContext();
+  const {
+    modalIsOpen,
+    setModalIsOpen,
+    badgeModalIsOpen,
+    groupModalIsOpen,
+    setDisableScrollbar,
+    disableScrollbar,
+  } = useGlobalContext();
   const [adrModalIsOpen, setAdrModalIsOpen] = useState(false);
   const [phoneNrModalIsOpen, setPhoneNrModalIsOpen] = useState(false);
   const [changeEmailModalIsOpen, setChangeEmailModalIsOpen] = useState(false);
@@ -27,9 +33,30 @@ export default function page() {
   useEffect(() => {
     fetchUser(setUser);
   }, []);
+  useEffect(() => {
+    if (
+      adrModalIsOpen ||
+      phoneNrModalIsOpen ||
+      changeEmailModalIsOpen ||
+      changePWModalIsOpen
+    ) {
+      setDisableScrollbar(true);
+    } else {
+      setDisableScrollbar(false);
+    }
+  }, [
+    adrModalIsOpen,
+    phoneNrModalIsOpen,
+    changeEmailModalIsOpen,
+    changePWModalIsOpen,
+  ]);
 
   return (
-    <div className={`min-h-[calc(100vh-4rem)]`}>
+    <div
+      className={`overflow-y-hidden h-[0%]  ${
+        !disableScrollbar && "h-screen min-h-screen flex flex-col"
+      }`}
+    >
       <div className={`w-[95%] max-w-screen-sm mx-auto`}>
         <ProfileInformation />
         <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
