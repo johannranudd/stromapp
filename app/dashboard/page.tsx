@@ -9,13 +9,8 @@ import CreateBadgeModal from "../components/modal/CreateBadgeModal";
 import CreateGroupModal from "../components/modal/CreateGroupModal";
 import { fetcherClient } from "../utils/gets";
 export default function page() {
-  const {
-    state,
-    modalIsOpen,
-    badgeModalIsOpen,
-    groupModalIsOpen,
-    setDisableScrollbar,
-  } = useGlobalContext();
+  const { state, modalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
+    useGlobalContext();
   const { date, location }: any = state;
 
   const [dataFromClient, setDataFromClient] = useState();
@@ -25,17 +20,8 @@ export default function page() {
   }, []);
 
   useEffect(() => {
-    const { startFetch }: any = state;
-    if (startFetch) fetcherClient(state, setDataFromClient);
+    fetcherClient(state, setDataFromClient);
   }, [date, location]);
-
-  useEffect(() => {
-    if (modalIsOpen) {
-      setDisableScrollbar(true);
-    } else {
-      setDisableScrollbar(false);
-    }
-  }, [modalIsOpen]);
 
   if (!dataFromClient) return <div>Loading...</div>;
 

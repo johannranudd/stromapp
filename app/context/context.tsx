@@ -23,8 +23,6 @@ export interface ContextProps {
   setBadgeModalIsOpen: Dispatch<SetStateAction<boolean>>;
   groupModalIsOpen: boolean;
   setGroupModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  disableScrollbar: boolean;
-  setDisableScrollbar: Dispatch<SetStateAction<boolean>>;
   editFlag: boolean;
   setEditFlag: Dispatch<SetStateAction<boolean>>;
   editItem: {
@@ -59,8 +57,6 @@ export const GlobalContext = createContext<ContextProps>({
   setBadgeModalIsOpen: () => false,
   groupModalIsOpen: false,
   setGroupModalIsOpen: () => false,
-  disableScrollbar: false,
-  setDisableScrollbar: () => false,
   editFlag: false,
   setEditFlag: () => false,
   editItem: {
@@ -84,7 +80,6 @@ export const GlobalContextProvider = ({
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [badgeModalIsOpen, setBadgeModalIsOpen] = useState(false);
   const [groupModalIsOpen, setGroupModalIsOpen] = useState(false);
-  const [disableScrollbar, setDisableScrollbar] = useState(false);
 
   const [editFlag, setEditFlag] = useState(false);
   const [editItem, setEditItem] = useState({
@@ -129,8 +124,6 @@ export const GlobalContextProvider = ({
         setBadgeModalIsOpen,
         groupModalIsOpen,
         setGroupModalIsOpen,
-        disableScrollbar,
-        setDisableScrollbar,
         editFlag,
         setEditFlag,
         editItem,

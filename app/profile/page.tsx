@@ -16,14 +16,8 @@ import { IUser } from "@/types";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
 export default function page() {
-  const {
-    modalIsOpen,
-    setModalIsOpen,
-    badgeModalIsOpen,
-    groupModalIsOpen,
-    setDisableScrollbar,
-    disableScrollbar,
-  } = useGlobalContext();
+  const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
+    useGlobalContext();
   const [adrModalIsOpen, setAdrModalIsOpen] = useState(false);
   const [phoneNrModalIsOpen, setPhoneNrModalIsOpen] = useState(false);
   const [changeEmailModalIsOpen, setChangeEmailModalIsOpen] = useState(false);
@@ -33,29 +27,10 @@ export default function page() {
   useEffect(() => {
     fetchUser(setUser);
   }, []);
-  useEffect(() => {
-    if (
-      adrModalIsOpen ||
-      phoneNrModalIsOpen ||
-      changeEmailModalIsOpen ||
-      changePWModalIsOpen
-    ) {
-      setDisableScrollbar(true);
-    } else {
-      setDisableScrollbar(false);
-    }
-  }, [
-    adrModalIsOpen,
-    phoneNrModalIsOpen,
-    changeEmailModalIsOpen,
-    changePWModalIsOpen,
-  ]);
 
   return (
-    <div
-    //  className={`h-screen min-h-screen flex flex-col`}
-    >
-      <div className={`w-[95%] max-w-screen-sm mx-auto`}>
+    <div>
+      <div className={`w-[95%] max-w-screen-sm mx-auto mb-16`}>
         <ProfileInformation />
         <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
           Category settings
