@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .contrast-text {
+    mix-blend-mode: difference;
+    color: white;
+  }
+}
+
 :root {
   --primary: #fbf5f5;
   --secondary: #242431;

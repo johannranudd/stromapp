@@ -64,7 +64,7 @@ export interface IState {
   date: string;
   location: number;
   selectedHours: Array<number>;
-  // startFetch: boolean;
+  startFetch: boolean;
   badges: Array<IBadge>;
   totalNumber: Array<{ value: number }>;
   totalKWHArray: Array<DonutDataItem>;
