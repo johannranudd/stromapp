@@ -83,14 +83,12 @@ function CreateGroupForm({
   const [selectedBadges, setSelectedBadges]: any = useState([]);
   const [errors, setErrors] = useState<string[]>([]);
 
-  const handleBadgeSelection = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
+  const handleBadgeSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
-    const badge = badges && badges[index];
-    const badgeIndex = selectedBadges.findIndex((item: any) => item === badge);
 
+    const clickedIndex = parseInt(e.target.value);
+    const badge = badges && badges[clickedIndex];
+    const badgeIndex = selectedBadges.findIndex((item: any) => item === badge);
     if (badgeIndex > -1) {
       setSelectedBadges((prevState: any) =>
         prevState.filter((item: any, idx: any) => idx !== badgeIndex)
@@ -98,6 +96,7 @@ function CreateGroupForm({
     } else {
       setSelectedBadges((prevState: any) => [...prevState, badge]);
     }
+    e.target.options[clickedIndex].selected = false;
   };
 
   useEffect(() => {
@@ -187,23 +186,20 @@ function CreateGroupForm({
 
         <div className="flex flex-col">
           <label htmlFor="badgeList">Select Badges:</label>
+
           <select
             id="badgeList"
             multiple
             value={selectedBadges.map((badge: IBadge) =>
               badges?.indexOf(badge)
             )}
-            onChange={() => handleBadgeSelection}
+            onChange={(e) => handleBadgeSelection(e)}
             className="bg-primary text-secondary"
           >
             {badges?.map((badge: IBadge, index: number) => {
               const { name } = badge;
               return (
-                <option
-                  key={name}
-                  value={index}
-                  onClick={(e: any) => handleBadgeSelection(e, index)}
-                >
+                <option key={name} value={index}>
                   <span>{name}</span>
                 </option>
               );
