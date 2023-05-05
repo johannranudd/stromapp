@@ -83,23 +83,22 @@ function CreateGroupForm({
   const [selectedBadges, setSelectedBadges]: any = useState([]);
   const [errors, setErrors] = useState<string[]>([]);
 
-  const handleBadgeSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleBadgeSelection = (e: any, index: number) => {
     e.preventDefault();
-
-    const clickedIndex = parseInt(e.target.value);
-    const badge = badges && badges[clickedIndex];
-    const badgeIndex = selectedBadges.findIndex((item: any) => item === badge);
-    if (badgeIndex > -1) {
-      setSelectedBadges((prevState: any) =>
-        prevState.filter((item: any, idx: any) => idx !== badgeIndex)
+    if (badges) {
+      const badge = badges[index];
+      const badgeIndex = selectedBadges.findIndex(
+        (item: any) => item === badge
       );
-    } else {
-      setSelectedBadges((prevState: any) => [...prevState, badge]);
+
+      if (badgeIndex > -1) {
+        setSelectedBadges((prevState: any) =>
+          prevState.filter((item: any, idx: any) => idx !== badgeIndex)
+        );
+      } else {
+        setSelectedBadges((prevState: any) => [...prevState, badge]);
+      }
     }
-    // e.target.options[clickedIndex].selected = false;
-  };
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
   };
 
   useEffect(() => {
@@ -165,7 +164,6 @@ function CreateGroupForm({
       )}
       <form
         onSubmit={handleSubmit}
-        onClick={handleClick}
         className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-20 mx-auto flex flex-col justify-between text-primary space-y-2 min-w-[240px]"
       >
         <div className="flex flex-col">
@@ -194,16 +192,18 @@ function CreateGroupForm({
           <select
             id="badgeList"
             multiple
-            value={selectedBadges.map((badge: IBadge) =>
-              badges?.indexOf(badge)
-            )}
-            onChange={(e) => handleBadgeSelection(e)}
-            className="bg-primary text-secondary"
+            value={selectedBadges.map((badge: any) => badges?.indexOf(badge))}
+            onChange={() => handleBadgeSelection}
+            className="text-secondary"
           >
-            {badges?.map((badge: IBadge, index: number) => {
+            {badges?.map((badge: any, index: number) => {
               const { name } = badge;
               return (
-                <option key={name} value={index}>
+                <option
+                  key={name}
+                  value={index}
+                  onClick={(e) => handleBadgeSelection(e, index)}
+                >
                   <span>{name}</span>
                 </option>
               );
