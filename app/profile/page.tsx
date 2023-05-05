@@ -13,6 +13,7 @@ import { fetchUser } from "../utils/gets";
 import { editProfile } from "../utils/puts";
 import { AiOutlineCheck } from "react-icons/ai";
 import { IUser } from "@/types";
+import { FiPlus, FiMinus } from "react-icons/fi";
 
 export default function page() {
   const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
@@ -28,15 +29,10 @@ export default function page() {
   }, []);
 
   return (
-    <div
-      className={`min-h-[calc(100vh-4rem)] bg-secondary text-primary dark:bg-primary dark:text-secondary`}
-    >
+    <div className={`min-h-[calc(100vh-4rem)]`}>
       <div className={`w-[95%] max-w-screen-sm mx-auto`}>
         <ProfileInformation />
-        <button
-          className="bg-fourthClr text-secondary py-2 px-4 my-6"
-          onClick={() => setModalIsOpen(true)}
-        >
+        <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
           Category settings
         </button>
 
@@ -87,9 +83,19 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   const [isToggled, setIsToggled] = useState<boolean>();
   const [saved, setSaved] = useState<boolean>(false);
 
+  const increment = () => {
+    setTempNotificationLimit((prevValue) => prevValue + 1);
+  };
+
+  const decrement = () => {
+    if (tempNotificationLimit > 0) {
+      setTempNotificationLimit((prevValue) => prevValue - 1);
+    }
+  };
+
   function handleNotoficationValue(e: string) {
     let value = Number(e);
-    setTempNotificationLimit(value++);
+    setTempNotificationLimit(value);
   }
   async function updateLimit() {
     setSaved(true);
@@ -118,7 +124,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   if (!user) return null;
   return (
     <>
-      <div className="space-y-3">
+      <div className="space-y-6">
         <h2 className="text-xl mb-6">Notification Settings</h2>
         <div className="flex justify-between">
           <p>Allow notifications</p>
@@ -133,25 +139,39 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
             </label>
           </div>
         </div>
-        <div className="flex justify-between items-start">
-          <div>
-            <p>Send push when price is lower than selected amount</p>
+        <div className="flex flex-col justify-between items-start xxs:flex-row space-y-3">
+          <p className="w-1/2">
+            Send notification when price is lower than selected amount
+          </p>
+          <div className="flex items-center">
             <button
-              onClick={updateLimit}
-              className="w-[10rem] h-[2rem] flex justify-center items-center border"
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onClick={decrement}
             >
-              {saved ? <AiOutlineCheck /> : "Save Notifications"}
+              <FiMinus />
+            </button>
+            <input
+              type="number"
+              value={tempNotificationLimit}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleNotoficationValue(e.target.value)
+              }
+              className="w-28 text-center bg-primary text-secondary dark:bg-secondary dark:text-primary custom-input"
+            />
+            <button
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onClick={increment}
+            >
+              <FiPlus />
             </button>
           </div>
-          <input
-            type="number"
-            className="text-secondary"
-            value={tempNotificationLimit}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleNotoficationValue(e.target.value)
-            }
-          />
         </div>
+        <button
+          onClick={updateLimit}
+          className="w-[10rem] flex justify-center items-center btnCta"
+        >
+          {saved ? <AiOutlineCheck /> : "Save Notifications"}
+        </button>
       </div>
     </>
   );

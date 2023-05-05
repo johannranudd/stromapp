@@ -1,24 +1,10 @@
 "use client";
-import { getElSupportPercentage } from "@/app/utils/generics";
 import { PieChart, ResponsiveContainer, Pie, Tooltip, Cell } from "recharts";
 import { useGlobalContext } from "@/app/context/context";
 import { useState, useEffect } from "react";
-import {
-  DonutDataItem,
-  IDataFromAPI,
-  IPriceAndTime,
-  ITotalKWHProps,
-} from "@/types";
-// import { IState } from "../../../../context/reducer/reducer";
+import { DonutDataItem, IDataFromAPI, IPriceAndTime } from "@/types";
 
-const COLORS = [
-  "#ce93d8",
-  "#5c6bc0",
-  "#b39ddb",
-  "#d500f9",
-  "#f48fb1",
-  "#4dd0e1",
-];
+const COLORS = ["#ffcd4f", "#6be072"];
 
 export default function DonutConsumption({ dataFromClient, activeTab }: any) {
   const { state, windowWidth } = useGlobalContext();
@@ -55,11 +41,7 @@ export default function DonutConsumption({ dataFromClient, activeTab }: any) {
 function Donut({
   data,
   dataFromClient,
-  // priceInOreAndHour,
-  // timeFrameForCurrentPrice,
   width,
-  // yourExpensesFinal,
-  // elSupportFinal,
   state,
   activeTab,
 }: {
@@ -93,7 +75,6 @@ function Donut({
         />
         <ChartComponent
           data={tempData}
-          dataFromClient={dataFromClient}
           width={width}
           isEmpty={isEmpty}
           activeTab={activeTab}
@@ -116,7 +97,6 @@ function Donut({
           />
           <ChartComponent
             data={tempData}
-            dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
             activeTab={activeTab}
@@ -139,7 +119,6 @@ function Donut({
           />
           <ChartComponent
             data={tempData}
-            dataFromClient={dataFromClient}
             width={width}
             isEmpty={isEmpty}
             activeTab={activeTab}
@@ -186,8 +165,11 @@ function ChartComponentHTML({
   const priceInNOK = getTotalPrice(selectedHours, kwh, dataFromClient);
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
-      <p className="text-center mb-6" style={{ fontSize: width / 15 }}>
-        {`${kwh.toFixed(1)} kwh / ${hoursOfUse} hours`}
+      <p
+        className="text-center mb-2 whitespace-nowrap"
+        style={{ fontSize: width / 14 }}
+      >
+        {`${kwh.toFixed(1)} kwh / ${hoursOfUse} Timer`}
       </p>
       <p className="text-center">
         <strong className="text-xl" style={{ fontSize: width / 10 }}>
@@ -230,13 +212,11 @@ function getTotalPrice(
 
 function ChartComponent({
   data,
-  dataFromClient,
   width,
   isEmpty,
   activeTab,
 }: {
   data: any;
-  dataFromClient: any;
   width: number;
   isEmpty: boolean;
   activeTab: string;
@@ -249,7 +229,7 @@ function ChartComponent({
           data={data}
           innerRadius={width / 2.5}
           outerRadius={width / 2.1}
-          fill="#d500f9"
+          fill="#ffcd4f"
           cy="35%"
           labelLine={false}
         >
@@ -265,7 +245,7 @@ function ChartComponent({
               />
             ))
           ) : (
-            <Cell key={`empty-cell`} fill="#d500f9" />
+            <Cell key={`empty-cell`} fill="#ffcd4f" />
           )}
         </Pie>
         <Tooltip />

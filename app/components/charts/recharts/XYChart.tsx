@@ -1,10 +1,5 @@
 "use client";
-import {
-  CustomTooltipProps,
-  ICustomToolTip,
-  IDataFromAPI,
-  IPriceAndTime,
-} from "@/types";
+import { CustomTooltipProps, IDataFromAPI, IPriceAndTime } from "@/types";
 import * as Recharts from "recharts";
 
 export default function XYChart(dataFromAPI: IDataFromAPI) {
@@ -23,8 +18,11 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
 
   return (
     <>
-      <h2>{todayStringDate}</h2>
-      <Recharts.ResponsiveContainer width="100%" height={400}>
+      <div className="flex justify-between">
+        <p>Pris I øre</p>
+        <p className="">{todayStringDate}</p>
+      </div>
+      <Recharts.ResponsiveContainer width="100%" height={350}>
         <Recharts.AreaChart data={data}>
           <defs>
             <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
@@ -57,7 +55,8 @@ export default function XYChart(dataFromAPI: IDataFromAPI) {
             axisLine={false}
             tickLine={false}
             tickCount={8}
-            tickFormatter={(number: number) => `${number} Øre`}
+            tickFormatter={(number: number) => `${number}`}
+            width={20}
           />
 
           <Recharts.Tooltip content={<CustomTooltip />} />
@@ -77,7 +76,6 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   const modifiedLabel = `${label}:00`;
   if (active && payload && payload[0]?.value !== undefined) {
     return (
-      // todo style here
       <div className="rounded-lg bg-[#26313c] text-white p-[1rem] shadow-2xl text-center">
         <h4>{modifiedLabel}</h4>
         <p>${payload[0].value} Øre</p>

@@ -37,38 +37,47 @@ export default function LoginForm() {
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[25%] left-[50%] translate-x-[-50%]  w-full max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
-          <p>{errors}</p>
+        <div className="absolute top-[10%] left-[50%] translate-x-[-50%] w-[95%] max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
+          {errors}
         </div>
       )}
       <div className="relative h-[calc(100vh-4rem)]">
         <form
           onSubmit={handleSubmit}
-          className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-100%] flex flex-col justify-center items-center w-[95%] max-w-[400px] border"
+          className="absolute top-[35%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6 py-6"
         >
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <h1 className="text-2xl">Login</h1>
+          <div className="flex flex-col w-full space-y-3">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="flex flex-col w-full space-y-3">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          <button type="submit">Log in</button>
+          <button type="submit" className="btnCtaWide">
+            Log in
+          </button>
           <p>
-            dont have a user? <Link href={"/register"}>Register&gt;&gt;</Link>
+            Dont have a user?{" "}
+            <Link href={"/register"} className="text-fourthClr">
+              Register&gt;&gt;
+            </Link>
           </p>
         </form>
       </div>

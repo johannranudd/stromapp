@@ -18,13 +18,21 @@ import {
 } from "@/types";
 
 const COLORS = [
-  "#ce93d8",
-  "#5c6bc0",
+  "#ffcd4f",
+  "#6be072",
   "#b39ddb",
   "#4dd0e1",
   "#f48fb1",
   "#d500f9",
 ];
+// const COLORS = [
+//   "#ce93d8",
+//   "#5c6bc0",
+//   "#b39ddb",
+//   "#4dd0e1",
+//   "#f48fb1",
+//   "#d500f9",
+// ];
 
 export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
   const { windowWidth } = useGlobalContext();
@@ -44,10 +52,14 @@ export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
 
   const [width, setWidth] = useState(windowWidth / 1.3);
   useEffect(() => {
-    if (windowWidth >= 400) {
+    if (windowWidth >= 1200) {
+      setWidth(400);
+    } else if (windowWidth >= 768) {
+      setWidth(350);
+    } else if (windowWidth >= 400) {
       setWidth(300);
     } else {
-      setWidth(windowWidth / 1.3);
+      setWidth(windowWidth / 1.6);
     }
   }, [windowWidth]);
 
@@ -57,7 +69,7 @@ export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
         width: width / 0.9,
         height: width / 0.9,
         zIndex: 1,
-        margin: windowWidth >= 400 ? "0 0 0 auto" : "0 auto 0 auto",
+        margin: windowWidth >= 768 ? "0 0 0 auto" : "0 auto 0 auto",
       }}
       className="relative "
     >
@@ -87,7 +99,7 @@ export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
 
           const data: Array<DonutDataItem> = [
             {
-              name: "Your expenses",
+              name: "Dine utgifter",
               value: Number(yourExpensesFinal),
             },
             {

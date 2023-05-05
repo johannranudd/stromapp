@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
+import { FiMinus, FiPlus } from "react-icons/fi";
+import { DonutDataItem } from "@/types";
+import { AiOutlineClose, AiOutlineCloseCircle } from "react-icons/ai";
 export default function MainContent({ dataFromClient }: any) {
   // console.log(dataFromClient);
   const [activeTab, setActiveTab] = useState("tab1");
@@ -24,10 +27,10 @@ function Tabs({ activeTab, setActiveTab }: any) {
     <div className="flex w-full max-w-screen-lg mx-auto">
       <div
         onClick={() => setActiveTab("tab1")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary ${
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
           activeTab === "tab1"
-            ? "bg-secondary text-primary dark:bg-primary dark:text-secondary"
-            : "bg-primary text-secondary dark:bg-secondary dark:text-primary"
+            ? "text-thirdClr"
+            : "shadow-[inset_0px_-2px_4px_rgba(0,0,0,0.6)]"
         }`}
       >
         <h3>Estimated usage</h3>
@@ -35,10 +38,10 @@ function Tabs({ activeTab, setActiveTab }: any) {
 
       <div
         onClick={() => setActiveTab("tab2")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary ${
-          activeTab === "tab1"
-            ? "bg-primary text-secondary dark:bg-secondary dark:text-primary"
-            : "bg-secondary text-primary dark:bg-primary dark:text-secondary"
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
+          activeTab === "tab2"
+            ? "text-thirdClr"
+            : "shadow-[inset_0px_-2px_4px_rgba(0,0,0,0.6)]"
         }`}
       >
         <h3>Categories</h3>
@@ -52,64 +55,100 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
   const { totalKWHArray }: any = state;
   const [kWh, setkWh] = useState(0);
 
+  const increment = () => {
+    setkWh((prevValue) => prevValue + 1);
+  };
+
+  const decrement = () => {
+    if (kWh > 0) {
+      setkWh((prevValue) => prevValue - 1);
+    }
+  };
+
   function handleTotalValue(e: any) {
     setkWh(Number(e.target.value));
-    dispatch({
-      type: "CHANGE_KWH",
-      payload: { value: Number(e.target.value) },
-    });
   }
 
+  useEffect(() => {
+    dispatch({
+      type: "CHANGE_KWH",
+      payload: { value: kWh },
+    });
+  }, [kWh]);
+
   return (
-    <div className="relative bg-secondary text-primary dark:bg-primary dark:text-secondary">
+    <div className="relative">
       {activeTab === "tab2" && (
         <div className="w-[95%] mx-auto max-w-screen-lg">
-          <ul className="flex flex-wrap mb-2">
+          <ul className="flex flex-wrap my-2">
             {totalKWHArray.length >= 1 &&
               totalKWHArray.map((item: any) => {
                 return (
-                  <button
-                    onClick={() =>
-                      dispatch({ type: "REMOVE_FROM_ARRAY", payload: item })
-                    }
+                  <div
+                    className="rounded-md m-1 px-1 flex justify-between items-center"
                     style={{ backgroundColor: item.color }}
-                    className={`rounded-md m-1`}
                   >
-                    {item.name} <span>X</span>&nbsp;
-                  </button>
+                    {item.name}
+                    &nbsp;
+                    <button
+                      onClick={() =>
+                        dispatch({ type: "REMOVE_FROM_ARRAY", payload: item })
+                      }
+                    >
+                      <AiOutlineClose />
+                    </button>
+                  </div>
                 );
               })}
           </ul>
-          <button
-            onClick={() => setModalIsOpen(true)}
-            className="bg-green-500 rounded-md"
-          >
-            Add categories +
-          </button>
+          <div className="flex justify-between items-end">
+            <button
+              onClick={() => setModalIsOpen(true)}
+              className="bg-green-500 rounded-md p-1"
+            >
+              Add categories +
+            </button>
+            <p>{totalKWHArray.length} active categories</p>
+          </div>
         </div>
       )}
 
-      <div className="flex w-full max-w-screen-lg mx-auto pt-6">
+      <div
+        className={`flex w-full max-w-screen-lg mx-auto ${
+          activeTab === "tab1" && "pt-6"
+        }`}
+      >
         {activeTab === "tab1" && (
-          <form className="absolute top-0 left-[50%] translate-x-[-50%]">
+          <div className="absolute top-[10px] left-[50%] translate-x-[-50%] z-50">
+            <button
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onClick={decrement}
+            >
+              <FiMinus />
+            </button>
             <input
               type="number"
-              id="kWh"
-              name="kWh"
               value={kWh}
-              onChange={(e) => handleTotalValue(e)}
-              className="text-red-500 w-[50px]"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleTotalValue(e)
+              }
+              className="w-28 text-center bg-primary text-secondary dark:bg-secondary dark:text-primary max-w-[70px]  custom-input border-thirdClr"
             />
-            <label htmlFor="kWh">kWh:</label>
-          </form>
+            <button
+              className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
+              onClick={increment}
+            >
+              <FiPlus />
+            </button>
+          </div>
         )}
-        <div className="w-1/2">
+        <div className="w-1/2 mt-6">
           <DonutConsumption
             dataFromClient={dataFromClient}
             activeTab={activeTab}
           />
         </div>
-        <div className="w-1/2">
+        <div className="w-1/2 mt-6">
           <DonutElSupport dataFromClient={dataFromClient} />
         </div>
       </div>

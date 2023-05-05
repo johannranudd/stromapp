@@ -7,6 +7,7 @@ import { editBadge } from "@/app/utils/puts";
 import { IBadge, IUser, TDispatch } from "@/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { CirclePicker } from "react-color";
+import { AiOutlineClose } from "react-icons/ai";
 //
 //
 //
@@ -34,11 +35,16 @@ export default function CreateBadgeModal() {
 
   if (!badgeModalIsOpen) return null;
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-50">
-      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary dark:bg-primary">
-        <div className="p-4 flex rounded-full justify-between bg-secondary text-primary">
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
+      <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+        <div className="p-4 flex rounded-full justify-between text-xl">
           {editFlag ? <h2>Edit Badge</h2> : <h2>Create Badge</h2>}
-          <button onClick={() => setBadgeModalIsOpen(false)}>X</button>
+          <button
+            onClick={() => setBadgeModalIsOpen(false)}
+            className="text-3xl"
+          >
+            <AiOutlineClose />
+          </button>
         </div>
         <CreateBadgeForm
           {...user}
@@ -144,7 +150,7 @@ function CreateBadgeForm({
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[10%]  w-full max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
+        <div className="absolute top-[10%]  w-full max-w-[400px] z-[52] flex flex-col items-center py-6 bg-red-500">
           {errors.map((item: any) => {
             return <p>{item}</p>;
           })}
@@ -238,7 +244,9 @@ function CreateBadgeForm({
             className="text-secondary"
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" className="btnCtaWide2">
+          Submit
+        </button>
       </form>
     </>
   );

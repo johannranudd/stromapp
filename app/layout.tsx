@@ -13,14 +13,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // dark:bg-secondary dark:text-primary
   return (
     <html lang="en">
-      <body className="relative min-h-screen bg-primary text-secondary dark:bg-secondary dark:text-primary">
+      <body className="h-screen bg-primary text-secondary dark:bg-secondary dark:text-primary overflow-hidden">
         <GlobalContextProvider>
           <ColorThemeProvider>
-            <Navbar />
-            <div className="overflow-y-scroll h-screen">{children}</div>
+            <div className="h-full flex flex-col">
+              <Navbar />
+              <div className="relative flex-grow overflow-y-scroll mt-16">
+                {children}
+              </div>
+            </div>
           </ColorThemeProvider>
         </GlobalContextProvider>
       </body>

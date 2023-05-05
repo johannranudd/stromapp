@@ -5,14 +5,7 @@ import { useGlobalContext } from "@/app/context/context";
 import { useState, useEffect } from "react";
 import { DateTimeFormatOptions, DonutDataItem, IPriceAndTime } from "@/types";
 
-const COLORS = [
-  "#ce93d8",
-  "#5c6bc0",
-  // "#b39ddb",
-  // "#4dd0e1",
-  // "#f48fb1",
-  // "#d500f9",
-];
+const COLORS = ["#ffcd4f", "#6be072"];
 
 export default function DonutElSupport({ dataFromClient }: any) {
   const { windowWidth } = useGlobalContext();
@@ -69,7 +62,7 @@ export default function DonutElSupport({ dataFromClient }: any) {
           );
           const data: Array<DonutDataItem> = [
             {
-              name: "Your expenses",
+              name: "Dine Utgifter",
               value: Number(yourExpensesFinal),
             },
             {
@@ -119,7 +112,7 @@ function Donut({
             data={data}
             innerRadius={width / 2.5}
             outerRadius={width / 2.1}
-            fill="#82ca9d"
+            fill="#ffcd4f"
             cy="35%"
             labelLine={false}
           >

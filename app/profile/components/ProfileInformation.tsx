@@ -6,11 +6,11 @@ export default function ProfileInformation() {
   const user = getItem("user");
   const { username, email, address, phoneNumber } = user;
   return (
-    <>
-      <h1 className="text-center text-xl font-bold capitalize py-8">
+    <div className="mb-6">
+      <h1 className="text-center text-2xl font-bold capitalize py-8">
         {username}
       </h1>
-      <div className="space-y-4 sm:space-y-0 ">
+      <div className="space-y-4">
         <p>
           Email: <span>{email}</span>
         </p>
@@ -21,6 +21,6 @@ export default function ProfileInformation() {
           Phone number: <span>{phoneNumber}</span>
         </p>
       </div>
-    </>
+    </div>
   );
 }

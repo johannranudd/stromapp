@@ -4,9 +4,10 @@ import { validateBadgeForm } from "@/app/utils/generics";
 import { fetchUser } from "@/app/utils/gets";
 import { createGroup } from "@/app/utils/posts";
 import { editGroup } from "@/app/utils/puts";
-import { IBadge, IBadgeSimple, IUser } from "@/types";
+import { IBadge, IUser } from "@/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CirclePicker } from "react-color";
+import { AiOutlineClose } from "react-icons/ai";
 
 export default function CreateBadgeModal() {
   const {
@@ -31,11 +32,16 @@ export default function CreateBadgeModal() {
 
   if (!groupModalIsOpen) return null;
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-50">
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
       <div className="w-[95%] h-[95vh] mt-[2.5vh] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary dark:bg-primary">
-        <div className="p-4 flex rounded-full justify-between bg-secondary text-primary">
+        <div className="p-4 flex rounded-full justify-between bg-secondary text-primary text-xl">
           {editFlag ? <h2>Edit Group</h2> : <h2>Create Group</h2>}
-          <button onClick={() => setGroupModalIsOpen(false)}>X</button>
+          <button
+            onClick={() => setGroupModalIsOpen(false)}
+            className="text-3xl"
+          >
+            <AiOutlineClose />
+          </button>
         </div>
         <CreateGroupForm
           {...user}
@@ -147,10 +153,8 @@ function CreateGroupForm({
   return (
     <>
       {errors.length > 0 && (
-        <div className="absolute top-[10%]  w-full max-w-[400px] z-50 flex flex-col items-center py-6 bg-red-500">
-          {errors.map((item: any) => {
-            return <p>{item}</p>;
-          })}
+        <div className="absolute top-[10%]  w-full max-w-[400px] z-[52] flex flex-col items-center py-6 bg-red-500">
+          {errors}
         </div>
       )}
       <form
@@ -218,7 +222,9 @@ function CreateGroupForm({
           <p>{kwh.toFixed(1)} kwh</p>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="btnCtaWide2">
+          Submit
+        </button>
       </form>
     </>
   );
