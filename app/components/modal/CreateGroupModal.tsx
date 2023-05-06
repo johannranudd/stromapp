@@ -31,9 +31,10 @@ export default function CreateBadgeModal() {
   }, [state]);
 
   if (!groupModalIsOpen) return null;
+  // mt-[.25rem]
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
-      <div className="w-[95%] h-[calc(100vh-4rem)] mt-[.25rem] mx-auto max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+      <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
         <div className="max-w-[250px] mx-auto flex justify-between w-full text-xl py-4 z-[52]">
           {editFlag ? (
             <h2 className="ml-1">Edit Group</h2>
