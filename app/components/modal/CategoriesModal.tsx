@@ -88,7 +88,7 @@ export default function CategoriesModal() {
 
   return (
     <div className="fixed top-[0] left-0 right-0 bottom-0 h-full bg-[#000000a7] z-[51]">
-      <div className="w-[95%] mx-auto max-w-screen-md h-[calc(100vh-4rem)] mt-[.25rem] flex flex-col justify-between rounded-[35px] bg-primary text-secondary dark:bg-secondary dark:text-primary z-[51]">
+      <div className="w-[95%] mx-auto max-w-screen-md h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col justify-between rounded-[35px] bg-primary text-secondary dark:bg-secondary dark:text-primary z-[51]">
         <div className="py-3 px-4 flex rounded-full justify-between">
           <h2 className="text-xl">Your groups and badges</h2>
           <button onClick={() => setModalIsOpen(false)}>
