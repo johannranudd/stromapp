@@ -186,7 +186,7 @@ function CreateGroupForm({
 
         <div className="flex flex-col">
           <label htmlFor="badgeList">Select Badges:</label>
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap h-[103px] overflow-y-scroll">
             {badges?.map((badge: IBadge, index: number) => {
               const { name } = badge;
               const isSelected = selectedBadges.some(
