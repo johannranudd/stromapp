@@ -60,6 +60,14 @@ input {
   padding: 0.5rem 0 0.5rem 0;
 }
 
+/* .colorpicker {
+  width: 100%;
+}
+
+.colorpicker span {
+  margin-right: 2rem;
+} */
+
 .inputBox {
   position: relative;
   display: flex;
