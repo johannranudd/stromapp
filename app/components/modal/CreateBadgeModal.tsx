@@ -37,12 +37,8 @@ export default function CreateBadgeModal() {
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
       <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
-        <div className="max-w-[250px] mx-auto flex justify-between w-full text-xl py-4 z-[52]">
-          {editFlag ? (
-            <h2 className="ml-1">Edit Badge</h2>
-          ) : (
-            <h2 className="ml-1">Create Badge</h2>
-          )}
+        <div className="px-8  mx-auto flex justify-between w-full text-xl py-4 z-[52]">
+          {editFlag ? <h2>Edit Badge</h2> : <h2>Create Badge</h2>}
           <button
             onClick={() => setBadgeModalIsOpen(false)}
             className="text-3xl"
@@ -162,9 +158,9 @@ function CreateBadgeForm({
       )}
       <form
         onSubmit={handleSubmit}
-        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-20 mx-auto flex flex-col justify-between text-primary space-y-2 min-w-[240px]"
+        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-16 mx-auto flex flex-col justify-between text-primary gap-4 min-w-[240px] w-full px-8"
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <label htmlFor="badgeName" className="text-primary">
             Badge Name:
           </label>
@@ -183,7 +179,7 @@ function CreateBadgeForm({
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <label htmlFor="category" className="text-primary">
             Category:
           </label>
@@ -218,7 +214,7 @@ function CreateBadgeForm({
           </datalist>
         </div>
 
-        <div className={`flex flex-col`}>
+        <div className={`flex flex-col items-center gap-4`}>
           <label htmlFor="color" className="text-primary">
             Color:
           </label>
@@ -228,7 +224,7 @@ function CreateBadgeForm({
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <label htmlFor="kwh" className="text-primary">
             kwh:
           </label>

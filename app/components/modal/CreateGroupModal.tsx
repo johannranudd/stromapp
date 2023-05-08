@@ -35,12 +35,8 @@ export default function CreateBadgeModal() {
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
       <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
-        <div className="max-w-[250px] mx-auto flex justify-between w-full text-xl py-4 z-[52]">
-          {editFlag ? (
-            <h2 className="ml-1">Edit Group</h2>
-          ) : (
-            <h2 className="ml-1">Create Group</h2>
-          )}
+        <div className="px-8 mx-auto flex justify-between w-full text-xl py-4 z-[52]">
+          {editFlag ? <h2>Edit Group</h2> : <h2>Create Group</h2>}
           <button
             onClick={() => setGroupModalIsOpen(false)}
             className="text-3xl"
@@ -163,9 +159,9 @@ function CreateGroupForm({
       )}
       <form
         onSubmit={handleSubmit}
-        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-20 mx-auto flex flex-col justify-between text-primary space-y-2 min-w-[240px]"
+        className="fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-full py-16 mx-auto flex flex-col justify-between text-primary gap-4 min-w-[240px] w-full px-8"
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <label htmlFor="groupName" className="text-primary">
             Group Name:
           </label>
@@ -185,7 +181,7 @@ function CreateGroupForm({
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <label htmlFor="badgeList">Select Badges:</label>
           <div className="flex flex-wrap h-[103px] overflow-y-scroll">
             {badges?.map((badge: IBadge, index: number) => {
@@ -208,7 +204,7 @@ function CreateGroupForm({
           </div>
         </div>
 
-        <div className={`flex flex-col`}>
+        <div className={`flex flex-col items-center gap-4`}>
           <label htmlFor="color" className="text-primary">
             Color:
           </label>
@@ -218,7 +214,7 @@ function CreateGroupForm({
             onChange={(color) => setColor(color.hex)}
           />
         </div>
-        <div className="flex flex-col text-primary">
+        <div className="flex flex-col text-primary gap-4">
           <p>
             <strong className="text-2xl">{kwh.toFixed(1)}</strong> kwh
           </p>
