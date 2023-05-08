@@ -12,7 +12,7 @@ const ColorThemeProvider = ({ children }: { children: React.ReactNode }) => {
     return null;
   }
   return (
-    <ThemeProvider enableSystem={true} attribute="class">
+    <ThemeProvider defaultTheme="dark" enableSystem={true} attribute="class">
       {children}
     </ThemeProvider>
   );
