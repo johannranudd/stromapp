@@ -34,7 +34,7 @@ const COLORS = [
 //   "#d500f9",
 // ];
 
-export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
+export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
   const { windowWidth } = useGlobalContext();
   const now = new Date();
   const options: DateTimeFormatOptions = {

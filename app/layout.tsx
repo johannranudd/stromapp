@@ -20,7 +20,7 @@ export default function RootLayout({
           <ColorThemeProvider>
             <Navbar />
             <div
-              className={`relative flex-grow overflow-y-scroll overflow-x-hidden h-screen min-h-screen`}
+              className={`relative flex-grow overflow-y-auto overflow-x-hidden h-screen min-h-screen`}
             >
               {children}
             </div>
