@@ -5,6 +5,7 @@ import { use } from "react";
 import BtnCta from "./components/ui/BtnCta";
 import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
+import moment from "moment-timezone";
 
 export default function Home() {
   // const currentDate: Date = new Date();
@@ -12,12 +13,8 @@ export default function Home() {
   // const dataFromAPI = use(
   //   getElectricityPrice(todayStringDate, todayStringDate, 1)
   // );
-  //
 
-  const currentDate: Date = new Date();
-  currentDate.setMinutes(
-    currentDate.getMinutes() - currentDate.getTimezoneOffset()
-  );
+  const currentDate: Date = moment.tz("Europe/Oslo").toDate();
   const todayStringDate: string = currentDate.toISOString().slice(0, 10);
   const dataFromAPI = use(
     getElectricityPrice(todayStringDate, todayStringDate, 1)
