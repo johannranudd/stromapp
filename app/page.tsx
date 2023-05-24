@@ -12,6 +12,7 @@ export default function Home() {
   // const dataFromAPI = use(
   //   getElectricityPrice(todayStringDate, todayStringDate, 1)
   // );
+  //
 
   const currentDate: Date = new Date();
   currentDate.setMinutes(
