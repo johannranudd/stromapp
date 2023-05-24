@@ -71,7 +71,7 @@ export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
         zIndex: 1,
         margin: windowWidth >= 768 ? "0 0 0 auto" : "0 auto 0 auto",
       }}
-      className="relative "
+      className="relative"
     >
       {dailyPriceArray?.map((priceInOre: number, index: number) => {
         let hour = `${index}`;
@@ -134,6 +134,7 @@ function Donut({
   timeFrameForCurrentPrice: string;
   width: number;
 }) {
+  console.log(data);
   return (
     <>
       <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
