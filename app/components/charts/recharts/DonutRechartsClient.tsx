@@ -35,6 +35,7 @@ const COLORS = [
 // ];
 
 export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
+  console.log(dataFromAPI);
   const { windowWidth } = useGlobalContext();
   const now = new Date();
   const options: DateTimeFormatOptions = {
@@ -62,7 +63,7 @@ export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
       setWidth(windowWidth / 1.6);
     }
   }, [windowWidth]);
-
+  console.log(estimatedPowerSupportToDate);
   return (
     <div
       style={{
@@ -96,6 +97,7 @@ export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
             priceInOre,
             estimatedPowerSupportToDate
           );
+          console.log(elSupportFinal);
 
           const data: Array<DonutDataItem> = [
             {
@@ -107,7 +109,7 @@ export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
               value: Number(elSupportFinal),
             },
           ];
-
+          console.log(data);
           return (
             <Donut
               key={_id}
