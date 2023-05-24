@@ -112,7 +112,7 @@ function Donut({
             data={data}
             innerRadius={width / 2.5}
             outerRadius={width / 2.1}
-            fill="#ffcd4f"
+            // fill="#ffcd4f"
             cy="35%"
             labelLine={false}
           >
