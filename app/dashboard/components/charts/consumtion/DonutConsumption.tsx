@@ -7,6 +7,7 @@ import { DonutDataItem, IDataFromAPI, IPriceAndTime } from "@/types";
 const COLORS = ["#ffcd4f", "#6be072"];
 
 export default function DonutConsumption({ dataFromClient, activeTab }: any) {
+  // console.log(dataFromClient);
   const { state, windowWidth } = useGlobalContext();
   const [width, setWidth] = useState(windowWidth / 1.3);
   useEffect(() => {
@@ -50,8 +51,8 @@ function Donut({
   priceInOreAndHour?: IPriceAndTime;
   timeFrameForCurrentPrice?: any;
   width: number;
-  yourExpensesFinal?: number;
-  elSupportFinal?: number;
+  // yourExpensesFinal?: number;
+  // elSupportFinal?: number;
   state?: any;
   activeTab: string;
 }) {

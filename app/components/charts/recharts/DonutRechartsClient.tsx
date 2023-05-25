@@ -34,7 +34,7 @@ const COLORS = [
 //   "#d500f9",
 // ];
 
-export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
+export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
   const { windowWidth } = useGlobalContext();
   const now = new Date();
   const options: DateTimeFormatOptions = {
@@ -62,7 +62,6 @@ export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
       setWidth(windowWidth / 1.6);
     }
   }, [windowWidth]);
-
   return (
     <div
       style={{
@@ -71,7 +70,7 @@ export default function DonutRechartsServer(dataFromAPI: IDataFromAPI) {
         zIndex: 1,
         margin: windowWidth >= 768 ? "0 0 0 auto" : "0 auto 0 auto",
       }}
-      className="relative "
+      className="relative"
     >
       {dailyPriceArray?.map((priceInOre: number, index: number) => {
         let hour = `${index}`;
