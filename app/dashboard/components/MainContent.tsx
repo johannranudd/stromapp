@@ -4,11 +4,9 @@ import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
 import { FiMinus, FiPlus } from "react-icons/fi";
-import { DonutDataItem } from "@/types";
-import { AiOutlineClose, AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import { isColorLight } from "@/app/utils/generics";
 export default function MainContent({ dataFromClient }: any) {
-  // console.log(dataFromClient);
   const [activeTab, setActiveTab] = useState("tab1");
 
   if (!dataFromClient) return <div>Loading</div>;
@@ -133,6 +131,7 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleTotalValue(e)
               }
+              placeholder="kWh"
               className="w-28 text-center bg-primary text-secondary dark:bg-secondary dark:text-primary max-w-[70px]  custom-input border-thirdClr"
             />
             <button
@@ -141,6 +140,9 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
             >
               <FiPlus />
             </button>
+            <div className="flex justify-center text-secondary dark:text-primary px-2">
+              kWh
+            </div>
           </div>
         )}
         <div className="w-1/2 mt-6">

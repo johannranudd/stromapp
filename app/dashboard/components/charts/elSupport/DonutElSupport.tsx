@@ -62,7 +62,7 @@ export default function DonutElSupport({ dataFromClient }: any) {
           );
           const data: Array<DonutDataItem> = [
             {
-              name: "Dine Utgifter",
+              name: "Din strømpris nå",
               value: Number(yourExpensesFinal),
             },
             {
@@ -136,7 +136,7 @@ function Donut({
                 fill={COLORS[index % COLORS.length]}
                 textAnchor="middle"
               >
-                {entry.name}
+                {`${entry.name} ${entry.value}%`}
               </text>
             );
           })}

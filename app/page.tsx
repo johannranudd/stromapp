@@ -5,6 +5,7 @@ import { use } from "react";
 import BtnCta from "./components/ui/BtnCta";
 import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
+import Link from "next/link";
 // deploy 3, api works from 05/25
 
 export default function Home() {
@@ -27,9 +28,15 @@ export default function Home() {
               Sjekk strømprisene
             </h1>
             <p className="md:text-lg mlg:text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-              necessitatibus voluptatibus temporibus tempore reiciendis earum
-              mollitia explicabo non sequi dolorum.
+              På denne nettsiden kan du se, måle og beregne ditt strømforbruk.
+              Grafene du set her er dagens strømpris og strømstøtte i Oslo.
+              <br />
+              <Link href={"/login"} className="text-fourthClr hover:underline">
+                {" "}
+                Logg inn
+              </Link>{" "}
+              for å planlegge, kategorisere og måle ditt strømforbruk i din
+              region
             </p>
             <BtnCta props={"hidden md:block"} />
           </div>
@@ -39,6 +46,7 @@ export default function Home() {
         </div>
         <BtnCta props={"flex justify-center mt-2 md:hidden"} />
         <div className="mt-3">
+          <h2 className="text-center text-xl">Dagens Stømpriser i Oslo</h2>
           <XYChart {...dataFromAPI} />
         </div>
       </main>
