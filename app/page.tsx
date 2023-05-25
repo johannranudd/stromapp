@@ -15,12 +15,12 @@ export default function Home() {
   );
   return (
     <>
-      <Image
-        src={HeroVector}
-        alt="logo"
-        className="absolute top-[calc(40%-4rem)] md:top-[calc(30%-4rem)] z-[-50]"
-      />
-      <main className="w-[95%] max-w-screen-xl mx-auto overflow-x-hidden   ">
+      <main className="relative w-[95%] max-w-screen-xl mx-auto overflow-x-hidden">
+        <Image
+          src={HeroVector}
+          alt="logo"
+          className="absolute top-[calc(40%-4rem)] md:top-[calc(30%-4rem)] left-0 right-0 z-[-50]"
+        />
         <div className="md:flex md:justify-between md:items-center mt-16">
           <div className="text-center space-y-3 max-w-[400px] mx-auto md:text-left md:m-0 md:max-w-[600px]">
             <h1 className="text-2xl md:text-4xl mlg:text-5xl">

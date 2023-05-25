@@ -98,7 +98,7 @@ export default function DonutRechartsClient(dataFromAPI: IDataFromAPI) {
 
           const data: Array<DonutDataItem> = [
             {
-              name: "Dine utgifter",
+              name: "Din strømpris nå",
               value: Number(yourExpensesFinal),
             },
             {
@@ -155,15 +155,15 @@ function Donut({
               const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
               return (
                 <Text
-                  x={index === 0 ? x + 50 : x - 50}
-                  y={index === 0 ? y + 40 : y - 20}
+                  x={index === 0 ? x + width / 3.2 : x - width / 3.3}
+                  y={index === 0 ? y + width / 10 : y - width / 10}
                   textAnchor="middle"
                   alignmentBaseline="middle"
                   fill={COLORS[index % COLORS.length]}
-                  fontSize={16}
+                  fontSize={width / 20}
                   fontWeight={600}
                 >
-                  {data[index].name}
+                  {`${data[index].name} ${data[index].value}%`}
                 </Text>
               );
             }}
