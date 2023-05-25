@@ -7,8 +7,15 @@ import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
 // safety branch 2
 
+
 export default function Home() {
-  const currentDate: Date = new Date();
+  // const currentDate: Date = new Date();
+  // const todayStringDate: string = currentDate.toISOString().slice(0, 10);
+  // const dataFromAPI = use(
+  //   getElectricityPrice(todayStringDate, todayStringDate, 1)
+  // );
+
+  const currentDate: Date = moment.tz("Europe/Oslo").toDate();
   const todayStringDate: string = currentDate.toISOString().slice(0, 10);
   const dataFromAPI = use(
     getElectricityPrice(todayStringDate, todayStringDate, 1)
