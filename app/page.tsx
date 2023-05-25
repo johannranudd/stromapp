@@ -5,6 +5,7 @@ import { use } from "react";
 import BtnCta from "./components/ui/BtnCta";
 import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
+// deploy 2, api works from 05/25
 
 export default function Home() {
   const currentDate: Date = new Date();
