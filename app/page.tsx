@@ -5,7 +5,7 @@ import { use } from "react";
 import BtnCta from "./components/ui/BtnCta";
 import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
-// moment 2
+// deploy 2, api works from 05/25
 
 export default function Home() {
   const currentDate: Date = new Date();
@@ -13,9 +13,6 @@ export default function Home() {
   const dataFromAPI = use(
     getElectricityPrice(todayStringDate, todayStringDate, 1)
   );
-
-  if (dataFromAPI.length === 0) return null;
-
   return (
     <>
       <Image
@@ -48,3 +45,4 @@ export default function Home() {
     </>
   );
 }
+
