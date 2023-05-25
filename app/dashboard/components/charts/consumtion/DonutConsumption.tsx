@@ -7,7 +7,6 @@ import { DonutDataItem, IDataFromAPI, IPriceAndTime } from "@/types";
 const COLORS = ["#ffcd4f", "#6be072"];
 
 export default function DonutConsumption({ dataFromClient, activeTab }: any) {
-  // console.log(dataFromClient);
   const { state, windowWidth } = useGlobalContext();
   const [width, setWidth] = useState(windowWidth / 1.3);
   useEffect(() => {
@@ -163,21 +162,28 @@ function ChartComponentHTML({
   }
   if (isEmpty) kwh = 0;
 
-  const priceInNOK = getTotalPrice(selectedHours, kwh, dataFromClient);
+  const { priceInNOK, average } = getTotalPrice(
+    selectedHours,
+    kwh,
+    dataFromClient
+  );
+  console.log(average);
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
-      <p
-        className="text-center mb-2 whitespace-nowrap"
-        style={{ fontSize: width / 14 }}
-      >
-        {`${kwh.toFixed(1)} kwh / ${hoursOfUse} Timer`}
-      </p>
-      <p className="text-center">
-        <strong className="text-xl" style={{ fontSize: width / 10 }}>
-          {priceInNOK}
-        </strong>{" "}
-        NOK
-      </p>
+      <div>
+        <p
+          className="text-center mb-2 whitespace-nowrap"
+          style={{ fontSize: width / 14 }}
+        >
+          {`${kwh.toFixed(1)} kwh / ${hoursOfUse} Timer`}
+        </p>
+        <p className="text-center">
+          <strong className="text-xl" style={{ fontSize: width / 10 }}>
+            {priceInNOK}
+          </strong>{" "}
+          NOK
+        </p>
+      </div>
     </div>
   );
 }
@@ -208,7 +214,7 @@ function getTotalPrice(
   const pricepPerHour = kwh * average;
   const priceInOre = pricepPerHour * newArray.length;
   const priceInNOK = priceInOre / 100;
-  return priceInNOK.toFixed(0);
+  return { priceInNOK: priceInNOK.toFixed(0), average };
 }
 
 function ChartComponent({

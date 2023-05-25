@@ -16,14 +16,13 @@ export default function LocationAndDateForm() {
   return (
     <form className="w-[95%] mx-auto max-w-screen-md pb-10 flex justify-center space-x-6">
       <div className="inputBox">
-        {/* <label htmlFor="location">Location:</label> */}
         <select
           required
           id="location"
           name="location"
           onChange={(e) => setLocation(e.target.value)}
           value={location}
-          className="border border-secondary dark:border-thirdClr bg-primary text-secondary dark:bg-secondary dark:text-thirdClr"
+          className="border border-secondary dark:border-thirdClr bg-primary text-secondary dark:bg-secondary dark:text-thirdClr cursor-pointer hover:opacity-80"
         >
           <option value="1" defaultValue={"1"}>
             Oslo / Øst-Norge
@@ -35,7 +34,6 @@ export default function LocationAndDateForm() {
         </select>
       </div>
       <div className="inputBox">
-        {/* <label htmlFor="date">Date:</label> */}
         <input
           type="date"
           id="date"
@@ -44,7 +42,7 @@ export default function LocationAndDateForm() {
           onChange={(e) => setDate(e.target.value)}
           className={`border ${
             warning ? "border-red-500" : "border-black"
-          } border-secondary dark:border-thirdClr bg-primary text-secondary dark:bg-secondary dark:text-thirdClr`}
+          } border-secondary dark:border-thirdClr bg-primary text-secondary dark:bg-secondary dark:text-thirdClr cursor-pointer hover:opacity-80`}
         />
       </div>
     </form>

@@ -7,7 +7,7 @@ import { CustomTooltipProps, IPriceAndTime } from "@/types";
 export default function AreaChartDashboard({ dataFromClient }: any) {
   const { dispatch } = useGlobalContext();
   const data: Array<IPriceAndTime> = [];
-  const { dailyPriceArray } = dataFromClient[0];
+  const { dailyPriceArray, date } = dataFromClient[0];
 
   dailyPriceArray.map((priceInOre: any, index: number) => {
     let hour = `${index}`;
@@ -15,8 +15,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
     const priceInOreAndHour = { priceInOre, hour };
     data.push(priceInOreAndHour);
   });
-  const currentDate: Date = new Date();
-  const todayStringDate: string = currentDate.toISOString().slice(0, 10);
+  const [isResetable, setIsResetable] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
   const [refAreaLeft, setRefAreaLeft] = useState("");
   const [refAreaRight, setRefAreaRight] = useState("");
@@ -44,6 +43,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
   const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsMoving(false);
     dispatch({ type: "START_FETCH", payload: true });
+    setIsResetable(true);
   };
 
   function handleReset() {
@@ -52,15 +52,22 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
     setRefAreaRight("");
     dispatch({ type: "SET_SELECTED_HOURS", payload: [0, 24] });
     dispatch({ type: "START_FETCH", payload: true });
+    setIsResetable(false);
   }
 
   return (
     <>
-      <div className="w-[95%] mx-auto flex justify-between items-end">
-        <button onClick={handleReset} className="btnCta2">
-          Tilbakestill Tid
-        </button>
-        <h2>{todayStringDate}</h2>
+      <div className="w-[95%] mx-auto flex justify-between items-end h-20">
+        {isResetable && (
+          <button onClick={handleReset} className="btnCta2">
+            Tilbakestill Tid
+          </button>
+        )}
+        <h2 className="absolute left-1/2 -translate-x-1/2 mx-auto text-center">
+          Trykk og dra over grafen for å velge tidspungt,
+          <br /> Se utregnet resultat i venstre smultring
+        </h2>
+        <h3 className="ml-auto">{date.slice(0, 10)}</h3>
       </div>
       <Recharts.ResponsiveContainer width="100%" height={400}>
         <Recharts.AreaChart
