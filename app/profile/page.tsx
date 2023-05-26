@@ -33,7 +33,7 @@ export default function page() {
       <div className={`w-[95%] max-w-screen-sm mx-auto mb-16`}>
         <ProfileInformation />
         <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
-          Category settings
+          Kategoriinnstillinger
         </button>
 
         {modalIsOpen && <CategoriesModal />}
@@ -54,21 +54,21 @@ export default function page() {
           <ChangePWModal setChangePWModalIsOpen={setChangePWModalIsOpen} />
         )}
         <div>
-          <h2 className="text-xl mb-6">Profile Setting</h2>
+          <h2 className="text-xl mb-6">Profilinnstilling</h2>
           <div className="grid grid-cols-2 justify-items-start text-thirdClrDark dark:text-thirdClr mb-6">
             <button onClick={() => setAdrModalIsOpen(true)}>
-              + Edit Address
+              + Rediger Adresse
             </button>
             <button onClick={() => setPhoneNrModalIsOpen(true)}>
-              + Edit Phone Number
+              + Rediger Telefonnummer
             </button>
           </div>
           <div className="grid grid-cols-2 justify-items-start text-thirdClrDark dark:text-thirdClr mb-6">
             <button onClick={() => setChangeEmailModalIsOpen(true)}>
-              + Edit Email
+              + Rediger Email
             </button>
             <button onClick={() => setChangePWModalIsOpen(true)}>
-              + Edit Password
+              + Rediger Passord
             </button>
           </div>
         </div>
@@ -125,9 +125,9 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   return (
     <>
       <div className="space-y-6 mb-8">
-        <h2 className="text-xl mb-6">Notification Settings</h2>
+        <h2 className="text-xl mb-6">Varslingsinnstillinger</h2>
         <div className="flex justify-between">
-          <p>Allow notifications</p>
+          <p>Tillat varsler</p>
           <div>
             <label className="switch">
               <input
@@ -141,7 +141,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
         </div>
         <div className="flex flex-col justify-between items-start xxs:flex-row space-y-3">
           <p className="w-1/2">
-            Send notification when price is lower than selected amount
+            Send melding når prisen er lavere enn valgt beløp
           </p>
           <div className="flex items-center">
             <button
@@ -168,9 +168,9 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
         </div>
         <button
           onClick={updateLimit}
-          className="w-[10rem] flex justify-center items-center btnCta "
+          className="w-[10rem] flex justify-center items-center btnCta h-10"
         >
-          {saved ? <AiOutlineCheck /> : "Save Notifications"}
+          {saved ? <AiOutlineCheck /> : "Lagre varsler"}
         </button>
       </div>
     </>

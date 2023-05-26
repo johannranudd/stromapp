@@ -15,10 +15,10 @@ export default function ProfileInformation() {
           Email: <span>{email}</span>
         </p>
         <p>
-          Address: <span>{address}</span>
+          Adresse: <span>{address}</span>
         </p>
         <p>
-          Phone number: <span>{phoneNumber}</span>
+          Telefonnummer: <span>{phoneNumber}</span>
         </p>
       </div>
     </div>
