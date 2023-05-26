@@ -290,7 +290,7 @@ function ChartComponent({
             valgte timer:
           </tspan>
           <tspan x="72%" fill="#6be072">
-            {average.toFixed(0)} NOK
+            {average.toFixed(0)} Øre
           </tspan>
         </text>
         <Tooltip />
