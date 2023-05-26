@@ -27,10 +27,10 @@ function Tabs({ activeTab, setActiveTab }: any) {
     <div className="flex w-full max-w-screen-lg mx-auto">
       <div
         onClick={() => setActiveTab("tab1")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 border border-secondary dark:border-primary border-b-0 duration-300 ${
           activeTab === "tab1"
             ? "text-thirdClr"
-            : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)]"
+            : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)] hover:shadow-[inset_0px_-2px_10px_rgba(0,0,0,0.6)] cursor-pointer"
         }`}
       >
         <h3>KWh</h3>
@@ -38,10 +38,10 @@ function Tabs({ activeTab, setActiveTab }: any) {
 
       <div
         onClick={() => setActiveTab("tab2")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 border border-secondary dark:border-primary border-b-0 duration-300 ${
           activeTab === "tab2"
             ? "text-thirdClr"
-            : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)]"
+            : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)] hover:shadow-[inset_0px_-2px_10px_rgba(0,0,0,0.6)] cursor-pointer"
         }`}
       >
         <h3>Kategorier</h3>

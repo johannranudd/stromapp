@@ -20,6 +20,12 @@ export default function MobileMenu() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  function logout() {
+    sessionStorage.clear();
+    window.location.reload();
+  }
+
   if (jwt.length === 0) return null;
   return (
     <div
@@ -32,25 +38,26 @@ export default function MobileMenu() {
         href={"/"}
         className="inline-block p-4 hover:shadow-[inset_0_-0px_10px_rgba(0,0,0,0.6)] hover:pl-8 duration-300"
       >
-        Home
+        Hjem
       </Link>
       <Link
         href={"/dashboard"}
         className="inline-block p-4 hover:shadow-[inset_0_-0px_10px_rgba(0,0,0,0.6)] hover:pl-8 duration-300"
       >
-        Dashboard
+        Dashbord
       </Link>
       <Link
         href={"/profile"}
         className="inline-block p-4 hover:shadow-[inset_0_-0px_10px_rgba(0,0,0,0.6)] hover:pl-8 duration-300"
       >
-        Profile
+        Profil
       </Link>
       <Link
+        onClick={logout}
         href={"/login"}
         className="inline-block p-4 hover:shadow-[inset_0_-0px_10px_rgba(0,0,0,0.6)] hover:pl-8 duration-300"
       >
-        Login
+        Logg ut
       </Link>
     </div>
   );
