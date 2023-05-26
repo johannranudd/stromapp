@@ -46,7 +46,7 @@ export default function LoginForm() {
           onSubmit={handleSubmit}
           className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6"
         >
-          <h1 className="text-2xl">Login</h1>
+          <h1 className="text-2xl">Logg Inn</h1>
           <div className="flex flex-col w-full space-y-3">
             <label htmlFor="email">Email:</label>
             <input
@@ -56,10 +56,11 @@ export default function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="p-2"
             />
           </div>
           <div className="flex flex-col w-full space-y-3">
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">Passord:</label>
             <input
               type="password"
               id="password"
@@ -67,16 +68,17 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="p-2"
             />
           </div>
 
           <button type="submit" className="btnCtaWide">
-            Log in
+            Logg inn
           </button>
           <p>
-            Dont have a user?{" "}
-            <Link href={"/register"} className="text-fourthClr">
-              Register&gt;&gt;
+            Har du ikke bruker?{" "}
+            <Link href={"/register"} className="text-fourthClr hover:underline">
+              Registrere&gt;&gt;
             </Link>
           </p>
         </form>

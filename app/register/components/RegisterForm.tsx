@@ -63,9 +63,9 @@ export default function RegisterForm() {
           onSubmit={handleSubmit}
           className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-40%] md:translate-y-[-50%] w-[95%] max-w-[400px] flex flex-col justify-center items-center space-y-6 py-8"
         >
-          <h1 className="text-2xl mt-20">Register</h1>
+          <h1 className="text-2xl ">Registrere</h1>
           <div className="flex flex-col w-full">
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name">Navn:</label>
             <input
               type="text"
               id="name"
@@ -75,6 +75,7 @@ export default function RegisterForm() {
                 setName(e.target.value)
               }
               required
+              className="p-2"
             />
           </div>
           <div className="flex flex-col w-full space-y-3">
@@ -88,10 +89,11 @@ export default function RegisterForm() {
                 setEmail(e.target.value)
               }
               required
+              className="p-2"
             />
           </div>
           <div className="flex flex-col w-full space-y-3">
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">Passord:</label>
             <input
               type="password"
               id="password"
@@ -101,10 +103,11 @@ export default function RegisterForm() {
                 setPassword(e.target.value)
               }
               required
+              className="p-2"
             />
           </div>
           <div className="flex flex-col w-full space-y-3">
-            <label htmlFor="address">Address:</label>
+            <label htmlFor="address">Adresse:</label>
             <input
               type="text"
               id="address"
@@ -114,10 +117,11 @@ export default function RegisterForm() {
                 setAddress(e.target.value)
               }
               required
+              className="p-2"
             />
           </div>
           <div className="flex flex-col w-full space-y-3">
-            <label htmlFor="phoneNumber">phone Number:</label>
+            <label htmlFor="phoneNumber">Telefonnummer:</label>
             <input
               type="text"
               id="phoneNumber"
@@ -127,6 +131,7 @@ export default function RegisterForm() {
                 setPhoneNumber(e.target.value)
               }
               required
+              className="p-2"
             />
           </div>
 
@@ -134,9 +139,9 @@ export default function RegisterForm() {
             Register
           </button>
           <p>
-            already have a user?{" "}
-            <Link href={"/login"} className="text-fourthClr">
-              Login&gt;&gt;
+            Har du allerede en bruker?{" "}
+            <Link href={"/login"} className="text-fourthClr hover:underline">
+              Logg Inn&gt;&gt;
             </Link>
           </p>
         </form>

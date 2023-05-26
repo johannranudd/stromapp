@@ -9,6 +9,7 @@ export const initialState: IState = {
   badges: [],
   totalNumber: [],
   totalKWHArray: [],
+  average: 0,
 };
 
 export function reducer(state: any, action: { type: string; payload?: any }) {
@@ -58,10 +59,18 @@ export function reducer(state: any, action: { type: string; payload?: any }) {
         totalKWHArray: filter,
       };
     case "ALLOW_EDITING":
-      console.log(action.payload);
       return {
         ...state,
       };
+    case "SET_AVERAGE":
+      // console.log(action.payload);
+      return {
+        ...state,
+        average: action.payload,
+      };
+    // if (state.average === null) {
+
+    // }
 
     default: {
       return state;

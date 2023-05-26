@@ -7,7 +7,7 @@ import { editBadge } from "@/app/utils/puts";
 import { IBadge, IUser } from "@/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { CirclePicker } from "react-color";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 //
 //
 //
@@ -36,14 +36,14 @@ export default function CreateBadgeModal() {
   if (!badgeModalIsOpen) return null;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
-      <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+      <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-md bg-secondary text-primary">
         <div className="px-8  mx-auto flex justify-between w-full text-xl py-4 z-[52]">
-          {editFlag ? <h2>Edit Badge</h2> : <h2>Create Badge</h2>}
+          {editFlag ? <h2>Redigere enhet</h2> : <h2>Lag enhet</h2>}
           <button
             onClick={() => setBadgeModalIsOpen(false)}
             className="text-3xl"
           >
-            <AiOutlineClose />
+            <AiOutlineCloseCircle className="text-3xl" />
           </button>
         </div>
         <CreateBadgeForm
@@ -162,7 +162,7 @@ function CreateBadgeForm({
       >
         <div className="flex flex-col gap-4">
           <label htmlFor="badgeName" className="text-primary">
-            Badge Name:
+            Navn på enhet
           </label>
           <input
             type="text"
@@ -181,7 +181,7 @@ function CreateBadgeForm({
 
         <div className="flex flex-col gap-4">
           <label htmlFor="category" className="text-primary">
-            Category:
+            Kategori:
           </label>
           <input
             list="categories"
@@ -196,15 +196,15 @@ function CreateBadgeForm({
           <datalist id="categories">
             {!uniqueArrayOfBadges || uniqueArrayOfBadges.length === 0 ? (
               <>
-                <option value="Appliances">Appliances</option>
-                <option value="Heating">Heating</option>
-                <option value="Lighting">Lighting</option>
+                <option value="Hvitevarer">Hvitevarer</option>
+                <option value="Oppvarming">Oppvarming</option>
+                <option value="Belysning">Belysning</option>
               </>
             ) : (
               <>
-                <option value="Appliances">Appliances</option>
-                <option value="Heating">Heating</option>
-                <option value="Lighting">Lighting</option>
+                <option value="Hvitevarer">Hvitevarer</option>
+                <option value="Oppvarming">Oppvarming</option>
+                <option value="Belysning">Belysning</option>
                 {uniqueArrayOfBadges?.map((badge: IBadge) => {
                   const { category } = badge;
                   return <option value={category}>{category}</option>;
@@ -216,7 +216,7 @@ function CreateBadgeForm({
 
         <div className={`flex flex-col items-center gap-4`}>
           <label htmlFor="color" className="text-primary">
-            Color:
+            Farge:
           </label>
           <CirclePicker
             color={color}
@@ -226,7 +226,7 @@ function CreateBadgeForm({
 
         <div className="flex flex-col gap-4">
           <label htmlFor="kwh" className="text-primary">
-            kwh:
+            kWh:
           </label>
           <input
             type="number"
@@ -244,7 +244,7 @@ function CreateBadgeForm({
           />
         </div>
         <button type="submit" className="btnCtaWide2">
-          Submit
+          Legg til
         </button>
       </form>
     </>

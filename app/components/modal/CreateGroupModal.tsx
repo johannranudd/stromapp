@@ -7,7 +7,7 @@ import { editGroup } from "@/app/utils/puts";
 import { IBadge, IUser } from "@/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CirclePicker } from "react-color";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 export default function CreateBadgeModal() {
   const {
@@ -34,14 +34,14 @@ export default function CreateBadgeModal() {
   // mt-[.25rem]
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
-      <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-[35px] bg-secondary text-primary">
+      <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-md bg-secondary text-primary">
         <div className="px-8 mx-auto flex justify-between w-full text-xl py-4 z-[52]">
-          {editFlag ? <h2>Edit Group</h2> : <h2>Create Group</h2>}
+          {editFlag ? <h2>Redigere Gruppe</h2> : <h2>Lag Gruppe</h2>}
           <button
             onClick={() => setGroupModalIsOpen(false)}
             className="text-3xl"
           >
-            <AiOutlineClose />
+            <AiOutlineCloseCircle className="text-3xl" />
           </button>
         </div>
         <CreateGroupForm
@@ -163,7 +163,7 @@ function CreateGroupForm({
       >
         <div className="flex flex-col gap-4">
           <label htmlFor="groupName" className="text-primary">
-            Group Name:
+            Gruppenavn:
           </label>
 
           <input
@@ -182,7 +182,7 @@ function CreateGroupForm({
         </div>
 
         <div className="flex flex-col gap-4">
-          <label htmlFor="badgeList">Select Badges:</label>
+          <label htmlFor="badgeList">Velg Enheter:</label>
           <div className="flex flex-wrap h-[103px] overflow-y-scroll">
             {badges?.map((badge: IBadge, index: number) => {
               const { name } = badge;
@@ -206,7 +206,7 @@ function CreateGroupForm({
 
         <div className={`flex flex-col items-center gap-4`}>
           <label htmlFor="color" className="text-primary">
-            Color:
+            Farge:
           </label>
           <CirclePicker
             className="colorpicker"
@@ -221,7 +221,7 @@ function CreateGroupForm({
         </div>
 
         <button type="submit" className="btnCtaWide2">
-          Submit
+          Legg til
         </button>
       </form>
     </>

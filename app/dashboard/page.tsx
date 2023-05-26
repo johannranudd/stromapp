@@ -26,15 +26,13 @@ export default function page() {
   if (!dataFromClient) return <div>Loading...</div>;
 
   return (
-    <div
-    // className="h-screen min-h-screen flex flex-col"
-    >
+    <div>
       {modalIsOpen && <CategoriesModal />}
       {badgeModalIsOpen && <CreateBadgeModal />}
       {groupModalIsOpen && <CreateGroupModal />}
 
       <div>
-        <h1 className="mt-16 py-6 text-center text-2xl">Dashboard</h1>
+        <h1 className="mt-16 py-6 text-center text-2xl">Dashbord</h1>
         <LocationAndDateForm />
         <MainContent dataFromClient={dataFromClient} />
         <div className="w-full max-w-screen-lg mx-auto">

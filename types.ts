@@ -1,12 +1,3 @@
-// interface ICategories {
-//   id: number;
-//   attributes: {
-//     name: string;
-//     kwh: number;
-//     badges: Array<IBadge>;
-//   };
-// }
-
 export interface IBadge {
   category: string;
   color: string;
@@ -68,6 +59,7 @@ export interface IState {
   badges: Array<IBadge>;
   totalNumber: Array<{ value: number }>;
   totalKWHArray: Array<DonutDataItem>;
+  average: number;
 }
 export interface IGroupEdit {
   amountOfGroups: number;
@@ -76,44 +68,6 @@ export interface IGroupEdit {
   kwh: number;
   name: string;
 }
-// export interface IGlobalContext extends IState {}
-
-// export type TSetBadgeModalIsOpen = (isOpen: boolean) => void;
-// export type TSetGroupModalIsOpen = (isOpen: boolean) => void;
-// export type TSetEditItem = (isOpen: boolean) => void;
-
-// export interface AppState {
-//   badgeModalIsOpen: boolean;
-//   dispatch: () => void;
-//   editFlag: boolean;
-//   editItem: {
-//     category: string;
-//     color: string;
-//     id: number;
-//     kwh: number;
-//     name: string;
-//   };
-//   groupModalIsOpen: boolean;
-//   menuIsOpen: boolean;
-//   modalIsOpen: boolean;
-//   setBadgeModalIsOpen: (isOpen: boolean) => void;
-//   setEditFlag: (flag: boolean) => void;
-//   setEditItem: (item: any) => void;
-//   setGroupModalIsOpen: (isOpen: boolean) => void;
-//   setMenuIsOpen: (isOpen: boolean) => void;
-//   setModalIsOpen: (isOpen: boolean) => void;
-//   setWindowWidth: (width: number) => void;
-//   state: {
-//     badges: any[];
-//     date: string;
-//     location: number;
-//     selectedHours: number[];
-//     startFetch: boolean;
-//     totalKWHArray: any[];
-//     totalNumber: any[];
-//   };
-//   windowWidth: number;
-// }
 
 export interface DataWrapper {
   [key: number]: IDataFromAPI;

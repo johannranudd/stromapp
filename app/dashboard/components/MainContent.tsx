@@ -4,11 +4,10 @@ import DonutElSupport from "./charts/elSupport/DonutElSupport";
 import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
 import { FiMinus, FiPlus } from "react-icons/fi";
-import { DonutDataItem } from "@/types";
-import { AiOutlineClose, AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
+import { HiPlusSm } from "react-icons/hi";
 import { isColorLight } from "@/app/utils/generics";
 export default function MainContent({ dataFromClient }: any) {
-  // console.log(dataFromClient);
   const [activeTab, setActiveTab] = useState("tab1");
 
   if (!dataFromClient) return <div>Loading</div>;
@@ -28,24 +27,24 @@ function Tabs({ activeTab, setActiveTab }: any) {
     <div className="flex w-full max-w-screen-lg mx-auto">
       <div
         onClick={() => setActiveTab("tab1")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 border border-secondary dark:border-primary border-b-0 duration-300 ${
           activeTab === "tab1"
             ? "text-thirdClr"
-            : "shadow-[inset_0px_-2px_4px_rgba(0,0,0,0.6)]"
+            : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)] hover:shadow-[inset_0px_-2px_10px_rgba(0,0,0,0.6)] cursor-pointer"
         }`}
       >
-        <h3>Estimated usage</h3>
+        <h3>KWh</h3>
       </div>
 
       <div
         onClick={() => setActiveTab("tab2")}
-        className={`w-full flex justify-center items-center rounded-t-lg py-4 cursor-pointer border border-secondary dark:border-primary border-b-0 duration-300 ${
+        className={`w-full flex justify-center items-center rounded-t-lg py-4 border border-secondary dark:border-primary border-b-0 duration-300 ${
           activeTab === "tab2"
             ? "text-thirdClr"
-            : "shadow-[inset_0px_-2px_4px_rgba(0,0,0,0.6)]"
+            : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)] hover:shadow-[inset_0px_-2px_10px_rgba(0,0,0,0.6)] cursor-pointer"
         }`}
       >
-        <h3>Categories</h3>
+        <h3>Kategorier</h3>
       </div>
     </div>
   );
@@ -106,10 +105,16 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
               })}
           </ul>
           <div className="flex justify-between items-end">
-            <button onClick={() => setModalIsOpen(true)} className="btnCta2">
-              Add categories +
+            <button
+              onClick={() => setModalIsOpen(true)}
+              className="btnCta flex items-center dark:bg-secondary dark:border dark:border-thirdClr dark:text-thirdClr dark:hover:bg-thirdClr dark:hover:text-secondary"
+            >
+              <span>Legg til</span> <HiPlusSm className="mt-1" />
             </button>
-            <p>{totalKWHArray.length} active categories</p>
+            <p className="text-right">
+              <strong className="text-xl">{totalKWHArray.length}</strong> aktive
+              kategorier
+            </p>
           </div>
         </div>
       )}
@@ -120,7 +125,7 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
         }`}
       >
         {activeTab === "tab1" && (
-          <div className="absolute top-[10px] left-[50%] translate-x-[-50%] z-50">
+          <div className="absolute top-[10px] left-[50%] translate-x-[-50%] z-40">
             <button
               className="bg-primary text-secondary dark:bg-secondary dark:text-primary p-2 custom-button"
               onClick={decrement}
@@ -133,6 +138,7 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleTotalValue(e)
               }
+              placeholder="kWh"
               className="w-28 text-center bg-primary text-secondary dark:bg-secondary dark:text-primary max-w-[70px]  custom-input border-thirdClr"
             />
             <button
@@ -141,6 +147,9 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
             >
               <FiPlus />
             </button>
+            <div className="flex justify-center text-secondary dark:text-primary px-2">
+              kWh
+            </div>
           </div>
         )}
         <div className="w-1/2 mt-6">
