@@ -5,6 +5,7 @@ import DonutConsumption from "./charts/consumtion/DonutConsumption";
 import { useGlobalContext } from "@/app/context/context";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import { HiPlusSm } from "react-icons/hi";
 import { isColorLight } from "@/app/utils/generics";
 export default function MainContent({ dataFromClient }: any) {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -32,7 +33,7 @@ function Tabs({ activeTab, setActiveTab }: any) {
             : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)]"
         }`}
       >
-        <h3>Estimated usage</h3>
+        <h3>KWh</h3>
       </div>
 
       <div
@@ -43,7 +44,7 @@ function Tabs({ activeTab, setActiveTab }: any) {
             : "shadow-[inset_0px_-2px_30px_rgba(0,0,0,0.6)]"
         }`}
       >
-        <h3>Categories</h3>
+        <h3>Kategorier</h3>
       </div>
     </div>
   );
@@ -104,10 +105,16 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
               })}
           </ul>
           <div className="flex justify-between items-end">
-            <button onClick={() => setModalIsOpen(true)} className="btnCta2">
-              Add categories +
+            <button
+              onClick={() => setModalIsOpen(true)}
+              className="btnCta2 flex items-center"
+            >
+              <span>Legg til</span> <HiPlusSm className="mt-1" />
             </button>
-            <p>{totalKWHArray.length} active categories</p>
+            <p className="text-right">
+              <strong className="text-xl">{totalKWHArray.length}</strong> aktive
+              kategorier
+            </p>
           </div>
         </div>
       )}

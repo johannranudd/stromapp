@@ -57,7 +57,7 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
 
   return (
     <>
-      <div className="w-[99%] mx-auto flex justify-between items-end h-32">
+      <div className="w-[95%] mx-auto flex justify-between items-end h-32">
         {isResetable && (
           <button onClick={handleReset} className="btnCta2">
             Tilbakestill Tid
@@ -147,7 +147,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
       // todo style here
       <div className="rounded-lg bg-[#26313c] text-white p-[1rem] shadow-2xl text-center">
         <h4>{modifiedLabel}</h4>
-        <p>${payload[0].value} Øre</p>
+        <p>{payload[0].value} Øre</p>
       </div>
     );
   }
