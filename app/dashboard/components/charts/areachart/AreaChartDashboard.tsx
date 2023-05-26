@@ -59,7 +59,10 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
     <>
       <div className="w-[95%] mx-auto flex justify-between items-end h-32">
         {isResetable && (
-          <button onClick={handleReset} className="btnCta2">
+          <button
+            onClick={handleReset}
+            className="btnCta flex items-center dark:bg-secondary dark:border dark:border-thirdClr dark:text-thirdClr dark:hover:bg-thirdClr dark:hover:text-secondary"
+          >
             Tilbakestill Tid
           </button>
         )}

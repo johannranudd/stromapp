@@ -2,12 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .contrast-text {
-    mix-blend-mode: difference;
-    color: white;
-  }
-}
+/* @layer utilities {
+
+} */
 
 :root {
   --primary: #fbf5f5;
@@ -94,6 +91,11 @@ input {
   color: var(--secondary);
   padding: 0.5rem 1rem 0.5rem 1rem;
   border-radius: 3px;
+  transition: 0.3s;
+}
+.btnCta:hover {
+  background: var(--thirdClr);
+  color: var(--secondary);
 }
 .btnCtaWide {
   background: var(--fourthClr);

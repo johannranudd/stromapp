@@ -107,7 +107,7 @@ function PiechartsDashboard({ activeTab, dataFromClient }: any) {
           <div className="flex justify-between items-end">
             <button
               onClick={() => setModalIsOpen(true)}
-              className="btnCta2 flex items-center"
+              className="btnCta flex items-center dark:bg-secondary dark:border dark:border-thirdClr dark:text-thirdClr dark:hover:bg-thirdClr dark:hover:text-secondary"
             >
               <span>Legg til</span> <HiPlusSm className="mt-1" />
             </button>
