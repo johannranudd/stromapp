@@ -29,7 +29,7 @@ export default function Home() {
             </h1>
             <p className="md:text-lg mlg:text-xl">
               På denne nettsiden kan du se, måle og beregne ditt strømforbruk.
-              Grafene du set her er dagens strømpris og strømstøtte i Oslo.
+              Grafene du ser her er dagens strømpris og strømstøtte i Oslo.
               <br />
               <Link href={"/login"} className="text-fourthClr hover:underline">
                 {" "}

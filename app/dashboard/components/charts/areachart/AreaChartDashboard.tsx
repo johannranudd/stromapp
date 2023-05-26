@@ -66,8 +66,8 @@ export default function AreaChartDashboard({ dataFromClient }: any) {
             Tilbakestill Tid
           </button>
         )}
-        <h2 className="w-[90%] absolute translate-y-[-60px] left-1/2 -translate-x-1/2 mx-auto text-center mlg:translate-y-[-0px]">
-          Trykk og dra over grafen for å velge tidspungt, Se utregnet resultat i
+        <h2 className="w-[90%] absolute translate-y-[-60px] left-1/2 -translate-x-1/2 mx-auto text-center mlg:translate-y-[-0px] z-[-10]">
+          Trykk og dra over grafen for å velge tidspunkt, Se utregnet resultat i
           venstre smultring
         </h2>
         <h3 className="ml-auto">{date.slice(0, 10)}</h3>
