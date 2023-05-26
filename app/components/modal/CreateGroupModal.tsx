@@ -36,7 +36,7 @@ export default function CreateBadgeModal() {
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#000000e2] z-[52]">
       <div className="w-[95%] h-[calc(100vh-4rem)] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[400px] flex flex-col justify-between rounded-md bg-secondary text-primary">
         <div className="px-8 mx-auto flex justify-between w-full text-xl py-4 z-[52]">
-          {editFlag ? <h2>Redigere Gruppe</h2> : <h2>Lag Gruppe</h2>}
+          {editFlag ? <h2>Rediger Gruppe</h2> : <h2>Lag Gruppe</h2>}
           <button
             onClick={() => setGroupModalIsOpen(false)}
             className="text-3xl"
