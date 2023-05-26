@@ -13,7 +13,7 @@ import { fetchUser } from "../utils/gets";
 import { editProfile } from "../utils/puts";
 import { AiOutlineCheck } from "react-icons/ai";
 import { IUser } from "@/types";
-import { FiPlus, FiMinus } from "react-icons/fi";
+import { FiPlus, FiMinus, FiEdit2 } from "react-icons/fi";
 
 export default function page() {
   const { modalIsOpen, setModalIsOpen, badgeModalIsOpen, groupModalIsOpen } =
@@ -32,8 +32,12 @@ export default function page() {
     <div>
       <div className={`w-[95%] max-w-screen-sm mx-auto mb-16`}>
         <ProfileInformation />
+        <div className="h-[1px] w-full bg-[#1fb5b52d] mb-6" />
+        <h2 className="text-center text-2xl font-bold capitalize mb-6">
+          Instillinger
+        </h2>
         <button className="btnCta mb-6" onClick={() => setModalIsOpen(true)}>
-          Kategoriinnstillinger
+          Kategorier
         </button>
 
         {modalIsOpen && <CategoriesModal />}
@@ -54,21 +58,32 @@ export default function page() {
           <ChangePWModal setChangePWModalIsOpen={setChangePWModalIsOpen} />
         )}
         <div>
-          <h2 className="text-xl mb-6">Profilinnstilling</h2>
           <div className="grid grid-cols-2 justify-items-start text-thirdClrDark dark:text-thirdClr mb-6">
-            <button onClick={() => setAdrModalIsOpen(true)}>
-              + Rediger Adresse
+            <button
+              onClick={() => setAdrModalIsOpen(true)}
+              className="flex items-center hover:opacity-80"
+            >
+              <FiEdit2 /> <span className="ml-1">Rediger Adresse</span>
             </button>
-            <button onClick={() => setPhoneNrModalIsOpen(true)}>
-              + Rediger Telefonnummer
+            <button
+              onClick={() => setPhoneNrModalIsOpen(true)}
+              className="flex items-center hover:opacity-80"
+            >
+              <FiEdit2 /> <span className="ml-1">Rediger Telefonnummer</span>
             </button>
           </div>
           <div className="grid grid-cols-2 justify-items-start text-thirdClrDark dark:text-thirdClr mb-6">
-            <button onClick={() => setChangeEmailModalIsOpen(true)}>
-              + Rediger Email
+            <button
+              onClick={() => setChangeEmailModalIsOpen(true)}
+              className="flex items-center hover:opacity-80"
+            >
+              <FiEdit2 /> <span className="ml-1">Rediger Email</span>
             </button>
-            <button onClick={() => setChangePWModalIsOpen(true)}>
-              + Rediger Passord
+            <button
+              onClick={() => setChangePWModalIsOpen(true)}
+              className="flex items-center hover:opacity-80"
+            >
+              <FiEdit2 /> <span className="ml-1">Rediger Passord</span>
             </button>
           </div>
         </div>
@@ -124,8 +139,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
   if (!user) return null;
   return (
     <>
-      <div className="space-y-6 mb-8">
-        <h2 className="text-xl mb-6">Varslingsinnstillinger</h2>
+      <div className="space-y-4 mb-8">
         <div className="flex justify-between">
           <p>Tillat varsler</p>
           <div>
@@ -141,7 +155,7 @@ function NotificationSettingComponent({ user }: { user?: IUser }) {
         </div>
         <div className="flex flex-col justify-between items-start xxs:flex-row space-y-3">
           <p className="w-1/2">
-            Send melding når prisen er lavere enn valgt beløp
+            Send varsel når prisen er lavere enn valgt beløp
           </p>
           <div className="flex items-center">
             <button

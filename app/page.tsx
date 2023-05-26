@@ -6,7 +6,7 @@ import BtnCta from "./components/ui/BtnCta";
 import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
 import Link from "next/link";
-// deploy 3, api works from 05/25
+// deploy11, api works from 05/25
 
 export default function Home() {
   const currentDate: Date = new Date();
@@ -29,7 +29,7 @@ export default function Home() {
             </h1>
             <p className="md:text-lg mlg:text-xl">
               På denne nettsiden kan du se, måle og beregne ditt strømforbruk.
-              Grafene du set her er dagens strømpris og strømstøtte i Oslo.
+              Grafene du ser her er dagens strømpris og strømstøtte i Oslo.
               <br />
               <Link href={"/login"} className="text-fourthClr hover:underline">
                 {" "}

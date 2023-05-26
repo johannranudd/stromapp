@@ -1,6 +1,7 @@
 "use client";
 import { editProfile } from "@/app/utils/puts";
 import { useState } from "react";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface ChangeEmailModalProps {
   setChangeEmailModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -56,7 +57,7 @@ export default function ChangeEmailModal({
             onClick={() => setChangeEmailModalIsOpen(false)}
             className="absolute top-4 right-8"
           >
-            X
+            <AiOutlineCloseCircle className="text-3xl" />
           </button>
 
           <form
@@ -64,7 +65,7 @@ export default function ChangeEmailModal({
             className="flex flex-col mx-auto space-y-4 p-8"
           >
             <label htmlFor="email" className="text-primary text-center">
-              Enter New Email
+              Skriv inn ny email
             </label>
             <input
               type="email"
@@ -76,7 +77,7 @@ export default function ChangeEmailModal({
               className="text-secondary p-2"
             />
             <button type="submit" className="btnCtaWide2">
-              Submit
+              Endre
             </button>
           </form>
         </div>
