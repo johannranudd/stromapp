@@ -49,44 +49,59 @@ export default function LocationAndDateForm() {
   );
 }
 
-// !old
-// return (
-//   <form className="w-[95%] mx-auto max-w-screen-md pb-16 flex justify-center space-x-6">
-//     <div className="flex flex-col">
-//       <label htmlFor="location">Location:</label>
-//       <select
-//         id="location"
-//         name="location"
-//         onChange={(e) => setLocation(e.target.value)}
-//         value={location}
-//       >
-//         <option value="1" defaultValue={"1"}>
-//           Oslo / Øst-Norge
-//         </option>
-//         <option value="2">Kristiansand / Sør-Norge</option>
-//         <option value="3">Trondheim / Midt-Norge</option>
-//         <option value="4">Tromsø / Nord-Norge</option>
-//         <option value="5">Bergen / Vest-Norge</option>
-//       </select>
-//     </div>
-//     <div className="flex flex-col">
-//       <label htmlFor="date">Date:</label>
-//       <input
-//         type="date"
-//         id="date"
-//         name="date"
-//         value={date}
-//         onChange={(e) => setDate(e.target.value)}
-//         className={`border ${warning ? "border-red-500" : "border-black"}`}
-//       />
-//     </div>
-//   </form>
-// );
-// !old
+// function validateDashboardForm(
+//   location: string,
+//   date: string,
+//   setWarning: Dispatch<SetStateAction<boolean>>,
+//   dispatch: TDispatch
+// ) {
+//   const norwayTimezone = "Europe/Oslo";
+
+//   const currentNorwayDate = new Date(
+//     new Date().toLocaleString("en-US", { timeZone: norwayTimezone })
+//   );
+//   const selectedNorwayDate = new Date(
+//     new Date(date).toLocaleString("en-US", { timeZone: norwayTimezone })
+//   );
+
+//   const currentDay = new Date(
+//     currentNorwayDate.getFullYear(),
+//     currentNorwayDate.getMonth(),
+//     currentNorwayDate.getDate()
+//   );
+//   const selectedDay = new Date(
+//     selectedNorwayDate.getFullYear(),
+//     selectedNorwayDate.getMonth(),
+//     selectedNorwayDate.getDate()
+//   );
+
+//   const tomorrow = new Date(currentDay);
+//   tomorrow.setDate(tomorrow.getDate() + 1);
+
+//   if (
+//     selectedDay.getTime() === tomorrow.getTime() &&
+//     currentNorwayDate.getHours() < 14
+//   ) {
+//     setWarning(true);
+//     console.log("unVALID");
+//     alert("You can select the next day only after 2 o'clock Norwegian time.");
+//     return;
+//   }
+
+//   setWarning(false);
+//   const formData = {
+//     location: Number(location),
+//     date: date,
+//   };
+//   console.log("VALID");
+//   // dispatch({ type: "START_FETCH", payload: true });
+//   // dispatch({ type: "LOCATION_AND_DATE", payload: formData });
+// }
 
 //
 //
 //
+// !most recent
 function validateDashboardForm(
   location: string,
   date: string,
@@ -124,6 +139,7 @@ function validateDashboardForm(
     dispatch({ type: "LOCATION_AND_DATE", payload: formData });
   }
 }
+// !most recent
 
 // !old
 // function validateDashboardForm(
@@ -152,4 +168,39 @@ function validateDashboardForm(
 //     }
 //   }
 // }
+// !old
+
+// !old
+// return (
+//   <form className="w-[95%] mx-auto max-w-screen-md pb-16 flex justify-center space-x-6">
+//     <div className="flex flex-col">
+//       <label htmlFor="location">Location:</label>
+//       <select
+//         id="location"
+//         name="location"
+//         onChange={(e) => setLocation(e.target.value)}
+//         value={location}
+//       >
+//         <option value="1" defaultValue={"1"}>
+//           Oslo / Øst-Norge
+//         </option>
+//         <option value="2">Kristiansand / Sør-Norge</option>
+//         <option value="3">Trondheim / Midt-Norge</option>
+//         <option value="4">Tromsø / Nord-Norge</option>
+//         <option value="5">Bergen / Vest-Norge</option>
+//       </select>
+//     </div>
+//     <div className="flex flex-col">
+//       <label htmlFor="date">Date:</label>
+//       <input
+//         type="date"
+//         id="date"
+//         name="date"
+//         value={date}
+//         onChange={(e) => setDate(e.target.value)}
+//         className={`border ${warning ? "border-red-500" : "border-black"}`}
+//       />
+//     </div>
+//   </form>
+// );
 // !old

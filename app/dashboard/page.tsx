@@ -36,7 +36,7 @@ export default function page() {
         <LocationAndDateForm />
         <MainContent dataFromClient={dataFromClient} />
         <div className="w-full max-w-screen-lg mx-auto">
-          <AreaChartDashboard dataFromClient={dataFromClient} />
+          <AreaChartDashboard dataFromClient={dataFromClient} date={date} />
         </div>
       </div>
     </div>

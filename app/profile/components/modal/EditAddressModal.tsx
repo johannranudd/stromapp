@@ -1,7 +1,7 @@
 "use client";
 import { editProfile } from "@/app/utils/puts";
 import { useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineCloseCircle } from "react-icons/ai";
 
 interface EditPhoneNrModalProps {
   setAdrModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,7 +46,7 @@ export default function EditAddressModal({
             onClick={() => setAdrModalIsOpen(false)}
             className="absolute top-4 right-8"
           >
-            <AiOutlineClose />
+            <AiOutlineCloseCircle className="text-3xl" />
           </button>
 
           <form
@@ -54,7 +54,7 @@ export default function EditAddressModal({
             className="flex flex-col mx-auto space-y-4 p-8"
           >
             <label htmlFor="address" className="text-primary text-center">
-              Enter New Address
+              Skriv inn ny adresse
             </label>
             <input
               type="text"
@@ -66,7 +66,7 @@ export default function EditAddressModal({
               className="text-secondary p-2"
             />
             <button type="submit" className="btnCtaWide2">
-              Submit
+              Endre
             </button>
           </form>
         </div>

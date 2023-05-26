@@ -2,6 +2,7 @@
 import { validateForm } from "@/app/utils/generics";
 import { changePassword } from "@/app/utils/posts";
 import { useState } from "react";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface ChangePWModalProps {
   setChangePWModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -64,7 +65,7 @@ export default function ChangePWModal({
             onClick={() => setChangePWModalIsOpen(false)}
             className="absolute top-4 right-8"
           >
-            X
+            <AiOutlineCloseCircle className="text-3xl" />
           </button>
 
           <form
@@ -72,7 +73,7 @@ export default function ChangePWModal({
             className="flex flex-col mx-auto space-y-4 p-8"
           >
             <label htmlFor="oldPassword" className="text-primary text-center">
-              Enter Old Password
+              Skriv inn gamle passord
             </label>
             <input
               type="password"
@@ -84,7 +85,7 @@ export default function ChangePWModal({
               className="text-secondary p-2"
             />
             <label htmlFor="newPassword" className="text-primary text-center">
-              Enter New Password
+              Skriv inn nytt passord
             </label>
             <input
               type="password"
@@ -96,7 +97,7 @@ export default function ChangePWModal({
               className="text-secondary p-2"
             />
             <label htmlFor="confirmNewPW" className="text-primary text-center">
-              Confirm New Password
+              Bekreft nytt passord
             </label>
             <input
               type="password"
@@ -108,7 +109,7 @@ export default function ChangePWModal({
               className="text-secondary p-2"
             />
             <button type="submit" className="btnCtaWide2">
-              Submit
+              Endre
             </button>
           </form>
         </div>

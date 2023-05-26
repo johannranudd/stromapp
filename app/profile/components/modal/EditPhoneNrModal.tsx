@@ -1,6 +1,7 @@
 "use client";
 import { editProfile } from "@/app/utils/puts";
 import { useState } from "react";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface EditPhoneNrModalProps {
   setPhoneNrModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,7 +55,7 @@ export default function EditPhoneNrModal({
             onClick={() => setPhoneNrModalIsOpen(false)}
             className="absolute top-4 right-8"
           >
-            X
+            <AiOutlineCloseCircle className="text-3xl" />
           </button>
 
           <form
@@ -62,7 +63,7 @@ export default function EditPhoneNrModal({
             className="flex flex-col mx-auto space-y-4 p-8"
           >
             <label htmlFor="phoneNumber" className="text-primary text-center">
-              Enter New Phone Number
+              Skriv inn nytt telefonnummer
             </label>
             <input
               type="text"
@@ -74,7 +75,7 @@ export default function EditPhoneNrModal({
               className="text-secondary p-2"
             />
             <button type="submit" className="btnCtaWide2">
-              Submit
+              Endre
             </button>
           </form>
         </div>
