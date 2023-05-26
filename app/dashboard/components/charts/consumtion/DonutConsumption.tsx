@@ -2,12 +2,12 @@
 import { PieChart, ResponsiveContainer, Pie, Tooltip, Cell } from "recharts";
 import { useGlobalContext } from "@/app/context/context";
 import { useState, useEffect } from "react";
-import { DonutDataItem, IDataFromAPI, IPriceAndTime } from "@/types";
+import { DonutDataItem, IDataFromAPI, IPriceAndTime, TDispatch } from "@/types";
 
 const COLORS = ["#ffcd4f", "#6be072"];
 
 export default function DonutConsumption({ dataFromClient, activeTab }: any) {
-  const { state, windowWidth } = useGlobalContext();
+  const { state, windowWidth, dispatch } = useGlobalContext();
   const [width, setWidth] = useState(windowWidth / 1.3);
   useEffect(() => {
     if (windowWidth >= 640) {
@@ -33,6 +33,7 @@ export default function DonutConsumption({ dataFromClient, activeTab }: any) {
         width={width}
         state={state}
         activeTab={activeTab}
+        dispatch={dispatch}
       />
     </div>
   );
@@ -44,20 +45,21 @@ function Donut({
   width,
   state,
   activeTab,
+  dispatch,
 }: {
   data: Array<DonutDataItem>;
   dataFromClient?: IDataFromAPI;
   priceInOreAndHour?: IPriceAndTime;
   timeFrameForCurrentPrice?: any;
   width: number;
-  // yourExpensesFinal?: number;
-  // elSupportFinal?: number;
   state?: any;
   activeTab: string;
+  dispatch: TDispatch;
 }) {
   let tempData: any = [];
   let isEmpty = true;
   let useCategories = false;
+  const { average } = state;
 
   if ((Array.isArray(data) && data.length === 0) || data[0].value <= 0) {
     isEmpty = true;
@@ -72,12 +74,14 @@ function Donut({
           isEmpty={isEmpty}
           selectedHours={state.selectedHours}
           useCategories={useCategories}
+          dispatch={dispatch}
         />
         <ChartComponent
           data={tempData}
           width={width}
           isEmpty={isEmpty}
           activeTab={activeTab}
+          average={average}
         />
       </>
     );
@@ -94,12 +98,14 @@ function Donut({
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
             useCategories={useCategories}
+            dispatch={dispatch}
           />
           <ChartComponent
             data={tempData}
             width={width}
             isEmpty={isEmpty}
             activeTab={activeTab}
+            average={average}
           />
         </>
       );
@@ -116,12 +122,14 @@ function Donut({
             isEmpty={isEmpty}
             selectedHours={state.selectedHours}
             useCategories={useCategories}
+            dispatch={dispatch}
           />
           <ChartComponent
             data={tempData}
             width={width}
             isEmpty={isEmpty}
             activeTab={activeTab}
+            average={average}
           />
         </>
       );
@@ -136,6 +144,7 @@ function ChartComponentHTML({
   isEmpty,
   selectedHours,
   useCategories,
+  dispatch,
 }: {
   data: Array<any>;
   dataFromClient: any;
@@ -143,6 +152,7 @@ function ChartComponentHTML({
   isEmpty: boolean;
   selectedHours: Array<number>;
   useCategories: boolean;
+  dispatch: TDispatch;
 }) {
   const start = selectedHours[0];
   const end = selectedHours[1];
@@ -167,7 +177,11 @@ function ChartComponentHTML({
     kwh,
     dataFromClient
   );
-  console.log(average);
+
+  useEffect(() => {
+    dispatch({ type: "SET_AVERAGE", payload: average });
+  }, [average]);
+
   return (
     <div className="absolute top-[35%] left-1/2 translate-x-[-50%] translate-y-[-50%]">
       <div>
@@ -211,6 +225,7 @@ function getTotalPrice(
   if (isNaN(average)) {
     average = 0;
   }
+
   const pricepPerHour = kwh * average;
   const priceInOre = pricepPerHour * newArray.length;
   const priceInNOK = priceInOre / 100;
@@ -222,11 +237,13 @@ function ChartComponent({
   width,
   isEmpty,
   activeTab,
+  average,
 }: {
   data: any;
   width: number;
   isEmpty: boolean;
   activeTab: string;
+  average: number;
 }) {
   return (
     <ResponsiveContainer>
@@ -255,6 +272,27 @@ function ChartComponent({
             <Cell key={`empty-cell`} fill="#ffcd4f" />
           )}
         </Pie>
+        <text
+          key={Math.random()}
+          x={"50%"}
+          y={"77%"}
+          style={{
+            fontSize: width / 13,
+            fontWeight: "bold",
+          }}
+          fill="#ffcd4f"
+          textAnchor="middle"
+        >
+          <tspan x="50%" dy="0">
+            Gjennomsnittspris for
+          </tspan>
+          <tspan x="35%" y="87%">
+            valgte timer:
+          </tspan>
+          <tspan x="72%" fill="#6be072">
+            {average.toFixed(0)} NOK
+          </tspan>
+        </text>
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
