@@ -6,7 +6,7 @@ import BtnCta from "./components/ui/BtnCta";
 import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
 import Link from "next/link";
-// deploy 3, api works from 05/25
+// deploy10, api works from 05/25
 
 export default function Home() {
   const currentDate: Date = new Date();
