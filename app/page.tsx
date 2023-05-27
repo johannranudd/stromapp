@@ -6,7 +6,7 @@ import BtnCta from "./components/ui/BtnCta";
 import HeroVector from "../assets/images/verctor-hero.svg";
 import Image from "next/image";
 import Link from "next/link";
-// deploy11, api works from 05/25
+// netlify-1 branch, api works from 06/25
 
 export default function Home() {
   const currentDate: Date = new Date();
@@ -40,12 +40,12 @@ export default function Home() {
             </p>
             <BtnCta props={"hidden md:block"} />
           </div>
-          <div className="mt-3">
+          <div className="mt-4">
             <DonutRechartsClient {...dataFromAPI} />
           </div>
         </div>
         <BtnCta props={"flex justify-center mt-2 md:hidden"} />
-        <div className="mt-3">
+        <div className="mt-4 mb-10">
           <h2 className="text-center text-xl">Dagens Stømpriser i Oslo</h2>
           <XYChart {...dataFromAPI} />
         </div>

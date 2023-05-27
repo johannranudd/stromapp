@@ -30,7 +30,7 @@ export default function page() {
 
   return (
     <div>
-      <div className={`w-[95%] max-w-screen-sm mx-auto mb-16`}>
+      <div className={`w-[95%] max-w-screen-sm mx-auto mb-20`}>
         <ProfileInformation />
         <div className="h-[1px] w-full bg-[#1fb5b52d] mb-6" />
         <h2 className="text-center text-2xl font-bold capitalize mb-6">
