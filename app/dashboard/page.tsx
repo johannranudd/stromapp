@@ -35,7 +35,7 @@ export default function page() {
         <h1 className="mt-16 py-6 text-center text-2xl">Dashbord</h1>
         <LocationAndDateForm />
         <MainContent dataFromClient={dataFromClient} />
-        <div className="w-full max-w-screen-lg mx-auto mb-10">
+        <div className="w-full max-w-screen-lg mx-auto mb-20">
           <AreaChartDashboard dataFromClient={dataFromClient} date={date} />
         </div>
       </div>

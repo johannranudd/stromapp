@@ -45,7 +45,7 @@ export default function Home() {
           </div>
         </div>
         <BtnCta props={"flex justify-center mt-2 md:hidden"} />
-        <div className="mt-4 mb-10">
+        <div className="mt-4 mb-20">
           <h2 className="text-center text-xl">Dagens Stømpriser i Oslo</h2>
           <XYChart {...dataFromAPI} />
         </div>
