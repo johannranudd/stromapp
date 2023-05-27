@@ -156,7 +156,7 @@ function Donut({
               return (
                 <Text
                   x={index === 0 ? x + width / 3.2 : x - width / 3.3}
-                  y={index === 0 ? y + width / 10 : y - width / 10}
+                  y={index === 0 ? y + width / 10 : y - width / 15}
                   textAnchor="middle"
                   alignmentBaseline="middle"
                   fill={COLORS[index % COLORS.length]}
